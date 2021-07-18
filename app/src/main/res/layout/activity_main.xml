@@ -4,26 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainpage_beer"
     tools:context=".MainActivity">
 
+
     <TextView
-        android:id="@+id/textSay"
+        android:id="@+id/ServiceTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="16dp"
+        android:text="음주 습관 개선 및 절제 서비스"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/TitleText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="분별있게 마시자!"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.237"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.59000003" />
 
     <Button
-        android:id="@+id/btnSay"
-        android:layout_width="0dp"
+        android:id="@+id/MessureModeBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Button"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
+        android:text="측정모드"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:backgroundTint="#FACC88"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSay" />
+        app:layout_constraintTop_toBottomOf="@+id/TitleText" />
+
+    <Button
+        android:id="@+id/AlarmModeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="80dp"
+        android:text="알림모드"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:backgroundTint="#F3B15F"
+        app:layout_constraintStart_toEndOf="@+id/MessureModeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/TitleText" />
+
+    <TextView
+        android:id="@+id/MessureModeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:text="내 주량을 확인해 보아요."
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/AlramModeText"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MessureModeBtn" />
+
+    <TextView
+        android:id="@+id/AlramModeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="40dp"
+        android:text="정해둔 양만 마시도록 도와줘요."
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/MessureModeText"
+        app:layout_constraintTop_toBottomOf="@+id/AlarmModeBtn" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
