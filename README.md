@@ -6,7 +6,7 @@
 ```
 MainActivity --- by. 서현
   - 백그라운드 이미지, 버튼, 타이틀바 제거
-  - 측정모드 버튼 클릭 시 다음 액티비티로 전환 (알람모드는 아직안함)
+  - 측정모드/알람모드 버튼 클릭 시 다음 액티비티로 전환
 ```
 
 📌 TO DO
@@ -34,4 +34,4 @@ MainActivity --- by. 서현
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
 ```  
 MainActivity  
-<img src="https://user-images.githubusercontent.com/61939286/126162947-a6fb67d3-fa75-432c-8c8f-f2847973697c.png" width=50% >
+<img src="https://user-images.githubusercontent.com/61939286/126172738-42b9ae8a-d340-4d59-8460-78150ad48b6c.gif" width=50% >
