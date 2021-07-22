@@ -34,4 +34,7 @@ MainActivity --- by. 서현
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
 ```  
 MainActivity  
-<img src="https://user-images.githubusercontent.com/61939286/126172738-42b9ae8a-d340-4d59-8460-78150ad48b6c.gif" width=50% >
+
+![image](https://user-images.githubusercontent.com/61939286/126653126-9a6c7fa4-fd48-45b5-949f-ec583fcd7517.png)
+![image](https://user-images.githubusercontent.com/61939286/126653267-68aeb40a-632e-45c3-84c4-09e91a09177d.png)
+
