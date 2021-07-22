@@ -1,29 +1,25 @@
 package com.example.myappbykotlin_1
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toolbar
-import com.example.myappbykotlin_1.databinding.ActivityAlarmModeBinding
 
-class MessureModeActivity : AppCompatActivity() {
+class AlarmRecord : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messure_mode)
+        setContentView(R.layout.activity_alarm_record)
 
         //actionbar
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "Messure Mode"
+        actionbar!!.title = "Alarm Mode Record"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
-
-
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+
     }
 }
