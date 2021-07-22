@@ -35,6 +35,6 @@ MainActivity --- by. 서현
 ```  
 MainActivity  
 
-![image](https://user-images.githubusercontent.com/61939286/126653126-9a6c7fa4-fd48-45b5-949f-ec583fcd7517.png)
-![image](https://user-images.githubusercontent.com/61939286/126653267-68aeb40a-632e-45c3-84c4-09e91a09177d.png)
 
+![image](https://user-images.githubusercontent.com/61939286/126676979-41454819-a81d-4c53-a375-3420303f1e8f.png)
+![image](https://user-images.githubusercontent.com/61939286/126677046-d7fab023-175e-4405-962e-70a91c65d37b.png)
