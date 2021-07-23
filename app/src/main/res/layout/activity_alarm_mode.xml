@@ -8,59 +8,40 @@
     android:gravity="center"
     tools:context=".AlarmModeActivity">
 
-
+<!-- 350, 500 -->
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/alarm_background_img"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="415dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="52dp"
-        android:text="목표 음주량 설정"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnBackPage"
-        android:layout_width="74dp"
-        android:layout_height="70dp"
-        android:background="@drawable/back"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="350dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/rectangle"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintDimensionRatio="0.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="28dp"
         android:autoSizeTextType="uniform"
         android:text="오늘 목표량을 정해주세요!"
         android:textAlignment="center"
         android:gravity="center"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintDimensionRatio="7.5"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -68,76 +49,88 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/rectangle"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintDimensionRatio="3.75"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/imputValue"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:id="@+id/inputValue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:inputType="number"
         android:singleLine="true"
         android:text="목표 음주량을 입력하세요."
-        android:textSize="20dp"
         android:textAlignment="center"
-        android:gravity="center"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintDimensionRatio="4"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.198"
+        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
-        android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="ml"
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="25dp"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintDimensionRatio="1.2"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imputValue"
+        app:layout_constraintStart_toEndOf="@+id/inputValue"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
 
     <Switch
-        android:id="@+id/switch1"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:id="@+id/switchSound"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/rectangle"
         android:text="   소리알림"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintDimensionRatio="7.5"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Switch
-        android:id="@+id/switch2"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:id="@+id/switchPush"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/rectangle"
         android:text="   푸시알림"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintDimensionRatio="7.5"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+        app:layout_constraintTop_toBottomOf="@+id/switchSound" />
 
     <Button
         android:id="@+id/btnInput"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="입력"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintDimensionRatio="1.6"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/switch2"
+        app:layout_constraintTop_toBottomOf="@+id/switchPush"
         app:layout_constraintVertical_bias="0.759" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
