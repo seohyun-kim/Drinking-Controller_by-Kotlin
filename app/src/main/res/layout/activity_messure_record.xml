@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarTrackHorizontal="@drawable/recordshow">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="220dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="440dp"
+        android:gravity="center_vertical"
+        android:text="@string/Drinktext"
+        android:textAlignment="center"
+        android:textColor="#040404"
+        android:textColorHint="#0C0C0C"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="311dp"
+        android:layout_height="201dp"
+        android:layout_marginBottom="248dp"
+        android:contentDescription="@string/textbox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rectangle" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="128dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/Savebutton"
+        android:textColor="#090909"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#F8A8A8A8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="39dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="224dp"
+        android:background="#9AF9FBF7"
+        android:contentDescription="@string/Saveimage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:srcCompat="@android:drawable/ic_menu_save" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="73dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="66dp"
+        android:contentDescription="@string/Backhome"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/back" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="105dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="101dp"
+        android:text="@string/Homebutton"
+        android:textColor="#0E0E0E"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#F8A8A8A8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="272dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/Drinkcapacity"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
