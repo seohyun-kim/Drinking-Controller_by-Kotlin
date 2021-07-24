@@ -28,8 +28,20 @@ class AlarmModeActivity : AppCompatActivity() {
         setContentView(binding.root) //화면 안의 버튼 사용 가능
 
         binding.btnInput.setOnClickListener {
-            inputValue.text.toString();
+            val value: String = inputValue.text.toString();
 
+            if (value.isEmpty()) { // 입력창이 비어있는지 확인
+                println("Write to edit text");
+            } else {
+                val goalValue: Double? = value.toDoubleOrNull();
+                if (goalValue == null) { // 입력값이 Double형이 맞는지 확인
+                    println("Please write Double!");
+                } else { // 맞으면 AlarmRecord로 입력값을 보냄
+                    val intent = Intent(this, AlarmRecord::class.java)
+                    intent.putExtra("goalValue", value);
+                    startActivity(intent);
+                }
+            }
         }
 
         // 버튼 클릭 시 화면 전환
@@ -40,8 +52,8 @@ class AlarmModeActivity : AppCompatActivity() {
     //} //binding 변수로 뷰에서 만든 버튼에 접근 가능
     }
 
-    //override fun onSupportNavigateUp(): Boolean {
-        //onBackPressed()
-        //return true
-    //}
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }
