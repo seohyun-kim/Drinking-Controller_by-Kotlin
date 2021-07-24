@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText;
 import com.example.myappbykotlin_1.databinding.ActivityAlarmModeBinding
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import com.example.myappbykotlin_1.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_alarm_mode.*
 
 class AlarmModeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,10 +23,14 @@ class AlarmModeActivity : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-
         //뷰 바인딩
         val binding=ActivityAlarmModeBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
+
+        binding.btnInput.setOnClickListener {
+            inputValue.text.toString();
+
+        }
 
         // 버튼 클릭 시 화면 전환
         //binding.btnBackPage.setOnClickListener{
