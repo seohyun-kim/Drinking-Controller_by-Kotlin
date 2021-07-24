@@ -5,7 +5,7 @@
 ✔ DONE  
 ```
 MainActivity --- by. 서현
-  - 백그라운드 이미지, 버튼 및 텍스트 추가 / 타이틀바 제거
+  - 백그라운드 이미지, 버튼 및 텍스트 추가 / 타이틀바에 뒤로가기 액션 추가
   - 측정모드/알람모드 버튼 클릭 시 다음 액티비티로 전환
 ```
 
@@ -38,7 +38,11 @@ MainActivity --- by. 서현
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
 ```  
 MainActivity  
+<<<<<<< HEAD
 
 
 ![image](https://user-images.githubusercontent.com/61939286/126676979-41454819-a81d-4c53-a375-3420303f1e8f.png)
 ![image](https://user-images.githubusercontent.com/61939286/126677046-d7fab023-175e-4405-962e-70a91c65d37b.png)
+=======
+![image](https://user-images.githubusercontent.com/61939286/126653687-91e7c8da-1ec5-40a6-88c3-3ef3164e4bba.png)
+>>>>>>> origin
