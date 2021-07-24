@@ -64,7 +64,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        android:inputType="number"
+        android:inputType="text"
         android:singleLine="true"
         android:text="목표 음주량을 입력하세요."
         android:textAlignment="center"
@@ -135,18 +135,6 @@
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/switchPush"
         app:layout_constraintVertical_bias="0.759" />
-
-    <TextView
-        android:id="@+id/testView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="000000"
-        android:textColor="@color/black"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
