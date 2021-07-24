@@ -29,20 +29,13 @@ MainActivity --- by. 서현
     - 목표량 입력 길이 제한 추가
 
 알림모드/ 실시간 측정 기록 --- by. 서현
-    - 입력받은 목표량 상단에 표시
-    - 현재 누적량 크게 출력
-    - 누적량에 따른 문구 출력 ( 현재 과음중이에요!) & 색상 변화
+    - 입력받은 목표량 상단에 표시-------------- ✔
+    - 현재 누적량 크게 출력 -------------✔
+    - 누적량에 따른 문구 출력 ( 현재 과음중이에요!) & 색상 변화 -------------✔
     - 측정 기록 보기 버튼 클릭 시 스크롤 가능한 표 형태로 출력
-    - 뒤로가기, 종료하기, 다시하기 동작
+    - 뒤로가기, 종료하기, 다시하기 동작 
       
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
 ```  
-MainActivity  
-<<<<<<< HEAD
+![image](https://user-images.githubusercontent.com/61939286/126867154-19fa3c43-a289-419d-9c5f-ef1699ae3f3b.png)
 
-
-![image](https://user-images.githubusercontent.com/61939286/126676979-41454819-a81d-4c53-a375-3420303f1e8f.png)
-![image](https://user-images.githubusercontent.com/61939286/126677046-d7fab023-175e-4405-962e-70a91c65d37b.png)
-=======
-![image](https://user-images.githubusercontent.com/61939286/126653687-91e7c8da-1ec5-40a6-88c3-3ef3164e4bba.png)
->>>>>>> origin
