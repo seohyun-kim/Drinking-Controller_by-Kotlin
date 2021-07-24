@@ -5,98 +5,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:orientation="vertical"
     tools:context=".AlarmRecord">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <Button
-            android:id="@+id/updateBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:textColor="#FFFFFF" />
 
-        <TableLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TableRow
-                android:layout_width="313dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/goalTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_vertical"
-                    android:fontFamily="sans-serif-black"
-                    android:text="오늘의 목표량: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/goalText"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:text='"사용자 입력값"'
-                    tools:fontFamily="sans-serif-black"
-                    tools:textSize="18sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="313dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/cumTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_vertical"
-                    android:fontFamily="sans-serif-black"
-                    android:text="현재 누적량: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/cumData"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:text='"블루투스 수신 데이터"'
-                    tools:fontFamily="sans-serif-black"
-                    tools:textSize="18sp" />
+            android:layout_height="match_parent">
 
 
-            </TableRow>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="304dp"
+                android:layout_height="85dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintDimensionRatio="3.75"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.7"
+                app:srcCompat="@drawable/rectangle" />
 
 
-            <TableRow
-                android:layout_width="313dp"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/goalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-black"
+                android:text="오늘의 목표량"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-                <TextView
-                    android:id="@+id/msgTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_vertical"
-                    android:fontFamily="sans-serif-black"
-                    android:text="메세지: "
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/goalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="52dp"
+                android:layout_marginBottom="10dp"
+                android:text="000.00 ml"
+                android:textSize="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/goalTitle"
+                tools:fontFamily="sans-serif-black" />
 
-                <TextView
-                    android:id="@+id/msgText"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:text='"누적량에 따른 메세지"'
-                    tools:fontFamily="sans-serif-black"
-                    tools:textSize="18sp" />
+            <TextView
+                android:id="@+id/cumTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="sans-serif-black"
+                android:text="현재 누적량"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/imageView5"
+                app:layout_constraintHorizontal_bias="0.512"
+                app:layout_constraintStart_toStartOf="@+id/imageView5"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            </TableRow>
-        </TableLayout>
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginBottom="248dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.489"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cumTitle"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/circle" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/cumData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXX  ml"
+                android:textSize="40dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintEnd_toEndOf="@+id/imageView5"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="@+id/imageView5"
+                app:layout_constraintVertical_bias="0.44"
+                tools:fontFamily="sans-serif-black" />
+
+            <TextView
+                android:id="@+id/cupText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="sans-serif-black"
+                android:text="=  ? 잔"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toStartOf="@+id/imageView5"
+                app:layout_constraintTop_toBottomOf="@+id/cumData" />
+
+            <TextView
+                android:id="@+id/msgText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text='"누적량에 따른 메세지"'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                tools:fontFamily="sans-serif-black"
+                tools:textSize="18sp" />
+
+            <Button
+                android:id="@+id/updateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Update"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/msgText" />
+
+            <ImageButton
+                android:id="@+id/imageButton6"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="32dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/updateBtn"
+                app:srcCompat="@drawable/recordshow" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

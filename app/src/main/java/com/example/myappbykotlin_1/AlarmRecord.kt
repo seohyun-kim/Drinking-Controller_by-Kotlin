@@ -20,12 +20,13 @@ class AlarmRecord : AppCompatActivity() {
         var goalData:Float = 300F //임시로 목표값 지정
         var cumDataReceived :Float = 120F; //블루투스 수신한 누적량 데이터 변수에 저장 (임시로 100)
         var cupData :Float = cumDataReceived/50
-        binding.goalText.text = goalData.toString() + " ml"
+        binding.goalText.text = goalData.toString() + " ml = " + (goalData/50).toString()+"잔"
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
         binding.updateBtn.setOnClickListener{
-            binding.cumData.text = cumDataReceived.toString() + " ml " + " = " + cupData.toString()+" 잔"
+            binding.cumData.text = cumDataReceived.toString() + " ml "
+            binding.cupText.text= " = " + cupData.toString()+" 잔"
 
             if (cumDataReceived > goalData){
                 binding.msgText.text = " 목표량을 초과하였습니다."

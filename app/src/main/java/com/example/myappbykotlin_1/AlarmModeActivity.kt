@@ -27,15 +27,15 @@ class AlarmModeActivity : AppCompatActivity() {
         setContentView(binding.root) //화면 안의 버튼 사용 가능
 
         // 버튼 클릭 시 화면 전환
-        //binding.btnBackPage.setOnClickListener{
-        //val nextIntent = Intent(this, AlarmRecord::class.java)
-        //startActivity(nextIntent)
-        //Log.d("Btn", "Alarm Record Btn is clicked! method = Log.d")
-    //} //binding 변수로 뷰에서 만든 버튼에 접근 가능
+        binding.btnInput.setOnClickListener{
+        val nextIntent = Intent(this, AlarmRecord::class.java)
+        startActivity(nextIntent)
+        Log.d("Btn", "Alarm Record Btn is clicked! method = Log.d")
+    } //binding 변수로 뷰에서 만든 버튼에 접근 가능
     }
 
-    //override fun onSupportNavigateUp(): Boolean {
-        //onBackPressed()
-        //return true
-    //}
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }
