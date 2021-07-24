@@ -24,12 +24,11 @@ class AlarmModeActivity : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
 
         //뷰 바인딩
-        val binding=ActivityAlarmModeBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
+        val binding = ActivityAlarmModeBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
 
         binding.btnInput.setOnClickListener {
             val value: String = inputValue.text.toString();
-
             if (value.isEmpty()) { // 입력창이 비어있는지 확인
                 println("Write to edit text");
             } else {
@@ -44,12 +43,6 @@ class AlarmModeActivity : AppCompatActivity() {
             }
         }
 
-        // 버튼 클릭 시 화면 전환
-        binding.btnInput.setOnClickListener{
-        val nextIntent = Intent(this, AlarmRecord::class.java)
-        startActivity(nextIntent)
-        Log.d("Btn", "Alarm Record Btn is clicked! method = Log.d")
-    } //binding 변수로 뷰에서 만든 버튼에 접근 가능
     }
 
     override fun onSupportNavigateUp(): Boolean {

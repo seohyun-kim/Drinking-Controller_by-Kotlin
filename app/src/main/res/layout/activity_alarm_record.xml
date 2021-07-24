@@ -11,8 +11,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="-44dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,11 +123,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text='"누적량에 따른 메세지"'
+                android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                tools:fontFamily="sans-serif-black"
-                tools:textSize="18sp" />
+                tools:fontFamily="sans-serif-black" />
 
             <Button
                 android:id="@+id/updateBtn"
@@ -139,19 +140,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/msgText" />
 
-            <ImageButton
-                android:id="@+id/imageButton6"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="44dp"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.522"
-                app:layout_constraintStart_toStartOf="parent"
+            <LinearLayout
+                android:id="@+id/linear_record"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/updateBtn"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/recordshow" />
+                tools:layout_editor_absoluteX="0dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/recordshow" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
