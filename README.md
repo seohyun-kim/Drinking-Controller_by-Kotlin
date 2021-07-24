@@ -36,6 +36,9 @@ MainActivity --- by. 서현
     - 뒤로가기, 종료하기, 다시하기 동작 
       
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
-```  
+```
+
+![image](https://user-images.githubusercontent.com/61939286/126867456-a5347a43-22e2-4c18-815c-d7715527b783.png)
+![image](https://user-images.githubusercontent.com/61939286/126867465-91bb26a2-d5f8-4f0d-a37f-f3a3ea59e62c.png)
 ![image](https://user-images.githubusercontent.com/61939286/126867154-19fa3c43-a289-419d-9c5f-ef1699ae3f3b.png)
 
