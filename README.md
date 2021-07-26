@@ -50,21 +50,9 @@ MainActivity --- by. 서현 (2021-07-18)
     - 종료하기, 다시하기 동작 
       
 📢 음주 캘린더와 푸시알람은 일시 보류 (액티비티 모두 구현 후 생각)
-<<<<<<< HEAD
 📢 앱 측 블루투스 수신은 소프트웨어팀과 협업
 ```
 
 ![image](https://user-images.githubusercontent.com/61939286/126867456-a5347a43-22e2-4c18-815c-d7715527b783.png)
 ![image](https://user-images.githubusercontent.com/61939286/126867465-91bb26a2-d5f8-4f0d-a37f-f3a3ea59e62c.png)
 ![image](https://user-images.githubusercontent.com/61939286/126867154-19fa3c43-a289-419d-9c5f-ef1699ae3f3b.png)
-
-=======
-```  
-MainActivity
-
-![image](https://user-images.githubusercontent.com/61939286/126676979-41454819-a81d-4c53-a375-3420303f1e8f.png)
-![image](https://user-images.githubusercontent.com/61939286/126677046-d7fab023-175e-4405-962e-70a91c65d37b.png)
-
-![image](https://user-images.githubusercontent.com/61939286/126653687-91e7c8da-1ec5-40a6-88c3-3ef3164e4bba.png)
-
->>>>>>> th/alarm_mode
