@@ -3,11 +3,27 @@ package com.example.myappbykotlin_1
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
+
 
 import com.example.myappbykotlin_1.databinding.ActivityMainBinding //안드로이드가 자동으로 변환함
 
 class MainActivity : AppCompatActivity() {
+    private fun PackageManager.missingSystemFeature(name: String): Boolean = !hasSystemFeature(name)
+    override fun onResume() {
+        super.onResume()
+
+        packageManager.takeIf { it.missingSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) }?.also {
+            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // res/layout 디렉토리에 있는 activity_main.xml 파일을 사용한다

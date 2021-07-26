@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Drinking Controller</string>
+    <string name="ble_not_supported">-1</string>
 </resources>
