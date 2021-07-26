@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAppByKotlin_1">
         <activity android:name=".AlarmRecord"></activity>
-        <activity android:name=".AlarmMode_Record" />
+        <activity android:name=".MessureRecord" />
         <activity android:name=".AlarmModeActivity" />
         <activity android:name=".MessureModeActivity" />
         <activity android:name=".MainActivity">
