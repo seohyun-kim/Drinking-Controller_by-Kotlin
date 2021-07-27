@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarTrackHorizontal="@drawable/recordshow"
+    tools:context=".MessureRecord">
+
+
+    <Button
+        android:id="@+id/savebtn"
+        android:layout_width="106dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="45dp"
+        android:text="@string/Savebutton"
+        android:textColor="#090909"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:backgroundTint="#00FFFDFD"
+        app:layout_constraintBottom_toTopOf="@+id/homebackimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintStart_toEndOf="@+id/saveimg"
+        app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
+        app:layout_constraintVertical_bias="0.099" />
+
+    <Button
+        android:id="@+id/homebackbtn"
+        android:layout_width="133dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="75dp"
+        android:text="@string/Homebutton"
+        android:textColor="#0E0E0E"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.556"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savebtn"
+        app:layout_constraintVertical_bias="0.486" />
+
+    <ImageView
+        android:id="@+id/homebackimg"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="180dp"
+        android:contentDescription="@string/homeimg"
+        app:layout_constraintBottom_toTopOf="@+id/homebackbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_home_24" />
+
+    <ImageView
+        android:id="@+id/saveimg"
+        android:layout_width="27dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="70dp"
+        android:contentDescription="@string/saveimg"
+        app:layout_constraintBottom_toTopOf="@+id/homebackimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
+        app:layout_constraintVertical_bias="0.103"
+        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+
+    <ImageView
+        android:id="@+id/rectangleimg"
+        android:layout_width="372dp"
+        android:layout_height="247dp"
+        android:contentDescription="@string/recimg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.287"
+        app:srcCompat="@drawable/ic_baseline_crop_5_4_24" />
+
+    <TextView
+        android:id="@+id/drinkcapacitytext"
+        android:layout_width="246dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/Drinkcapacity"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/rectangleimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="324dp"
+        android:layout_height="71dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="당신의 주량은..."
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rectangleimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
