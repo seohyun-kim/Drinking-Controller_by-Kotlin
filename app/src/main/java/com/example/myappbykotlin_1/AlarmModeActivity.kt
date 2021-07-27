@@ -34,13 +34,13 @@ class AlarmModeActivity : AppCompatActivity() {
         var channelID = "myChannel";
         var channelName = "channel name";
         var channelDiscription = "test Channel"
+
+        var pushOption: Boolean = false;
+        switchPush.setOnCheckedChangeListener { CompoundButton, onSwitch ->
+            pushOption = onSwitch;
+        }
         createNotificationChannel(channelID, channelName, channelDiscription)
 
-        switchPush.setOnCheckedChangeListener { CompoundButton, onSwitch ->
-            if (onSwitch) {
-
-            }
-        }
 
 
         binding.btnInput.setOnClickListener {
@@ -62,8 +62,10 @@ class AlarmModeActivity : AppCompatActivity() {
                         .setContentText(value)
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-                    with(NotificationManagerCompat.from(this)) {
-                        notify(NOTIFICATION_ID, builder.build());
+                    if (pushOption == true) {
+                        with(NotificationManagerCompat.from(this)) {
+                            notify(NOTIFICATION_ID, builder.build());
+                        }
                     }
                     startActivity(intent);
                 }
