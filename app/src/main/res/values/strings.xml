@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Drinking Controller</string>
+    <string name="Homebutton">홈화면</string>
+    <string name="Savebutton">저장하기</string>
+    <string name="Backhome">TODO</string>
+    <string name="textbox">TODO</string>
+    <string name="Saveimage">TODO</string>
+    <string name="Drinktext">당신의 주량은...</string>
+    <string name="Drinkcapacity">xxx ml = ? 잔</string>
+    <string name="homeimg">TODO</string>
+    <string name="saveimg">TODO</string>
+    <string name="recimg">TODO</string>
+    <string name="resultcheck">결과확인</string>
 </resources>
