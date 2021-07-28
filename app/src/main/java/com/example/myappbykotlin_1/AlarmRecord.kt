@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
+import java.util.Random  //임시로 랜덤함수 쓰기위해 import
+
 import kotlinx.android.synthetic.main.activity_alarm_record.*
 
 class AlarmRecord : AppCompatActivity() {
@@ -30,6 +32,14 @@ class AlarmRecord : AppCompatActivity() {
 
         var cumDataReceived :Float = 120F; //블루투스 수신한 누적량 데이터 변수에 저장 (임시로 100)
         var cupData :Float = cumDataReceived/50
+
+        var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
+
+        val rand=Random()
+        var currentData =0 // 현재 마신 양 (누적X)
+        var cnt=0; //회차 확인용
+
+        var btnClicked =false;//자세히 보기 버튼 클릭 여부
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
@@ -61,12 +71,34 @@ class AlarmRecord : AppCompatActivity() {
                 binding.msgText.setTextColor(Color.parseColor("#008000"))
             }
 
-            //test (버튼 클릭시마다 1잔씩 추가되도록)
-            cumDataReceived+=50
+            //test (버튼 클릭시마다 랜덤으로 추가되도록)
+            currentData= rand.nextInt(30) +20 //랜덤으로 현재 마신 양 넣음
+            cnt+=1
+            recordList.add(cnt.toString() + "회차 : "+currentData.toString()+" ml \n")
+            Log.d("recordList", recordList.toString())
+            cumDataReceived+=currentData
             cupData = cumDataReceived/50
+
+            if (btnClicked === true)
+            {
+                binding.recordView.text = recordList.toString()
+            }
+
         }  //소주 1잔 50ml
 
 
+        binding.recordShowBtn.setOnClickListener{
+            if (btnClicked === false)
+            {
+                btnClicked=true;
+                binding.recordView.text = recordList.toString()
+            }
+            else{
+                btnClicked=false;
+                binding.recordView.text = ""
+            }
+
+        }
         //actionbar
         val actionbar = supportActionBar
         //set actionbar title
