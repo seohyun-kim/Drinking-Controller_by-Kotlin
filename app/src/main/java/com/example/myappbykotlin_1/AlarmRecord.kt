@@ -4,13 +4,26 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import java.util.Random  //임시로 랜덤함수 쓰기위해 import
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
 
 class AlarmRecord : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        var data:MutableList<ListData> = mutableListOf()
+        var adapter = CustomAdapter()
+        var listId: Int = 1
+        RecyclerView.layoutManager = LinearLayoutManager(this)
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_record)
 
@@ -79,24 +92,29 @@ class AlarmRecord : AppCompatActivity() {
             cumDataReceived+=currentData
             cupData = cumDataReceived/50
 
-            if (btnClicked === true)
-            {
-                binding.recordView.text = recordList.toString()
-            }
+            data.add(ListData(listId, currentData.toString()))
+            adapter.dataSet = data
+            RecyclerView.adapter = adapter
+// Seohyun
+//            if (btnClicked === true)
+//            {
+//                binding.recordView.text = recordList.toString()
+//            }
 
         }  //소주 1잔 50ml
 
 
         binding.recordShowBtn.setOnClickListener{
-            if (btnClicked === false)
-            {
-                btnClicked=true;
-                binding.recordView.text = recordList.toString()
-            }
-            else{
-                btnClicked=false;
-                binding.recordView.text = ""
-            }
+// Seohyun
+//            if (btnClicked === false)
+//            {
+//                btnClicked=true;
+//                binding.recordView.text = recordList.toString()
+//            }
+//            else{
+//                btnClicked=false;
+//                binding.recordView.text = ""
+//            }
 
         }
         //actionbar
@@ -108,12 +126,57 @@ class AlarmRecord : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
-
-
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
 
     }
+
+
+
+    class CustomAdapter() :
+        RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+        var dataSet = mutableListOf<ListData>()
+
+        /**
+         * Provide a reference to the type of views that you are using
+         * (custom ViewHolder).
+         */
+        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val textView: TextView
+
+            init {
+                // Define click listener for the ViewHolder's View.
+                textView = view.findViewById(R.id.textView)
+            }
+            fun setText(listData: ListData) {
+                textView.text = "${listData.id}회차: ${listData.title}ml"
+            }
+
+        }
+
+        // Create new views (invoked by the layout manager)
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view, which defines the UI of the list item
+            val view = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.text_row_item, viewGroup, false)
+
+            return ViewHolder(view)
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
+            // Get element from your dataset at this position and replace the
+            // contents of the view with that element
+            var data = dataSet.get(position)
+            viewHolder.textView.text = data.title
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        override fun getItemCount() = dataSet.size
+
+    }
+
+    data class ListData(var id: Int, var title: String) {}
 }
