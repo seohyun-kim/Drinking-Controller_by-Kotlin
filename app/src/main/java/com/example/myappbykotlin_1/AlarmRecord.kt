@@ -18,12 +18,6 @@ import kotlinx.android.synthetic.main.activity_alarm_record.*
 class AlarmRecord : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var data:MutableList<ListData> = mutableListOf()
-        var adapter = CustomAdapter()
-        var listId: Int = 1
-        RecyclerView.layoutManager = LinearLayoutManager(this)
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_record)
 
@@ -53,6 +47,12 @@ class AlarmRecord : AppCompatActivity() {
         var cnt=0; //회차 확인용
 
         var btnClicked =false;//자세히 보기 버튼 클릭 여부
+
+// 변수 설정
+        var data:MutableList<ListData> = mutableListOf()
+        var adapter = CustomAdapter()
+        var listId: Int = 1
+        RecyclerView.layoutManager = LinearLayoutManager(this)
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
@@ -92,9 +92,12 @@ class AlarmRecord : AppCompatActivity() {
             cumDataReceived+=currentData
             cupData = cumDataReceived/50
 
+// 값지정
             data.add(ListData(listId, currentData.toString()))
             adapter.dataSet = data
+            RecyclerView.scrollToPosition(data.size - 1)
             RecyclerView.adapter = adapter
+            listId += 1
 // Seohyun
 //            if (btnClicked === true)
 //            {
@@ -170,7 +173,7 @@ class AlarmRecord : AppCompatActivity() {
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             var data = dataSet.get(position)
-            viewHolder.textView.text = data.title
+            viewHolder.setText(data)
         }
 
         // Return the size of your dataset (invoked by the layout manager)
