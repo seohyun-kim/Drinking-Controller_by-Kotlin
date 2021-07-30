@@ -8,48 +8,48 @@
     tools:context=".AlarmRecord">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="139dp">
-
-
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="304dp"
-            android:layout_height="85dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintDimensionRatio="3.75"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintDimensionRatio="4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.7"
             app:srcCompat="@drawable/rectangle" />
 
-        <TextView
-            android:id="@+id/goalTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-black"
-            android:text="오늘의 목표량"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+    <TextView
+        android:id="@+id/goalTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="오늘의 목표량"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio="7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.6" />
 
-        <TextView
+    <TextView
             android:id="@+id/goalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="52dp"
             android:layout_marginBottom="10dp"
             android:text="000.00 ml"
             android:textSize="24dp"
+            android:textAlignment="center"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintDimensionRatio="7"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.496"
@@ -57,108 +57,137 @@
             app:layout_constraintTop_toTopOf="@+id/goalTitle"
             tools:fontFamily="sans-serif-black" />
 
-        <TextView
-            android:id="@+id/cumTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="sans-serif-black"
-            android:text="현재 누적량"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView5"
-            app:layout_constraintHorizontal_bias="0.512"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+    <TextView
+        android:id="@+id/cumTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-black"
+        android:text="현재 누적량"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintDimensionRatio="6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.3" />
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="248dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cumTitle"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/circle" />
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="248sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cumTitle"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="1"
+        app:srcCompat="@drawable/circle" />
 
-        <TextView
-            android:id="@+id/cumData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="000.0  ml"
-            android:textSize="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-            app:layout_constraintEnd_toEndOf="@+id/imageView5"
-            app:layout_constraintHorizontal_bias="0.488"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5"
-            app:layout_constraintVertical_bias="0.44"
-            tools:fontFamily="sans-serif-black" />
+    <TextView
+        android:id="@+id/cumData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="000.0 ml"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintDimensionRatio="3"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.357"
+        app:layout_constraintWidth_percent="0.4"
+        tools:fontFamily="sans-serif-black" />
 
-        <TextView
+    <TextView
             android:id="@+id/cupText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="22dp"
             android:fontFamily="sans-serif-black"
             android:text="=  0.0 잔"
-            android:textSize="24dp"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:gravity="center"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintDimensionRatio="4"
             app:layout_constraintEnd_toEndOf="@+id/imageView5"
             app:layout_constraintStart_toStartOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/cumData" />
 
-        <TextView
-            android:id="@+id/msgText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text='"누적량에 따른 메세지"'
-            android:textSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            tools:fontFamily="sans-serif-black" />
+    <TextView
+        android:id="@+id/msgText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text='"누적량에 따른 메세지"'
+        android:textAlignment="center"
+        android:textSize="24dp"
+        app:layout_constraintDimensionRatio="8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintWidth_percent="0.8"
+        tools:fontFamily="sans-serif-black" />
 
-        <Button
-            android:id="@+id/updateBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Update"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/msgText" />
+    <Button
+        android:id="@+id/updateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:text="Update"
+        android:textColor="#FFFFFF"
+        app:layout_constraintDimensionRatio="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/msgText"
+        app:layout_constraintWidth_percent="0.4" />
 
-        <ImageButton
-            android:id="@+id/recordShowBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerInside"
-            app:layout_constraintTop_toBottomOf="@+id/updateBtn"
-            app:srcCompat="@drawable/recordshow" />
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="저장 후 종료"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintDimensionRatio="3"
+        app:layout_constraintBottom_toTopOf="@+id/recordShowBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/updateBtn"
+        app:layout_constraintTop_toBottomOf="@+id/msgText" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerView"
-            android:layout_width="403dp"
-            android:layout_height="132dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recordShowBtn"
-            app:layout_constraintVertical_bias="0.0">
+    <ImageButton
+        android:id="@+id/recordShowBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        app:layout_constraintDimensionRatio="7.5"
+        app:layout_constraintTop_toBottomOf="@+id/updateBtn"
+        app:layout_constraintWidth_percent="0.8"
+        app:srcCompat="@drawable/recordshow" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="410dp"
+        android:layout_height="221dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordShowBtn"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.9">
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

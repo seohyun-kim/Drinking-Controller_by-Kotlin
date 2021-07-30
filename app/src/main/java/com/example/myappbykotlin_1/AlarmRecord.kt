@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import java.util.Random  //임시로 랜덤함수 쓰기위해 import
+import java.time.LocalDateTime
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
+import java.time.format.DateTimeFormatter
 
 class AlarmRecord : AppCompatActivity() {
 
@@ -37,7 +39,7 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("goalData", "goalData 안 들어왔음!!")
         }
 
-        var cumDataReceived :Float = 120F; //블루투스 수신한 누적량 데이터 변수에 저장 (임시로 100)
+        var cumDataReceived :Float = 0F; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
         var cupData :Float = cumDataReceived/50
 
         var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
@@ -59,6 +61,10 @@ class AlarmRecord : AppCompatActivity() {
         binding.updateBtn.setOnClickListener{
             binding.cumData.text = cumDataReceived.toString() + " ml "
             binding.cupText.text= " = " + cupData.toString()+" 잔"
+
+            //DateTime
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val nowTime:String = LocalDateTime.now().format(formatter)
 
             if (cumDataReceived > goalData){
                 binding.msgText.text = "목표량 초과! 멈춰!!!"
@@ -93,33 +99,15 @@ class AlarmRecord : AppCompatActivity() {
             cupData = cumDataReceived/50
 
 // 값지정
-            data.add(ListData(listId, currentData.toString()))
+            data.add(ListData(listId, nowTime.toString(), currentData.toString()))
             adapter.dataSet = data
             RecyclerView.scrollToPosition(data.size - 1)
             RecyclerView.adapter = adapter
             listId += 1
-// Seohyun
-//            if (btnClicked === true)
-//            {
-//                binding.recordView.text = recordList.toString()
-//            }
-
-        }  //소주 1잔 50ml
-
-
-        binding.recordShowBtn.setOnClickListener{
-// Seohyun
-//            if (btnClicked === false)
-//            {
-//                btnClicked=true;
-//                binding.recordView.text = recordList.toString()
-//            }
-//            else{
-//                btnClicked=false;
-//                binding.recordView.text = ""
-//            }
 
         }
+
+
         //actionbar
         val actionbar = supportActionBar
         //set actionbar title
@@ -132,7 +120,6 @@ class AlarmRecord : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-
     }
 
 
@@ -153,7 +140,7 @@ class AlarmRecord : AppCompatActivity() {
                 textView = view.findViewById(R.id.textView)
             }
             fun setText(listData: ListData) {
-                textView.text = "${listData.id}회차: ${listData.title}ml"
+                textView.text = "[${listData.id}회차] ${listData.time} : ${listData.title}ml"
             }
 
         }
@@ -181,5 +168,5 @@ class AlarmRecord : AppCompatActivity() {
 
     }
 
-    data class ListData(var id: Int, var title: String) {}
+    data class ListData(var id: Int, var time:String, var title: String) {}
 }
