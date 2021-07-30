@@ -1,6 +1,10 @@
 package com.example.myappbykotlin_1
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
+import kotlinx.android.synthetic.main.activity_alarm_mode.*
 import java.util.Random  //임시로 랜덤함수 쓰기위해 import
 import java.time.LocalDateTime
 
@@ -32,11 +39,18 @@ class AlarmRecord : AppCompatActivity() {
             goalData =intent.getStringExtra("goalValue")!!.toDouble()
             Log.d("goalData", "goalData $goalData")
             binding.goalText.text =intent.getStringExtra("goalValue") + "ml"
-
         } else {
             //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
             // 토스트 안됨 ㅠ
             Log.d("goalData", "goalData 안 들어왔음!!")
+        }
+
+        var pushValue: Boolean =false //default
+        if (intent.hasExtra("push")) {
+            pushValue =intent.getBooleanExtra("push",false)
+            Log.d("push", pushValue.toString())
+        } else {
+            Log.d("push", "푸시옵션 안 들어왔음!!")
         }
 
         var cumDataReceived :Float = 0F; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
@@ -48,7 +62,18 @@ class AlarmRecord : AppCompatActivity() {
         var currentData =0 // 현재 마신 양 (누적X)
         var cnt=0; //회차 확인용
 
-        var btnClicked =false;//자세히 보기 버튼 클릭 여부
+        //var btnClicked =false;//자세히 보기 버튼 클릭 여부
+
+        // notification 설정
+        var NOTIFICATION_ID = 500;
+        var channelID = "Warning";
+        var channelName = "Warning_";
+        var channelDiscription = "Warning__"
+
+        createNotificationChannel(channelID, channelName, channelDiscription)
+
+
+
 
 // 변수 설정
         var data:MutableList<ListData> = mutableListOf()
@@ -59,8 +84,7 @@ class AlarmRecord : AppCompatActivity() {
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
         binding.updateBtn.setOnClickListener{
-            binding.cumData.text = cumDataReceived.toString() + " ml "
-            binding.cupText.text= " = " + cupData.toString()+" 잔"
+
 
             //DateTime
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -98,6 +122,9 @@ class AlarmRecord : AppCompatActivity() {
             cumDataReceived+=currentData
             cupData = cumDataReceived/50
 
+            binding.cumData.text = cumDataReceived.toString() + " ml "
+            binding.cupText.text= " = " + cupData.toString()+" 잔"
+
 // 값지정
             data.add(ListData(listId, nowTime.toString(), currentData.toString()))
             adapter.dataSet = data
@@ -105,8 +132,23 @@ class AlarmRecord : AppCompatActivity() {
             RecyclerView.adapter = adapter
             listId += 1
 
-        }
 
+            // notify
+            var builder = NotificationCompat.Builder( this, channelID)
+                .setSmallIcon(R.drawable.mainpage_beer)
+                .setContentTitle("Stop!!! 그만 마시세요!")
+                .setContentText(cumDataReceived.toString())
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            if (pushValue == true && cumDataReceived > goalData -50) {
+                with(NotificationManagerCompat.from(this)) {
+                    notify(NOTIFICATION_ID, builder.build());
+                }
+            }
+
+
+
+        }
 
         //actionbar
         val actionbar = supportActionBar
@@ -115,7 +157,19 @@ class AlarmRecord : AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
+
+
+        //////////
+
+        //저장하기 버튼 클릭 시
+        binding.saveBtn.setOnClickListener{
+
+        }
+
     }
+
+
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -169,4 +223,33 @@ class AlarmRecord : AppCompatActivity() {
     }
 
     data class ListData(var id: Int, var time:String, var title: String) {}
+
+    //Notify
+
+    private fun createNotificationChannel(
+        channelID: String,
+        channelName: String,
+        channelDiscription: String
+    ) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = channelName
+            val descriptionText = channelDiscription
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
+
+
+
+
 }

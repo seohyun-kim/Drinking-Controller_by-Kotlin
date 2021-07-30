@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myappbykotlin_1.databinding.ActivityAlarmModeBinding
@@ -54,6 +55,7 @@ class AlarmModeActivity : AppCompatActivity() {
                 } else { // 맞으면 AlarmRecord로 입력값을 보냄
                     val intent = Intent(this, AlarmRecord::class.java)
                     intent.putExtra("goalValue", value);
+                    intent.putExtra("push", pushOption);
 
                     // notify
                     var builder = NotificationCompat.Builder( this, channelID)
