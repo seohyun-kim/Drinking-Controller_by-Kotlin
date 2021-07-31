@@ -12,11 +12,14 @@ import android.os.Bundle
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 
 import com.example.myappbykotlin_1.databinding.ActivityMainBinding //안드로이드가 자동으로 변환함
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -75,12 +78,18 @@ class MainActivity : AppCompatActivity() {
         startActivity(discoverableIntent)
 
         receiver.onReceive(this, discoverableIntent)
-        //Log.d("receiver", receiver.toString())
-        //Log.d("receiver", receiver.toString())
         var test = bluetoothAdapter.startDiscovery()
         Log.d("scan test", test.toString())
         Log.d("result?",receiver.resultCode.toString())
-        //Log.d("result2",receiver.resultData.toString())
+
+        Log.d("result", receiver.list.toString())
+
+//        if (deviceHardwareAddress.toString() == "00:20:12:08:91:90") {
+//            ConnectThread(device)
+//        }
+        Log.d("device", BluetoothDevice.EXTRA_DEVICE)
+
+
 
 
 
@@ -117,9 +126,9 @@ class MainActivity : AppCompatActivity() {
     // Create a BroadcastReceiver for ACTION_FOUND.
     private val receiver = object : BroadcastReceiver() {
 
+        val list: MutableList<ListData> = mutableListOf()
         override fun onReceive(context: Context, intent: Intent) {
             val action: String? = intent.action
-            Log.d("1", "1")
             when(action) {
                 BluetoothDevice.ACTION_FOUND -> {
                     // Discovery has found a device. Get the BluetoothDevice
@@ -129,8 +138,9 @@ class MainActivity : AppCompatActivity() {
                     val deviceName = device?.name
                     val deviceHardwareAddress = device?.address // MAC address
                     Log.d("1", "2")
-                    Log.d("deviceName", device?.name.toString())
-                    Log.d("deviceHardwareAddress", device?.address.toString())
+                    list.add(ListData(deviceName, deviceHardwareAddress))
+                    Log.d("address", deviceName.toString())
+                    Log.d("address", deviceHardwareAddress.toString())
                 }
             }
         }
@@ -171,6 +181,83 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private const val TAG = "MY_APP_DEBUG_TAG"
+
+    // Defines several constants used when transmitting messages between the
+// service and the UI.
+    const val MESSAGE_READ: Int = 0
+    const val MESSAGE_WRITE: Int = 1
+    const val MESSAGE_TOAST: Int = 2
+// ... (Add other message types here as needed.)
+
+    class MyBluetoothService(
+        // handler that gets info from Bluetooth service
+        private val handler: Handler
+    ) {
+
+        private inner class ConnectedThread(private val mmSocket: BluetoothSocket) : Thread() {
+
+            private val mmInStream: InputStream = mmSocket.inputStream
+            private val mmOutStream: OutputStream = mmSocket.outputStream
+            private val mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
+
+            override fun run() {
+                var numBytes: Int // bytes returned from read()
+
+                // Keep listening to the InputStream until an exception occurs.
+                while (true) {
+                    // Read from the InputStream.
+                    numBytes = try {
+                        mmInStream.read(mmBuffer)
+                    } catch (e: IOException) {
+                        Log.d(TAG, "Input stream was disconnected", e)
+                        break
+                    }
+
+                    // Send the obtained bytes to the UI activity.
+                    val readMsg = handler.obtainMessage(
+                        MESSAGE_READ, numBytes, -1,
+                        mmBuffer)
+                    readMsg.sendToTarget()
+                }
+            }
+
+            // Call this from the main activity to send data to the remote device.
+            fun write(bytes: ByteArray) {
+                try {
+                    mmOutStream.write(bytes)
+                } catch (e: IOException) {
+                    Log.e(TAG, "Error occurred when sending data", e)
+
+                    // Send a failure message back to the activity.
+                    val writeErrorMsg = handler.obtainMessage(MESSAGE_TOAST)
+                    val bundle = Bundle().apply {
+                        putString("toast", "Couldn't send data to the other device")
+                    }
+                    writeErrorMsg.data = bundle
+                    handler.sendMessage(writeErrorMsg)
+                    return
+                }
+
+                // Share the sent message with the UI activity.
+                val writtenMsg = handler.obtainMessage(
+                    MESSAGE_WRITE, -1, -1, mmBuffer)
+                writtenMsg.sendToTarget()
+            }
+
+            // Call this method from the main activity to shut down the connection.
+            fun cancel() {
+                try {
+                    mmSocket.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, "Could not close the connect socket", e)
+                }
+            }
+        }
+    }
+
+    data class ListData(var name: String?, var address: String?) {}
 
 
 
