@@ -6,6 +6,8 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +26,12 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
+
+
+const val TAG = "MY_APP_DEBUG_TAG"
+const val MESSAGE_READ: Int = 0
+const val MESSAGE_WRITE: Int = 1
+const val MESSAGE_TOAST: Int = 2
 
 class bluetooth : AppCompatActivity() {
 
@@ -131,6 +139,9 @@ class bluetooth : AppCompatActivity() {
         unregisterReceiver(receiver)
     }
 
+
+
+
     // Create a BroadcastReceiver for ACTION_FOUND.
     private val receiver = object : BroadcastReceiver() {
         var id: Int = 1
@@ -192,8 +203,9 @@ class bluetooth : AppCompatActivity() {
 
                 // The connection attempt succeeded. Perform work associated with
                 // the connection in a separate thread.
-                //manageMyConnectedSocket(socket)
-                //MyBluetoothService(Handler()).ConnectedThread(socket)
+                manageMyConnectedSocket(socket)
+
+                //MyBluetoothService(Handler())
             }
         }
 
@@ -205,9 +217,28 @@ class bluetooth : AppCompatActivity() {
                 Log.e(ContentValues.TAG, "Could not close the client socket", e)
             }
         }
+
+        private fun manageMyConnectedSocket(socket: BluetoothSocket) {
+
+            var test = MyBluetoothService(handler).ConnectedThread(socket)
+            test.run()
+        }
     }
 
+    val handler = object:  Handler(Looper.getMainLooper()) {
 
+        override fun handleMessage(msg: Message) {
+            Log.d("do","do")
+            when (msg.what) {
+                MESSAGE_WRITE -> {
+                    val readBuff = msg.obj as ByteArray
+                    val tempMsg = String(readBuff, 0, msg.arg1, charset("UTF-8"))
+                    Log.d("arduino message", tempMsg)
+                }
+            }
+
+        }
+    }
 
     // Defines several constants used when transmitting messages between the
 // service and the UI.
@@ -218,17 +249,11 @@ class bluetooth : AppCompatActivity() {
         // handler that gets info from Bluetooth service
         private val handler: Handler
     ) {
-
-        private inner class ConnectedThread(private val mmSocket: BluetoothSocket) : Thread() {
+        inner class ConnectedThread(private val mmSocket: BluetoothSocket) : Thread() {
 
             private val mmInStream: InputStream = mmSocket.inputStream
             private val mmOutStream: OutputStream = mmSocket.outputStream
             private val mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
-
-            private val TAG = "MY_APP_DEBUG_TAG"
-            val MESSAGE_READ: Int = 0
-            val MESSAGE_WRITE: Int = 1
-            val MESSAGE_TOAST: Int = 2
 
             override fun run() {
                 var numBytes: Int // bytes returned from read()
@@ -247,6 +272,8 @@ class bluetooth : AppCompatActivity() {
                     val readMsg = handler.obtainMessage(
                         MESSAGE_READ, numBytes, -1,
                         mmBuffer)
+                    Log.d("readMsg", readMsg.toString())
+                    Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
                     readMsg.sendToTarget()
                 }
             }
