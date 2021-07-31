@@ -11,4 +11,5 @@
     <string name="saveimg">TODO</string>
     <string name="recimg">TODO</string>
     <string name="resultcheck">결과확인</string>
+    <string name="drinktext">당신의 주량은...</string>
 </resources>
