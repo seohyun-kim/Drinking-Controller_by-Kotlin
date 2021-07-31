@@ -39,10 +39,9 @@
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/savebtn"
-        app:layout_constraintVertical_bias="0.486" />
+        app:layout_constraintVertical_bias="0.484" />
 
     <ImageView
         android:id="@+id/homebackimg"
@@ -54,7 +53,7 @@
         android:contentDescription="@string/homeimg"
         app:layout_constraintBottom_toTopOf="@+id/homebackbtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
         app:layout_constraintVertical_bias="1.0"
@@ -78,22 +77,22 @@
 
     <ImageView
         android:id="@+id/rectangleimg"
-        android:layout_width="372dp"
-        android:layout_height="247dp"
+        android:layout_width="327dp"
+        android:layout_height="215dp"
         android:contentDescription="@string/recimg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287"
+        app:layout_constraintVertical_bias="0.305"
         app:srcCompat="@drawable/ic_baseline_crop_5_4_24" />
 
     <TextView
         android:id="@+id/drinkcapacitytext"
-        android:layout_width="246dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="283dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="60dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/Drinkcapacity"
         android:textSize="34sp"
@@ -108,7 +107,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="당신의 주량은..."
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rectangleimg"
         app:layout_constraintEnd_toEndOf="parent"
