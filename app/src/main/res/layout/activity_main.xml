@@ -75,6 +75,23 @@
         app:layout_constraintTop_toBottomOf="@+id/TitleText"
         app:layout_constraintWidth_percent="0.3" />
 
+    <Button
+        android:id="@+id/btnBluetooth"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="124dp"
+        android:text="블루투스"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:backgroundTint="#FACC88"
+        app:layout_constraintBottom_toTopOf="@+id/TitleText"
+        app:layout_constraintDimensionRatio="2.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.3" />
+
     <TextView
         android:id="@+id/MessureModeText"
         android:layout_width="0dp"
