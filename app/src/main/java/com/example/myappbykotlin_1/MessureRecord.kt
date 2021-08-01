@@ -40,7 +40,7 @@ class MessureRecord: AppCompatActivity() {
         //뷰 바인딩
         val binding=ActivityMessureRecordBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
-        var drinkcapacity :Float = 264F;
+        var drinkcapacity :Float = 150F;
         var ml_drinkcapacity :Float = drinkcapacity/50;
         binding.drinkcapacitytext.text= drinkcapacity.toString()+" ml " + ml_drinkcapacity.toString()+" 잔 ";
         binding.homebackbtn.setOnClickListener{
