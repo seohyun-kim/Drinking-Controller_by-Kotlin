@@ -22,7 +22,7 @@ class MessureModeActivity : AppCompatActivity() {
         //뷰 바인딩
         val binding=ActivityMessureModeBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
-        binding.resultbtn.setOnClickListener{
+        binding.resultBtn.setOnClickListener{
             val nextIntent = Intent(this,MessureRecord::class.java)
             startActivity(nextIntent)
             Log.d("Btn", "result Btn is clicked! method = Log.d")
