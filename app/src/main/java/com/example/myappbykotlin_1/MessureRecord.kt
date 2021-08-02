@@ -7,6 +7,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myappbykotlin_1.databinding.ActivityMessureRecordBinding
 import java.time.LocalDate
+import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.*
 
 class MessureRecord: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -22,13 +26,33 @@ class MessureRecord: AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
         val now = LocalDate.now()
-        println("Current date: $now")
+        // 현재시간을 가져오기
+        val long_now = System.currentTimeMillis()
+        // 현재 시간을 Date 타입으로 변환
+        val t_date = Date(long_now)
+        // 날짜, 시간을 가져오고 싶은 형태 선언
+        val t_dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale("ko", "KR"))
+        // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
+        val str_date = t_dateFormat.format(t_date)
+        println("현재 날짜 및 시간 : "+str_date)
+        //확인용임. 잘 되면 삭제할거
+        println("현재 날짜"+now)
         //뷰 바인딩
         val binding=ActivityMessureRecordBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
-        var drinkcapacity :Float = 264F;
-        var ml_drinkcapacity :Float = drinkcapacity/50;
-        binding.drinkcapacitytext.text= drinkcapacity.toString()+" ml " + ml_drinkcapacity.toString()+" 잔 ";
+        var drinkcapacity :Float= 150F;
+        var ml_drinkcapacity :Float= drinkcapacity/50;
+        if (intent.hasExtra("goalValue")) {
+            drinkcapacity = intent.getStringExtra("goalValue")!!.toFloat()
+            Log.d("goalData", "goalData $drinkcapacity")
+            binding.drinkcapacitytext.text =intent.getStringExtra("goalValue") + " ml "+ml_drinkcapacity.toString()+" 잔 "
+        }
+        else {
+            //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+            // 토스트 안됨 ㅠ
+            Log.d("goalData", "goalData 안 들어왔음!!")
+        }
+        //binding.drinkcapacitytext.text= drinkcapacity.toString()+" ml " + ml_drinkcapacity.toString()+" 잔 ";
         binding.homebackbtn.setOnClickListener{
             val nextIntent = Intent(this,MainActivity::class.java)
             startActivity(nextIntent)
@@ -46,8 +70,8 @@ class MessureRecord: AppCompatActivity() {
 //            editor.putString("2021-07-27", 183F.toString());
 //            editor.putString("2021-07-28", 240F.toString());
 //            editor.putString("2021-07-29", 73F.toString());
-//            editor.putString("$now", drinkcapacity.toString());
-//            editor.apply();
+            editor.putString("$now", drinkcapacity.toString());
+            editor.apply();
             //없는 데이터 출력하면 "데이터 없음"이라고 뜸
             val value1 = sharedPreference.getString("2021-07-24", "데이터 없음");
             Log.d("no data","value"+value1);
@@ -66,5 +90,3 @@ class MessureRecord: AppCompatActivity() {
         return true
     }
 }
-
-

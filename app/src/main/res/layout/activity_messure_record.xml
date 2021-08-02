@@ -69,10 +69,10 @@
         android:contentDescription="@string/saveimg"
         app:layout_constraintBottom_toTopOf="@+id/homebackimg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintHorizontal_bias="0.371"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
-        app:layout_constraintVertical_bias="0.103"
+        app:layout_constraintVertical_bias="0.123"
         app:srcCompat="@drawable/ic_baseline_check_circle_24" />
 
     <ImageView
@@ -90,24 +90,26 @@
 
     <TextView
         android:id="@+id/drinkcapacitytext"
-        android:layout_width="283dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="305dp"
+        android:layout_height="73dp"
+        android:layout_marginBottom="72dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/Drinkcapacity"
-        android:textSize="34sp"
+        android:textColor="#020202"
+        android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/rectangleimg"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:layout_width="324dp"
-        android:layout_height="71dp"
+        android:layout_width="307dp"
+        android:layout_height="66dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="당신의 주량은..."
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="27sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rectangleimg"
         app:layout_constraintEnd_toEndOf="parent"
