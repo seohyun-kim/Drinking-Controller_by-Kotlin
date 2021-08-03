@@ -61,7 +61,6 @@ class MessureRecord: AppCompatActivity() {
             Log.d("Btn", "Messure Record Btn is clicked! method = Log.d")
         } //binding 변수로 뷰에서 만든 버튼에 접근 가능
         //임시로 값 저장
-
         binding.savebtn.setOnClickListener{
             //내부저장소 이용
             val sharedPreference = getSharedPreferences("test", 0);
@@ -88,6 +87,7 @@ class MessureRecord: AppCompatActivity() {
 //            editor.clear()
 //            editor.apply()
         }
+
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

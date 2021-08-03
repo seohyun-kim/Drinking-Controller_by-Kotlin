@@ -3,6 +3,7 @@ package com.example.myappbykotlin_1
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -20,8 +21,11 @@ import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
 import java.util.Random  //임시로 랜덤함수 쓰기위해 import
 import java.time.LocalDateTime
+import android.widget.Toast
+
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class AlarmRecord : AppCompatActivity() {
@@ -40,8 +44,7 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("goalData", "goalData $goalData")
             binding.goalText.text =intent.getStringExtra("goalValue") + "ml"
         } else {
-            //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-            // 토스트 안됨 ㅠ
+            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
             Log.d("goalData", "goalData 안 들어왔음!!")
         }
 
@@ -163,6 +166,30 @@ class AlarmRecord : AppCompatActivity() {
 
         //저장하기 버튼 클릭 시
         binding.saveBtn.setOnClickListener{
+            //내부저장소 이용
+            val now = LocalDate.now()
+            val sharedPreference = getSharedPreferences("test", 0);
+            val editor = sharedPreference.edit();
+            //데이터 넣음(key=> 날짜, value==>오늘 마신량)
+            editor.putString("$now", cumDataReceived.toString());
+            editor.apply();
+
+            //내부저장소 전체 출력
+            val allEntries: Map<String, *> = sharedPreference.getAll()
+            for ((key, value) in allEntries) {
+                Log.d("entire values", key + ": " + value.toString())
+            }
+            //데이터 삭제
+ //           editor.clear()
+//            editor.apply()
+
+            //토스트
+            var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)
+            t1.show()
+
+            //홈화면으로 이동
+            val homeIntent = Intent(this, MainActivity::class.java)
+            startActivity(homeIntent)
 
         }
 
