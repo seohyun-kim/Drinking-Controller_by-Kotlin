@@ -22,10 +22,10 @@
         app:backgroundTint="#00FFFDFD"
         app:layout_constraintBottom_toTopOf="@+id/homebackimg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toEndOf="@+id/saveimg"
         app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintVertical_bias="0.244" />
 
     <Button
         android:id="@+id/homebackbtn"
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/savebtn"
-        app:layout_constraintVertical_bias="0.484" />
+        app:layout_constraintVertical_bias="0.72" />
 
     <ImageView
         android:id="@+id/homebackimg"
@@ -72,21 +72,20 @@
         app:layout_constraintHorizontal_bias="0.371"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rectangleimg"
-        app:layout_constraintVertical_bias="0.123"
+        app:layout_constraintVertical_bias="0.312"
         app:srcCompat="@drawable/ic_baseline_check_circle_24" />
 
     <ImageView
         android:id="@+id/rectangleimg"
-        android:layout_width="327dp"
-        android:layout_height="215dp"
+        android:layout_width="389dp"
+        android:layout_height="264dp"
 
         android:contentDescription="@string/recimg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.305"
+        app:layout_constraintVertical_bias="0.338"
         app:srcCompat="@drawable/ic_baseline_crop_5_4_24" />
 
     <TextView
@@ -94,7 +93,7 @@
 
         android:layout_width="296dp"
         android:layout_height="81dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="84dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/Drinkcapacity"
         android:textColor="#020202"
@@ -102,7 +101,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/rectangleimg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -117,6 +116,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.826" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

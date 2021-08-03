@@ -42,10 +42,11 @@ class MessureRecord: AppCompatActivity() {
         setContentView(binding.root) //화면 안의 버튼 사용 가능
         var drinkcapacity :Float= 150F;
         var ml_drinkcapacity :Float= drinkcapacity/50;
-        if (intent.hasExtra("goalValue")) {
-            drinkcapacity = intent.getStringExtra("goalValue")!!.toFloat()
-            Log.d("goalData", "goalData $drinkcapacity")
-            binding.drinkcapacitytext.text =intent.getStringExtra("goalValue") + " ml "+ml_drinkcapacity.toString()+" 잔 "
+        if (intent.hasExtra("MessureValue") && intent.hasExtra("MessureCupValue")) {
+            drinkcapacity = intent.getStringExtra("MessureValue")!!.toFloat()
+            ml_drinkcapacity=intent.getStringExtra("MessureCupValue")!!.toFloat()
+            Log.d("Messurevalue", "Mesuure Data $drinkcapacity")
+            binding.drinkcapacitytext.text =drinkcapacity.toString()+ " ml "+ml_drinkcapacity.toString()+" 잔 "
         }
         else {
             //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -75,7 +76,9 @@ class MessureRecord: AppCompatActivity() {
             editor.apply();
             //없는 데이터 출력하면 "데이터 없음"이라고 뜸
             val value1 = sharedPreference.getString("2021-07-24", "데이터 없음");
+            val value2= sharedPreference.getString("2021-08-02","데이터 없음");
             Log.d("no data","value"+value1);
+            Log.d("current data","value"+value2);
             //내부저장소 전체 출력
             val allEntries: Map<String, *> = sharedPreference.getAll()
             for ((key, value) in allEntries) {

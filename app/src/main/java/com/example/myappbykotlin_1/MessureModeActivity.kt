@@ -86,9 +86,11 @@ class MessureModeActivity : AppCompatActivity() {
         //뷰 바인딩
 
         binding.resultBtn.setOnClickListener{
-            var nextval=cumDataReceived.toString()
+            var CumDataReceived_=cumDataReceived.toString()
+            var CupData_=cupData.toString()
             val intent = Intent(this, MessureRecord::class.java)
-            intent.putExtra("goalValue",nextval);
+            intent.putExtra("MessureValue",CumDataReceived_);
+            intent.putExtra("MessureCupValue",CupData_);
             startActivity(intent);
             Log.d("Btn", "result Btn is clicked! method = Log.d")
         } //binding 변수로 뷰에서 만든 버튼에 접근 가능
