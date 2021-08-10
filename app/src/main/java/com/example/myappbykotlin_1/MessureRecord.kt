@@ -46,7 +46,8 @@ class MessureRecord: AppCompatActivity() {
             drinkcapacity = intent.getStringExtra("MessureValue")!!.toFloat()
             ml_drinkcapacity=intent.getStringExtra("MessureCupValue")!!.toFloat()
             Log.d("Messurevalue", "Mesuure Data $drinkcapacity")
-            binding.drinkcapacitytext.text =drinkcapacity.toString()+ " ml "+ml_drinkcapacity.toString()+" 잔 "
+            binding.drinkcapacitytext.text =drinkcapacity.toString()+ " ml "
+            binding.cupdata.text="= " +ml_drinkcapacity.toString()+" 잔 "
         }
         else {
             //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -66,11 +67,11 @@ class MessureRecord: AppCompatActivity() {
             val sharedPreference = getSharedPreferences("test", 0);
             val editor = sharedPreference.edit();
             //데이터 넣음(key=> 날짜, value==>주량)
-//            editor.putString("2021-07-25", 100F.toString());
-//            editor.putString("2021-07-26", 100F.toString());
-//            editor.putString("2021-07-27", 183F.toString());
-//            editor.putString("2021-07-28", 240F.toString());
-//            editor.putString("2021-07-29", 73F.toString());
+            editor.putString("2021-07-25", 100F.toString());
+            editor.putString("2021-07-26", 100F.toString());
+            editor.putString("2021-07-27", 183F.toString());
+            editor.putString("2021-07-28", 240F.toString());
+            editor.putString("2021-07-29", 73F.toString());
             editor.putString("$now", drinkcapacity.toString());
             editor.apply();
             //없는 데이터 출력하면 "데이터 없음"이라고 뜸
@@ -87,7 +88,11 @@ class MessureRecord: AppCompatActivity() {
 //            editor.clear()
 //            editor.apply()
         }
-
+        binding.calendarbtn.setOnClickListener{
+            val nextIntent = Intent(this,calendar::class.java)
+            startActivity(nextIntent)
+            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
+        }
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

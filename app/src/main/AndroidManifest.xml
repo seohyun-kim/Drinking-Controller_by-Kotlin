@@ -4,7 +4,10 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,11 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAppByKotlin_1">
-        <activity android:name=".AlarmRecord"></activity>
+        <activity android:name=".bluetooth"></activity>
+        <activity android:name=".AlarmRecord" />
+        <activity android:name=".calendar" />
         <activity android:name=".MessureRecord" />
         <activity android:name=".AlarmModeActivity" />
         <activity android:name=".MessureModeActivity" />
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
