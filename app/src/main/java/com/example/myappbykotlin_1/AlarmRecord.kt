@@ -75,7 +75,15 @@ class AlarmRecord : AppCompatActivity() {
         var channelName = "Warning_";
         var channelDiscription = "Warning__"
 
+        // notification 설정 (속도경고)
+        var NOTIFICATION_ID2 = 600;
+        var channelID2 = "speed warning";
+        var channelName2 = "speed warning_";
+        var channelDiscription2 = "speed warning__"
+
+
         createNotificationChannel(channelID, channelName, channelDiscription)
+        createNotificationChannel(channelID2, channelName2, channelDiscription2)
 
 
 
@@ -86,37 +94,57 @@ class AlarmRecord : AppCompatActivity() {
         var listId: Int = 1
         RecyclerView.layoutManager = LinearLayoutManager(this)
 
+
+        var priorTime = System.currentTimeMillis()
+        var first:Boolean = true //처음인지
+
+
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
         binding.updateBtn.setOnClickListener{
-
+            var curTime = System.currentTimeMillis() //시간 업데이트
 
             //DateTime
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val nowTime:String = LocalDateTime.now().format(formatter)
+            val nowTime:String = LocalDateTime.now().format(formatter) //현재날짜시간
 
+            var diffTime = (curTime- priorTime) /1000 //이전 시간과 초차이
+            Log.d("diffTime", diffTime.toString())
+
+
+
+
+            //양으로
             if (cumDataReceived > goalData){
                 binding.msgText.text = "목표량 초과! 멈춰!!!"
                 binding.msgText.setTextColor(Color.parseColor("#FF0000"))
+                binding.imageView5.setColorFilter(Color.parseColor("#FF0000"))
+                binding.cumData.setTextColor(Color.parseColor("#FFFFFF"))
+                binding.cupText.setTextColor(Color.parseColor("#FFFFFF"))
+
             }
             else if (cumDataReceived > goalData -50)
             {
                 binding.msgText.text = "어? 어?! 그만 그만!!"
                 binding.msgText.setTextColor(Color.parseColor("#FF1111"))
+                binding.imageView5.setImageResource(R.drawable.circle_r)
             }
             else if (cumDataReceived > goalData -130)
             {
                 binding.msgText.text = "목표량에 다다르고 있어요!"
                 binding.msgText.setTextColor(Color.parseColor("#FF7F00"))
+                binding.imageView5.setImageResource(R.drawable.circle)
             }
             else if (cumDataReceived > goalData -200)
             {
                 binding.msgText.text = "아직까지는 괜찮아요."
                 binding.msgText.setTextColor(Color.parseColor("#0067A3"))
+                binding.imageView5.setImageResource(R.drawable.circle_b)
             }
             else{
-                binding.msgText.text = "술이 달다~"
+                binding.msgText.text = "즐거운 술자리에요~"
                 binding.msgText.setTextColor(Color.parseColor("#008000"))
+
             }
 
             //test (버튼 클릭시마다 랜덤으로 추가되도록)
@@ -151,8 +179,20 @@ class AlarmRecord : AppCompatActivity() {
                 }
             }
 
+            var builder2 = NotificationCompat.Builder( this, channelID)
+                .setSmallIcon(R.drawable.mainpage_beer)
+                .setContentTitle("속도가 빨라요! 천천히 마시세요!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            if (pushValue == true  && first ==false && diffTime < 180 ) { //3분 이내에 다시마시면 (test10초)
+                with(NotificationManagerCompat.from(this)) {
+                    notify(NOTIFICATION_ID2, builder2.build());
+                }
+            }
 
 
+            priorTime = curTime;
+            first=false
         }
 
         //actionbar
