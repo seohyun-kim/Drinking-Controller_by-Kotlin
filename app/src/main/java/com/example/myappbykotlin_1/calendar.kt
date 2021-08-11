@@ -191,6 +191,7 @@ class calendar: AppCompatActivity() {
         }
         else {
             textView2.text = "${value + " ml"}" // textView에 str 출력
+            Log.d("shPrtext",value.toString())
         }
     }
 }
