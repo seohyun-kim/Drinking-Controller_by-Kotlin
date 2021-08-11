@@ -1,18 +1,20 @@
 package com.example.myappbykotlin_1
 
+import android.app.Activity
 import android.bluetooth.*
+import android.companion.AssociationRequest
+import android.companion.BluetoothDeviceFilter
+import android.companion.CompanionDeviceManager
 import android.content.*
 import android.content.ContentValues.TAG
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
@@ -26,13 +28,16 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
+import java.util.regex.Pattern
 
 
 const val TAG = "MY_APP_DEBUG_TAG"
 const val MESSAGE_READ: Int = 0
 const val MESSAGE_WRITE: Int = 1
 const val MESSAGE_TOAST: Int = 2
+private const val SELECT_DEVICE_REQUEST_CODE = 0
 
+@RequiresApi(Build.VERSION_CODES.O)
 class bluetooth : AppCompatActivity() {
 
     var bluetoothHeadset: BluetoothHeadset? = null
@@ -74,61 +79,119 @@ class bluetooth : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bluetooth)
-
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        registerReceiver(receiver, filter)
-
-        val discoverableIntent: Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
-            putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
-        }
-        //startActivity(discoverableIntent)
-
-        //receiver.onReceive(this, discoverableIntent)
-        //var test = bluetoothAdapter.startDiscovery()
-        //Log.d("scan test", test.toString())
-        //Log.d("result?",receiver.resultCode.toString())
-
-        //Log.d("result", receiver.list.toString())
-
-//        if (deviceHardwareAddress.toString() == "00:20:12:08:91:90") {
-//            ConnectThread(device)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_bluetooth)
+//
+//        val discoverableIntent: Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+//            putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
 //        }
-        //Log.d("device", BluetoothDevice.EXTRA_DEVICE)
+//        //startActivity(discoverableIntent)
+//
+//        //receiver.onReceive(this, discoverableIntent)
+//        //var test = bluetoothAdapter.startDiscovery()
+//        //Log.d("scan test", test.toString())
+//        //Log.d("result?",receiver.resultCode.toString())
+//
+//        //Log.d("result", receiver.list.toString())
+//
+////        if (deviceHardwareAddress.toString() == "00:20:12:08:91:90") {
+////            ConnectThread(device)
+////        }
+//        //Log.d("device", BluetoothDevice.EXTRA_DEVICE)
+//
+//
+//
+//
+//
+//
+//        //var tread = ConnectThread(device, bluetoothAdapter)
+//
+//
+////        var tracker = SelectionTracker.Builder(
+////            "my-selection-id",
+////            recyclerView,
+////            StableIdKeyProvider(recyclerView),
+////            MyDetailsLookup(recyclerView),
+////            StorageStrategy.createLongStorage())
+////            .withOnItemActivatedListener(myItemActivatedListener)
+////            .build()
+//
+//
+//        //뷰 바인딩
+//        val binding= ActivityBluetoothBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
+//        setContentView(binding.root) //화면 안의 버튼 사용 가능
+//
+//        binding.btnScan.setOnClickListener {
+//            //startActivity(discoverableIntent)
+//            recyclerView.layoutManager = LinearLayoutManager(this)
+//            receiver.onReceive(this, discoverableIntent)
+//            bluetoothAdapter.startDiscovery()
+//        }
+//        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+//        registerReceiver(receiver, filter)
+//
+//    }
 
 
 
-
-
-
-        //var tread = ConnectThread(device, bluetoothAdapter)
-
-
-//        var tracker = SelectionTracker.Builder(
-//            "my-selection-id",
-//            recyclerView,
-//            StableIdKeyProvider(recyclerView),
-//            MyDetailsLookup(recyclerView),
-//            StorageStrategy.createLongStorage())
-//            .withOnItemActivatedListener(myItemActivatedListener)
-//            .build()
-
-
-        //뷰 바인딩
-        val binding= ActivityBluetoothBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
-        setContentView(binding.root) //화면 안의 버튼 사용 가능
-
-        binding.btnScan.setOnClickListener {
-            //startActivity(discoverableIntent)
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            receiver.onReceive(this, discoverableIntent)
-            bluetoothAdapter.startDiscovery()
+        private val deviceManager: CompanionDeviceManager by lazy {
+            getSystemService(Context.COMPANION_DEVICE_SERVICE) as CompanionDeviceManager
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
 
-    }
+            // To skip filters based on names and supported feature flags (UUIDs),
+            // omit calls to setNamePattern() and addServiceUuid()
+            // respectively, as shown in the following  Bluetooth example.
+            val deviceFilter: BluetoothDeviceFilter = BluetoothDeviceFilter.Builder()
+                .setNamePattern(Pattern.compile("My device"))
+                .addServiceUuid(ParcelUuid(UUID(0x123abcL, -1L)), null)
+                .build()
+
+            // The argument provided in setSingleDevice() determines whether a single
+            // device name or a list of them appears.
+            val pairingRequest: AssociationRequest = AssociationRequest.Builder()
+                .addDeviceFilter(deviceFilter)
+                .setSingleDevice(true)
+                .build()
+
+            // When the app tries to pair with a Bluetooth device, show the
+            // corresponding dialog box to the user.
+            deviceManager.associate(pairingRequest,
+                object : CompanionDeviceManager.Callback() {
+
+                    override fun onDeviceFound(chooserLauncher: IntentSender) {
+                        startIntentSenderForResult(chooserLauncher,
+                            SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0)
+                    }
+
+                    override fun onFailure(error: CharSequence?) {
+                        // Handle the failure.
+                    }
+                }, null)
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            when (requestCode) {
+                SELECT_DEVICE_REQUEST_CODE -> when(resultCode) {
+                    Activity.RESULT_OK -> {
+                        // The user chose to pair the app with a Bluetooth device.
+                        val deviceToPair: BluetoothDevice? =
+                            data?.getParcelableExtra(CompanionDeviceManager.EXTRA_DEVICE)
+                        deviceToPair?.let { device ->
+                            device.createBond()
+                            // Maintain continuous interaction with a paired device.
+                        }
+                    }
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+
 
 
     override fun onDestroy() {
