@@ -11,6 +11,7 @@ import java.util.Locale
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.*
+import android.widget.Toast
 
 class MessureRecord: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -50,8 +51,7 @@ class MessureRecord: AppCompatActivity() {
             binding.cupdata.text="= " +ml_drinkcapacity.toString()+" 잔 "
         }
         else {
-            //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-            // 토스트 안됨 ㅠ
+            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
             Log.d("goalData", "goalData 안 들어왔음!!")
         }
         //binding.drinkcapacitytext.text= drinkcapacity.toString()+" ml " + ml_drinkcapacity.toString()+" 잔 ";
@@ -87,6 +87,11 @@ class MessureRecord: AppCompatActivity() {
             //데이터 삭제
 //            editor.clear()
 //            editor.apply()
+
+            // 저장확인 알림
+            var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)
+            t1.show()
+
         }
         binding.calendarbtn.setOnClickListener{
             val nextIntent = Intent(this,calendar::class.java)

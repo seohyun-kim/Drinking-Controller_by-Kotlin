@@ -50,6 +50,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(nextIntent)
             Log.d("MainBtn", "Bluetooth Mode Btn is clicked! method = Log.d")
         }
+
+        binding.calendarbtn.setOnClickListener{
+            val nextIntent = Intent(this,calendar::class.java)
+            startActivity(nextIntent)
+            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
+        }
     }
 
 }

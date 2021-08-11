@@ -8,10 +8,12 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myappbykotlin_1.databinding.ActivityAlarmModeBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
+
 
 class AlarmModeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +50,14 @@ class AlarmModeActivity : AppCompatActivity() {
             val value: String = inputValue.text.toString();
             if (value.isEmpty()) { // 입력창이 비어있는지 확인
                 println("Write to edit text");
+                var t1 = Toast.makeText(this, "목표값을 입력해 주세요.", Toast.LENGTH_SHORT)
+                t1.show()
             } else {
                 val goalValue: Double? = value.toDoubleOrNull();
                 if (goalValue == null) { // 입력값이 Double형이 맞는지 확인
                     println("Please write Double!");
+                    var t2 = Toast.makeText(this, "Double 형으로 입력해 주세요.", Toast.LENGTH_SHORT)
+                    t2.show()
                 } else { // 맞으면 AlarmRecord로 입력값을 보냄
                     val intent = Intent(this, AlarmRecord::class.java)
                     intent.putExtra("goalValue", value);
