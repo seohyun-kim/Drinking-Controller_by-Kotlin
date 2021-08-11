@@ -20,18 +20,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
-import java.util.Random  //임시로 랜덤함수 쓰기위해 import
-import java.time.LocalDateTime
+//import java.time.LocalDateTime
 import android.widget.Toast
 
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
+//import java.time.LocalDate
+//import java.time.format.DateTimeFormatter
 
 class AlarmRecord : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_record)
@@ -105,8 +109,29 @@ class AlarmRecord : AppCompatActivity() {
             var curTime = System.currentTimeMillis() //시간 업데이트
 
             //DateTime
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val nowTime:String = LocalDateTime.now().format(formatter) //현재날짜시간
+     //       val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+      //      val nowTime:String = LocalDateTime.now().format(formatter) //현재날짜시간
+
+
+ /////날짜 가져오는 방법 변경
+            // 현재시간을 가져오기
+            val now: Long = System.currentTimeMillis()
+
+            // 현재 시간을 Date 타입으로 변환
+            val date = Date(now)
+
+            // 날짜, 시간을 가져오고 싶은 형태 선언
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR"))
+
+            // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
+            val stringTime = dateFormat.format(date)
+
+            // String 형태의 시간을 다시 Long 으로 변환
+            val longTime = dateFormat.parse(stringTime).time
+
+            Log.d("Time", stringTime)
+///////////
+
 
             var diffTime = (curTime- priorTime) /1000 //이전 시간과 초차이
             Log.d("diffTime", diffTime.toString())
@@ -159,7 +184,12 @@ class AlarmRecord : AppCompatActivity() {
             binding.cupText.text= " = " + cupData.toString()+" 잔"
 
 // 값지정
-            data.add(ListData(listId, nowTime.toString(), currentData.toString()))
+
+
+/////// 날짜 test
+            //data.add(ListData(listId, nowTime.toString(), currentData.toString()))
+            data.add(ListData(listId, stringTime, currentData.toString()))
+
             adapter.dataSet = data
             RecyclerView.scrollToPosition(data.size - 1)
             RecyclerView.adapter = adapter
@@ -209,11 +239,21 @@ class AlarmRecord : AppCompatActivity() {
         //저장하기 버튼 클릭 시
         binding.saveBtn.setOnClickListener{
             //내부저장소 이용
-            val now = LocalDate.now()
+
+ /////////// 날짜 test
+           //--- val now = LocalDate.now()
             val sharedPreference = getSharedPreferences("test", 0);
             val editor = sharedPreference.edit();
             //데이터 넣음(key=> 날짜, value==>오늘 마신량)
-            editor.putString("$now", cumDataReceived.toString());
+
+         //-- editor.putString("$now", cumDataReceived.toString());
+
+            //++ 현재시간을 가져오기
+            val now: Long = System.currentTimeMillis()
+            //++ 현재 시간을 Date 타입으로 변환
+            val date = Date(now)
+
+            editor.putString("$date", cumDataReceived.toString());
             editor.apply();
 
             //내부저장소 전체 출력
