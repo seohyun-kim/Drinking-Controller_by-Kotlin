@@ -143,12 +143,23 @@ class bluetooth : AppCompatActivity() {
                     )
                     Log.d("readMsg", readMsg.toString())
                     Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
+                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
+                    var list_one = ArrayList<String>()
+                    var a:String=""
+                    val mutableIterator = test.iterator()
+                    for (item in mutableIterator)
+                    {
+                        if(item>='0' && item <='9')
+                        {
+                            a += item
+                        }
+                    }
+                    Log.d("data", a)
                     readMsg.sendToTarget()
                     for (i in 0..1023) {
                         mmBuffer.set(i, 0)
 
                     }
-                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
 
                 }
             }
