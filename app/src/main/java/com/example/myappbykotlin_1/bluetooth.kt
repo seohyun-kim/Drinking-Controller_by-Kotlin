@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
@@ -148,8 +149,24 @@ class bluetooth : AppCompatActivity() {
                         mmBuffer.set(i, 0)
 
                     }
-                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
 
+                    var test = String(readMsg.obj as ByteArray, charset("UTF-8"))
+                    test = test.replace("[^0-9 ]", "").toLowerCase()
+                    Log.d("testText", test)
+
+                    var testDouble: Double? = test.toDouble();
+                    if (testDouble == null) { // 입력값이 Double형이 맞는지 확인
+                        println("Please write Double!");
+                        Log.d("testDouble","null"+testDouble.toString());
+
+                    } else {
+
+                        //      val intent = Intent(this, AlarmRecord::class.java)
+                        //     intent.putExtra("goalValue", value);
+                        //     intent.putExtra("push", pushOption);
+                        Log.d("testDouble", testDouble.toString());
+
+                    }
                 }
             }
 
