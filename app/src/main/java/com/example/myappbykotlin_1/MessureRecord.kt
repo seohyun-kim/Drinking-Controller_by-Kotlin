@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.*
 import android.widget.Toast
+import java.time.LocalTime
 
 class MessureRecord: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -27,6 +28,7 @@ class MessureRecord: AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
         val now = LocalDate.now()
+
         // 현재시간을 가져오기
         val long_now = System.currentTimeMillis()
         // 현재 시간을 Date 타입으로 변환
@@ -43,6 +45,7 @@ class MessureRecord: AppCompatActivity() {
         setContentView(binding.root) //화면 안의 버튼 사용 가능
         var drinkcapacity :Float= 150F;
         var ml_drinkcapacity :Float= drinkcapacity/50;
+
         if (intent.hasExtra("MessureValue") && intent.hasExtra("MessureCupValue")) {
             drinkcapacity = intent.getStringExtra("MessureValue")!!.toFloat()
             ml_drinkcapacity=intent.getStringExtra("MessureCupValue")!!.toFloat()

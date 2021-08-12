@@ -145,40 +145,23 @@ class bluetooth : AppCompatActivity() {
                     Log.d("readMsg", readMsg.toString())
                     Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
                     val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
-                    var list_one = ArrayList<String>()
                     var a:String=""
                     val mutableIterator = test.iterator()
                     for (item in mutableIterator)
                     {
-                        if(item>='0' && item <='9')
+                        if(item>='0' && item <='9' || item == '.')
                         {
                             a += item
                         }
                     }
-                    Log.d("data", a)
+                    var num = a.toDouble()
                     readMsg.sendToTarget()
                     for (i in 0..1023) {
                         mmBuffer.set(i, 0)
 
                     }
 
-                    var test = String(readMsg.obj as ByteArray, charset("UTF-8"))
-                    test = test.replace("[^0-9 ]", "").toLowerCase()
-                    Log.d("testText", test)
 
-                    var testDouble: Double? = test.toDouble();
-                    if (testDouble == null) { // 입력값이 Double형이 맞는지 확인
-                        println("Please write Double!");
-                        Log.d("testDouble","null"+testDouble.toString());
-
-                    } else {
-
-                        //      val intent = Intent(this, AlarmRecord::class.java)
-                        //     intent.putExtra("goalValue", value);
-                        //     intent.putExtra("push", pushOption);
-                        Log.d("testDouble", testDouble.toString());
-
-                    }
                 }
             }
 
