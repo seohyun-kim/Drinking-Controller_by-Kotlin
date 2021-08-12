@@ -244,26 +244,26 @@ class bluetooth : AppCompatActivity() {
                         MESSAGE_READ, numBytes, -1,
                         mmBuffer
                     )
-                    Log.d("readMsg", readMsg.toString())
-                    Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
-                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
-                    var list_one = ArrayList<String>()
-                    var a:String=""
-                    val mutableIterator = test.iterator()
-                    for (item in mutableIterator)
-                    {
-                        if(item>='0' && item <='9' || item == '.')
-                        {
-                            a += item
-                        }
-                    }
-                    var num = a.toDouble()
-                    Log.d("data", num.toString())
+//                    for (i in 0..1023) {
+//                        mmBuffer.set(i, 0)
+//
+//                    }
+//                    Log.d("readMsg", readMsg.toString())
+//                    Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
+//                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
+//                    var list_one = ArrayList<String>()
+//                    var a:String=""
+//                    val mutableIterator = test.iterator()
+//                    for (item in mutableIterator)
+//                    {
+//                        if(item>='0' && item <='9' || item == '.')
+//                        {
+//                            a += item
+//                        }
+//                    }
+//                    var num = a.toDouble()
+//                    Log.d("data", num.toString())
                     readMsg.sendToTarget()
-                    for (i in 0..1023) {
-                        mmBuffer.set(i, 0)
-
-                    }
                 }
             }
 
@@ -345,6 +345,7 @@ class bluetooth : AppCompatActivity() {
 
         override fun handleMessage(msg: Message) {
             Log.d("do", "do")
+            Log.d("msg", msg.what.toString())
             when (msg.what) {
 //                MESSAGE_WRITE -> {
 //                    val readBuff = msg.obj as ByteArray
@@ -353,6 +354,32 @@ class bluetooth : AppCompatActivity() {
 //                    Log.d("arduino message", tempMsg)
 //
 //                }
+                MESSAGE_READ -> {
+                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
+
+                    Log.d("readMsg", msg.toString())
+                    Log.d("readMsg", String(msg.obj as ByteArray, charset("UTF-8")))
+                    val test = String(msg.obj as ByteArray, charset("UTF-8"))
+                    var list_one = ArrayList<String>()
+                    var a:String=""
+                    val mutableIterator = test.iterator()
+                    for (item in mutableIterator)
+                    {
+                        if(item>='0' && item <='9' || item == '.')
+                        {
+                            a += item
+                        }
+                    }
+
+
+                    var num = a.toDouble()
+                    Log.d("data", num.toString())
+
+
+                    intent.putExtra("getData", num);
+                    Log.d("sendData", "success")
+                    msg.data = null
+                }
             }
 
         }
