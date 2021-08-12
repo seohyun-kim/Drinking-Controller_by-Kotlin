@@ -20,17 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
-//import java.time.LocalDateTime
+import java.time.LocalDateTime
 import android.widget.Toast
 
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
-//import java.time.LocalDate
-//import java.time.format.DateTimeFormatter
+
+import java.time.format.DateTimeFormatter
 
 class AlarmRecord : AppCompatActivity() {
 
@@ -106,13 +107,13 @@ class AlarmRecord : AppCompatActivity() {
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
         binding.updateBtn.setOnClickListener{
-            var curTime = System.currentTimeMillis() //시간 업데이트
+            var curTime = System.currentTimeMillis() //시간 업데이트 (시간차 계산)
 
             //DateTime
-     //       val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-      //      val nowTime:String = LocalDateTime.now().format(formatter) //현재날짜시간
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val nowTime:String = LocalDateTime.now().format(formatter) //현재날짜시간
 
-
+/*
  /////날짜 가져오는 방법 변경
             // 현재시간을 가져오기
             val now: Long = System.currentTimeMillis()
@@ -131,6 +132,8 @@ class AlarmRecord : AppCompatActivity() {
 
             Log.d("Time", stringTime)
 ///////////
+*/
+
 
 
             var diffTime = (curTime- priorTime) /1000 //이전 시간과 초차이
@@ -188,7 +191,7 @@ class AlarmRecord : AppCompatActivity() {
 
 /////// 날짜 test
             //data.add(ListData(listId, nowTime.toString(), currentData.toString()))
-            data.add(ListData(listId, stringTime, currentData.toString()))
+            data.add(ListData(listId, nowTime, currentData.toString()))
 
             adapter.dataSet = data
             RecyclerView.scrollToPosition(data.size - 1)
@@ -202,11 +205,13 @@ class AlarmRecord : AppCompatActivity() {
                 .setContentTitle("Stop!!! 그만 마시세요!")
                 .setContentText(cumDataReceived.toString())
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
+            var overNotify:Boolean =false
 
-            if (pushValue == true && cumDataReceived > goalData -50) {
+            if (pushValue == true && cumDataReceived > goalData -50 ) {
                 with(NotificationManagerCompat.from(this)) {
                     notify(NOTIFICATION_ID, builder.build());
                 }
+                overNotify=true;
             }
 
             var builder2 = NotificationCompat.Builder( this, channelID)
@@ -214,10 +219,12 @@ class AlarmRecord : AppCompatActivity() {
                 .setContentTitle("속도가 빨라요! 천천히 마시세요!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-            if (pushValue == true  && first ==false && diffTime < 180 ) { //3분 이내에 다시마시면 (test10초)
+
+            if (pushValue == true  && first ==false && diffTime < 180 && overNotify==false) { //3분 이내에 다시마시면 (test10초)
                 with(NotificationManagerCompat.from(this)) {
                     notify(NOTIFICATION_ID2, builder2.build());
                 }
+
             }
 
 
@@ -241,19 +248,12 @@ class AlarmRecord : AppCompatActivity() {
             //내부저장소 이용
 
  /////////// 날짜 test
-           //--- val now = LocalDate.now()
+            val now = LocalDate.now()
             val sharedPreference = getSharedPreferences("test", 0);
             val editor = sharedPreference.edit();
             //데이터 넣음(key=> 날짜, value==>오늘 마신량)
 
-         //-- editor.putString("$now", cumDataReceived.toString());
-
-            //++ 현재시간을 가져오기
-            val now: Long = System.currentTimeMillis()
-            //++ 현재 시간을 Date 타입으로 변환
-            val date = Date(now)
-
-            editor.putString("$date", cumDataReceived.toString());
+            editor.putString("$now", cumDataReceived.toString());
             editor.apply();
 
             //내부저장소 전체 출력
@@ -262,8 +262,8 @@ class AlarmRecord : AppCompatActivity() {
                 Log.d("entire values", key + ": " + value.toString())
             }
             //데이터 삭제
- //           editor.clear()
-//            editor.apply()
+         //   editor.clear()
+        //   editor.apply()
 
             //토스트
             var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)

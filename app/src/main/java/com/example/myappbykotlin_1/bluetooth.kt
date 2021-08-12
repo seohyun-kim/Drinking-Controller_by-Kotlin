@@ -203,7 +203,7 @@ class bluetooth : AppCompatActivity() {
             // Cancel discovery because it otherwise slows down the connection.
             bluetoothAdapter?.cancelDiscovery()
 
-            mmSocket?.use { socket ->
+            mmSocket?.let { socket ->
                 // Connect to the remote device through the socket. This call blocks
                 // until it succeeds or throws an exception.
                 socket.connect()
@@ -228,7 +228,7 @@ class bluetooth : AppCompatActivity() {
         private fun manageMyConnectedSocket(socket: BluetoothSocket) {
 
             var test = MyBluetoothService(handler).ConnectedThread(socket)
-            test.run()
+            test.start()
         }
     }
 
