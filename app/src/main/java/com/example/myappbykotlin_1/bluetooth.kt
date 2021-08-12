@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.databinding.ActivityBluetoothBinding
 import com.example.myappbykotlin_1.databinding.ActivityMainBinding
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.activity_alarm_record.*
 import kotlinx.android.synthetic.main.activity_bluetooth.*
 import java.io.IOException
@@ -108,6 +110,11 @@ class bluetooth : AppCompatActivity() {
         }
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         registerReceiver(receiver, filter)
+
+        val intent: Intent = Intent(this, MessureModeActivity::class.java)
+        intent.putExtra("DATA", MyBluetoothService(handler));
+        Log.d("blblblparcelize", "successed")
+        startActivity(intent)
 
     }
 
@@ -216,15 +223,18 @@ class bluetooth : AppCompatActivity() {
 
     }
 
+    @Parcelize
     class MyBluetoothService(
         // handler that gets info from Bluetooth service
-        private val handler: Handler
-    ) {
-        inner class ConnectedThread(private val mmSocket: BluetoothSocket) : Thread() {
+         var handler: @RawValue Handler
+    ): Parcelable
+    {
 
-            private val mmInStream: InputStream = mmSocket.inputStream
-            private val mmOutStream: OutputStream = mmSocket.outputStream
-            private var mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
+        inner class ConnectedThread(public val mmSocket: BluetoothSocket) : Thread() {
+
+            public val mmInStream: InputStream = mmSocket.inputStream
+            public val mmOutStream: OutputStream = mmSocket.outputStream
+            public var mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
 
             override fun run() {
                 var numBytes: Int // bytes returned from read()
@@ -281,6 +291,7 @@ class bluetooth : AppCompatActivity() {
                     }
                     writeErrorMsg.data = bundle
                     handler.sendMessage(writeErrorMsg)
+
                     return
                 }
 
@@ -301,7 +312,6 @@ class bluetooth : AppCompatActivity() {
             }
         }
     }
-
     var bt_service: Thread? = null
     private inner class ConnectThread(
         device: BluetoothDevice?,

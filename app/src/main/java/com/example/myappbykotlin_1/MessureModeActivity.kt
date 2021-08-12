@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.Toolbar
 import com.example.myappbykotlin_1.databinding.ActivityMessureModeBinding
 import androidx.annotation.RequiresApi
@@ -51,6 +52,12 @@ class MessureModeActivity : AppCompatActivity() {
         var adapter = MessureModeActivity.CustomAdapter()
         var listId: Int = 1
         MessureRecyclerView.layoutManager = LinearLayoutManager(this)
+
+       // val intent: Intent = getIntent()
+        var classIntent = intent.getParcelableArrayExtra("DATA")
+        Log.d("blblblclassIntent", "seccessed")
+
+
 
 
         binding.resetBtn.setOnClickListener { //알람모드 코드 참고
