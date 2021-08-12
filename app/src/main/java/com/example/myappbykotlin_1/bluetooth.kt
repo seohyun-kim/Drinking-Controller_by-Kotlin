@@ -41,19 +41,121 @@ private const val SELECT_DEVICE_REQUEST_CODE = 0
 
 @RequiresApi(Build.VERSION_CODES.O)
 class bluetooth : AppCompatActivity() {
+    private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+    private var list: MutableList<ListData> = mutableListOf()
+    private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
+    private var id: Int = 1
+    var adapter = CustomAdapter() { list -> // 리스너 클릭 함수
+        Log.d(list.name, list.address.toString())
+        Log.d("device", deviceList.toString())
+        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
+    }
 
-    var bluetoothHeadset: BluetoothHeadset? = null
-    private val profileListener = object : BluetoothProfile.ServiceListener {
-
-        override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
-            if (profile == BluetoothProfile.HEADSET) {
-                bluetoothHeadset = proxy as BluetoothHeadset
-            }
+    override fun onResume() {
+        super.onResume()
+        // Get the default adapter
+        //var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+        if (bluetoothAdapter == null) {
+            Log.d("bluetoothAdapter", "not Support")
         }
 
-        override fun onServiceDisconnected(profile: Int) {
-            if (profile == BluetoothProfile.HEADSET) {
-                bluetoothHeadset = null
+        val REQUEST_ENABLE_BT = 100
+
+        if (bluetoothAdapter?.isEnabled == false) {
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+        }
+
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+        pairedDevices?.forEach { device ->
+            val deviceName = device.name
+            val deviceHardwareAddress = device.address // MAC address
+            list.add(ListData(id, deviceName, deviceHardwareAddress))
+            deviceList.add(device)
+            adapter.dataSet = list
+            //RecyclerView.scrollToPosition(list.size - 1)
+            recyclerView.adapter = adapter
+            id += 1
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_bluetooth)
+
+        val discoverableIntent: Intent =
+            Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+                putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
+            }
+
+        //뷰 바인딩
+        val binding = ActivityBluetoothBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
+        setContentView(binding.root) //화면 안의 버튼 사용 가능
+
+        var i = 0
+        binding.btnScan.setOnClickListener {
+            //startActivity(discoverableIntent)
+            if (i >= 1) {
+                (bt_service as MyBluetoothService.ConnectedThread).write("hello".toByteArray(charset=Charsets.UTF_8))
+
+            }
+            if (i == 0) {
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                receiver.onReceive(this, discoverableIntent)
+                bluetoothAdapter.startDiscovery()
+            }
+            i += 1
+        }
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        registerReceiver(receiver, filter)
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver)
+    }
+
+
+    // Create a BroadcastReceiver for ACTION_FOUND.
+    private val receiver = object : BroadcastReceiver() {
+        var id: Int = 1
+        var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
+        var list: MutableList<ListData> = mutableListOf()
+
+        var adapter = CustomAdapter() { list -> // 리스너 클릭 함수
+            Log.d(list.name, list.address.toString())
+            Log.d("device", deviceList.toString())
+            ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
+        }
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val action: String? = intent.action
+            when (action) {
+                BluetoothDevice.ACTION_FOUND -> {
+                    // Discovery has found a device. Get the BluetoothDevice
+                    // object and its info from the Intent.
+                    val device: BluetoothDevice? =
+                        intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                    val deviceName = device?.name
+                    val deviceHardwareAddress = device?.address // MAC address
+                    Log.d("1", "2")
+                    //if (deviceName != null and deviceHardwareAddress != null)
+                    list.add(ListData(id, deviceName, deviceHardwareAddress))
+                    deviceList.add(device)
+                    Log.d("address", deviceName.toString())
+                    Log.d("address", deviceHardwareAddress.toString())
+
+
+                    adapter.dataSet = list
+                    //RecyclerView.scrollToPosition(list.size - 1)
+                    recyclerView.adapter = adapter
+                    id += 1
+                }
             }
         }
     }
@@ -150,33 +252,16 @@ class bluetooth : AppCompatActivity() {
                     val mutableIterator = test.iterator()
                     for (item in mutableIterator)
                     {
-                        if(item>='0' && item <='9')
+                        if(item>='0' && item <='9' || item == '.')
                         {
                             a += item
                         }
                     }
-                    Log.d("data", a)
+                    var num = a.toDouble()
+                    Log.d("data", num.toString())
                     readMsg.sendToTarget()
                     for (i in 0..1023) {
                         mmBuffer.set(i, 0)
-
-                    }
-
-                    var test = String(readMsg.obj as ByteArray, charset("UTF-8"))
-                    test = test.replace("[^0-9 ]", "").toLowerCase()
-                    Log.d("testText", test)
-
-                    var testDouble: Double? = test.toDouble();
-                    if (testDouble == null) { // 입력값이 Double형이 맞는지 확인
-                        println("Please write Double!");
-                        Log.d("testDouble","null"+testDouble.toString());
-
-                    } else {
-
-                        //      val intent = Intent(this, AlarmRecord::class.java)
-                        //     intent.putExtra("goalValue", value);
-                        //     intent.putExtra("push", pushOption);
-                        Log.d("testDouble", testDouble.toString());
 
                     }
                 }
@@ -217,6 +302,7 @@ class bluetooth : AppCompatActivity() {
         }
     }
 
+    var bt_service: Thread? = null
     private inner class ConnectThread(
         device: BluetoothDevice?,
         bluetoothAdapter: BluetoothAdapter?
@@ -229,19 +315,13 @@ class bluetooth : AppCompatActivity() {
         }
 
         public override fun run() {
-            // Cancel discovery because it otherwise slows down the connection.
             bluetoothAdapter?.cancelDiscovery()
 
             mmSocket?.let { socket ->
-                // Connect to the remote device through the socket. This call blocks
-                // until it succeeds or throws an exception.
                 socket.connect()
 
-                // The connection attempt succeeded. Perform work associated with
-                // the connection in a separate thread.
                 manageMyConnectedSocket(socket)
 
-                //MyBluetoothService(Handler())
             }
         }
 
@@ -256,8 +336,8 @@ class bluetooth : AppCompatActivity() {
 
         private fun manageMyConnectedSocket(socket: BluetoothSocket) {
 
-            var test = MyBluetoothService(handler).ConnectedThread(socket)
-            test.start()
+            bt_service = MyBluetoothService(handler).ConnectedThread(socket)
+            (bt_service as MyBluetoothService.ConnectedThread).start()
         }
     }
 
@@ -266,225 +346,16 @@ class bluetooth : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             Log.d("do", "do")
             when (msg.what) {
-                MESSAGE_WRITE -> {
-                    val readBuff = msg.obj as ByteArray
-                    msg.obj = null
-                    val tempMsg = String(readBuff, 0, msg.arg1, charset("UTF-8"))
-                    Log.d("arduino message", tempMsg)
-
-                }
-            }
-
-        }
-    }
-
-    private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    private var list: MutableList<ListData> = mutableListOf()
-    private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
-    private var id: Int = 1
-    var adapter = CustomAdapter() { list -> // 리스너 클릭 함수
-        Log.d(list.name, list.address.toString())
-        Log.d("device", deviceList.toString())
-        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Get the default adapter
-        //var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-        if (bluetoothAdapter == null) {
-            Log.d("bluetoothAdapter", "not Support")
-        }
-
-        val REQUEST_ENABLE_BT = 100
-
-        if (bluetoothAdapter?.isEnabled == false) {
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-        }
-
-        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-        pairedDevices?.forEach { device ->
-            val deviceName = device.name
-            val deviceHardwareAddress = device.address // MAC address
-            list.add(ListData(id, deviceName, deviceHardwareAddress))
-            deviceList.add(device)
-            adapter.dataSet = list
-            //RecyclerView.scrollToPosition(list.size - 1)
-            recyclerView.adapter = adapter
-            id += 1
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bluetooth)
-
-        val discoverableIntent: Intent =
-            Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
-                putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
-            }
-        //startActivity(discoverableIntent)
-
-        //receiver.onReceive(this, discoverableIntent)
-        //var test = bluetoothAdapter.startDiscovery()
-        //Log.d("scan test", test.toString())
-        //Log.d("result?",receiver.resultCode.toString())
-
-        //Log.d("result", receiver.list.toString())
-
-//        if (deviceHardwareAddress.toString() == "00:20:12:08:91:90") {
-//            ConnectThread(device)
-//        }
-        //Log.d("device", BluetoothDevice.EXTRA_DEVICE)
-
-
-        //var tread = ConnectThread(device, bluetoothAdapter)
-
-
-//        var tracker = SelectionTracker.Builder(
-//            "my-selection-id",
-//            recyclerView,
-//            StableIdKeyProvider(recyclerView),
-//            MyDetailsLookup(recyclerView),
-//            StorageStrategy.createLongStorage())
-//            .withOnItemActivatedListener(myItemActivatedListener)
-//            .build()
-
-
-        //뷰 바인딩
-        val binding = ActivityBluetoothBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
-        setContentView(binding.root) //화면 안의 버튼 사용 가능
-
-        binding.btnScan.setOnClickListener {
-            //startActivity(discoverableIntent)
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            receiver.onReceive(this, discoverableIntent)
-            bluetoothAdapter.startDiscovery()
-        }
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        registerReceiver(receiver, filter)
-
-    }
-
-
-//        private val deviceManager: CompanionDeviceManager by lazy {
-//            getSystemService(Context.COMPANION_DEVICE_SERVICE) as CompanionDeviceManager
-//        }
+//                MESSAGE_WRITE -> {
+//                    val readBuff = msg.obj as ByteArray
+//                    msg.obj = null
+//                    val tempMsg = String(readBuff, 0, msg.arg1, charset("UTF-8"))
+//                    Log.d("arduino message", tempMsg)
 //
-//        @RequiresApi(Build.VERSION_CODES.O)
-//        override fun onCreate(savedInstanceState: Bundle?) {
-//            super.onCreate(savedInstanceState)
-//            setContentView(R.layout.activity_main)
-//
-//            // To skip filters based on names and supported feature flags (UUIDs),
-//            // omit calls to setNamePattern() and addServiceUuid()
-//            // respectively, as shown in the following  Bluetooth example.
-//            val deviceFilter: BluetoothLeDeviceFilter = BluetoothLeDeviceFilter.Builder()
-////                .setNamePattern(Pattern.compile("My device"))
-////                .addServiceUuid(ParcelUuid(UUID(0x123abcL, -1L)), null)
-//                .build()
-//
-//            // The argument provided in setSingleDevice() determines whether a single
-//            // device name or a list of them appears.
-//            val pairingRequest: AssociationRequest = AssociationRequest.Builder()
-//                .addDeviceFilter(deviceFilter)
-//                .setSingleDevice(true)
-//                .build()
-//
-//            // When the app tries to pair with a Bluetooth device, show the
-//            // corresponding dialog box to the user.
-//            deviceManager.associate(pairingRequest,
-//                object : CompanionDeviceManager.Callback() {
-//
-//                    override fun onDeviceFound(chooserLauncher: IntentSender) {
-//                        startIntentSenderForResult(chooserLauncher,
-//                            SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0)
-//                    }
-//
-//                    override fun onFailure(error: CharSequence?) {
-//                        // Handle the failure.
-//                    }
-//                }, null)
-//        }
-//
-//        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//            when (requestCode) {
-//                SELECT_DEVICE_REQUEST_CODE -> when(resultCode) {
-//                    Activity.RESULT_OK -> {
-//                        // The user chose to pair the app with a Bluetooth device.
-//                        val deviceToPair: BluetoothDevice? =
-//                            data?.getParcelableExtra(CompanionDeviceManager.EXTRA_DEVICE)
-//                        deviceToPair?.let { device ->
-//                            device.createBond()
-//                            // Maintain continuous interaction with a paired device.
-//                        }
-//                    }
 //                }
-//                else -> super.onActivityResult(requestCode, resultCode, data)
-//            }
-//        }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-
-        // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(receiver)
-    }
-
-
-    // Create a BroadcastReceiver for ACTION_FOUND.
-    private val receiver = object : BroadcastReceiver() {
-        var id: Int = 1
-        var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
-        var list: MutableList<ListData> = mutableListOf()
-
-        var adapter = CustomAdapter() { list -> // 리스너 클릭 함수
-            Log.d(list.name, list.address.toString())
-            Log.d("device", deviceList.toString())
-            ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
-        }
-
-        override fun onReceive(context: Context, intent: Intent) {
-            val action: String? = intent.action
-            when (action) {
-                BluetoothDevice.ACTION_FOUND -> {
-                    // Discovery has found a device. Get the BluetoothDevice
-                    // object and its info from the Intent.
-                    val device: BluetoothDevice? =
-                        intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    val deviceName = device?.name
-                    val deviceHardwareAddress = device?.address // MAC address
-                    Log.d("1", "2")
-                    //if (deviceName != null and deviceHardwareAddress != null)
-                    list.add(ListData(id, deviceName, deviceHardwareAddress))
-                    deviceList.add(device)
-                    Log.d("address", deviceName.toString())
-                    Log.d("address", deviceHardwareAddress.toString())
-
-
-                    adapter.dataSet = list
-                    //RecyclerView.scrollToPosition(list.size - 1)
-                    recyclerView.adapter = adapter
-                    id += 1
-                }
             }
+
         }
     }
 
 }
-
-// Defines several constants used when transmitting messages between the
-// service and the UI.
-
-// ... (Add other message types here as needed.)
-
-
-// Establish connection to the proxy.
-//bluetoothAdapter?.getProfileProxy(context, profileListener, BluetoothProfile.HEADSET)
-
-// ... call functions on bluetoothHeadset
-
-// Close proxy connection after use.
-//bluetoothAdapter?.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothHeadset)
