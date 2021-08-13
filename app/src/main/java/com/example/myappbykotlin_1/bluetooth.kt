@@ -109,6 +109,12 @@ class bluetooth : AppCompatActivity() {
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         registerReceiver(receiver, filter)
 
+        binding.homeBtn.setOnClickListener {
+            val nextIntent = Intent(this, MainActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+
     }
 
 
@@ -375,13 +381,13 @@ class bluetooth : AppCompatActivity() {
                     {
                         mmBuffer.set(i,0)
                     }
-                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
+                    val intent = Intent(this@bluetooth, MessureModeActivity::class.java)
                         .apply{putExtra("getData", a)}
 
                     intent.putExtra("getData", a);
                     Log.d("sendData", "success")
                     msg.data = null
-                    startActivity(intent)
+               //     startActivity(intent)
                 }
             }
 

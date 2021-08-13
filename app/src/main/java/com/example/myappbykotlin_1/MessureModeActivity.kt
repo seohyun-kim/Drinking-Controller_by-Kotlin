@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.Toolbar
 import com.example.myappbykotlin_1.databinding.ActivityMessureModeBinding
 import androidx.annotation.RequiresApi
@@ -51,6 +52,18 @@ class MessureModeActivity : AppCompatActivity() {
         var adapter = MessureModeActivity.CustomAdapter()
         var listId: Int = 1
         MessureRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        var getData:Double = -999.9 //default
+        Log.d("getData", intent.toString())
+        if (intent.hasExtra("getData")) {
+            getData =intent.getStringExtra("getData")!!.toDouble()
+            Log.d("blblblgetData", "getData $getData")
+            Toast.makeText(this, "값이 잘 들어왔습니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+            Log.d("blblbla", "안들어음!!")
+        }
 
 
         binding.resetBtn.setOnClickListener { //알람모드 코드 참고
