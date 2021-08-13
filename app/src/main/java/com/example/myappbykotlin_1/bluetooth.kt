@@ -38,11 +38,9 @@ const val MESSAGE_READ: Int = 0
 const val MESSAGE_WRITE: Int = 1
 const val MESSAGE_TOAST: Int = 2
 private const val SELECT_DEVICE_REQUEST_CODE = 0
-var data1:Int=0
-val mmBuffer: ByteArray = ByteArray(1024)
+private var mmBuffer: ByteArray = ByteArray(1024)
 @RequiresApi(Build.VERSION_CODES.O)
 class bluetooth : AppCompatActivity() {
-
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     private var list: MutableList<ListData> = mutableListOf()
     private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
@@ -226,13 +224,15 @@ class bluetooth : AppCompatActivity() {
 
             private val mmInStream: InputStream = mmSocket.inputStream
             private val mmOutStream: OutputStream = mmSocket.outputStream
+        //    private var mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
 
-         // private val mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
             override fun run() {
                 var numBytes: Int // bytes returned from read()
 
                 // Keep listening to the InputStream until an exception occurs.
                 while (true) {
+                    Log.d("bluetoothThread", "do")
+                    Thread.sleep(1000)
                     // Read from the InputStream.
                     numBytes = try {
                         mmInStream.read(mmBuffer)
@@ -246,7 +246,10 @@ class bluetooth : AppCompatActivity() {
                         MESSAGE_READ, numBytes, -1,
                         mmBuffer
                     )
-
+//                    for (i in 0..1023) {
+//                        mmBuffer.set(i, 0)
+//
+//                    }
 //                    Log.d("readMsg", readMsg.toString())
 //                    Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
 //                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
@@ -263,7 +266,6 @@ class bluetooth : AppCompatActivity() {
 //                    var num = a.toDouble()
 //                    Log.d("data", num.toString())
                     readMsg.sendToTarget()
-
                 }
             }
 
@@ -299,8 +301,6 @@ class bluetooth : AppCompatActivity() {
                     Log.e(TAG, "Could not close the connect socket", e)
                 }
             }
-
-
         }
     }
 
@@ -357,8 +357,6 @@ class bluetooth : AppCompatActivity() {
 //
 //                }
                 MESSAGE_READ -> {
-                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
-
                     Log.d("readMsg", msg.toString())
                     Log.d("readMsg", String(msg.obj as ByteArray, charset("UTF-8")))
                     val test = String(msg.obj as ByteArray, charset("UTF-8"))
@@ -372,22 +370,22 @@ class bluetooth : AppCompatActivity() {
                             a += item
                         }
                     }
-                    Log.d("data", a)
 
-//                    var num = a.toDouble()
-//                    Log.d("data", num.toString())
-//
-//
-//                    intent.putExtra("getData", num);
-//                    Log.d("sendData", "success")
-//                    msg.data = null
+                    for(i in 0..1023)
+                    {
+                        mmBuffer.set(i,0)
+                    }
+                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
+                        .apply{putExtra("getData", a)}
+
+                    intent.putExtra("getData", a);
+                    Log.d("sendData", "success")
+                    msg.data = null
+                    startActivity(intent)
                 }
-
             }
 
         }
     }
 
 }
-
-
