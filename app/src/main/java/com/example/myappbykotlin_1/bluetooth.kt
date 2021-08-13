@@ -231,6 +231,8 @@ class bluetooth : AppCompatActivity() {
 
                 // Keep listening to the InputStream until an exception occurs.
                 while (true) {
+                    Log.d("bluetoothThread", "do")
+                    Thread.sleep(1000)
                     // Read from the InputStream.
                     numBytes = try {
                         mmInStream.read(mmBuffer)
@@ -355,8 +357,6 @@ class bluetooth : AppCompatActivity() {
 //
 //                }
                 MESSAGE_READ -> {
-                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
-
                     Log.d("readMsg", msg.toString())
                     Log.d("readMsg", String(msg.obj as ByteArray, charset("UTF-8")))
                     val test = String(msg.obj as ByteArray, charset("UTF-8"))
@@ -372,13 +372,13 @@ class bluetooth : AppCompatActivity() {
                     }
 
 
-                    var num = a.toDouble()
-                    Log.d("data", num.toString())
+                    val intent = Intent(this@bluetooth, AlarmRecord::class.java)
+                        .apply{putExtra("getData", a)}
 
-
-                    intent.putExtra("getData", num);
+                    intent.putExtra("getData", a);
                     Log.d("sendData", "success")
                     msg.data = null
+                    startActivity(intent)
                 }
             }
 

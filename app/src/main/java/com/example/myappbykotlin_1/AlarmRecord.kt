@@ -2,6 +2,8 @@ package com.example.myappbykotlin_1
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.bluetooth.BluetoothSocket
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -22,9 +24,13 @@ import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
 import java.time.LocalDateTime
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 import kotlinx.android.synthetic.main.activity_alarm_record.*
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -33,6 +39,9 @@ import kotlin.collections.ArrayList
 
 import java.time.format.DateTimeFormatter
 
+var getData: Double? = null
+//var getData: Double? = null
+//var my_intent = Intent(this, bluetooth::class.java)
 class AlarmRecord : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -46,6 +55,7 @@ class AlarmRecord : AppCompatActivity() {
         setContentView(binding.root)
 
         var goalData:Double = 100.00 //default
+        Log.d("intent", intent.toString())
         if (intent.hasExtra("goalValue")) {
             goalData =intent.getStringExtra("goalValue")!!.toDouble()
             Log.d("goalData", "goalData $goalData")
@@ -61,6 +71,15 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("push", pushValue.toString())
         } else {
             Log.d("push", "푸시옵션 안 들어왔음!!")
+        }
+
+// 데이터 받아오는곳
+        if (intent.hasExtra("getData")) {
+            getData = intent.getStringExtra("getData")!!.toDouble()
+            Log.d("getData", "getData $getData")
+        } else {
+            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+            Log.d("getData", "getData 안 들어왔음!!")
         }
 
         var cumDataReceived :Float = 0F; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
@@ -102,6 +121,33 @@ class AlarmRecord : AppCompatActivity() {
 
         var priorTime = System.currentTimeMillis()
         var first:Boolean = true //처음인지
+
+
+//        var getResultText = registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) { result ->
+//            Log.d("result", result.toString())
+//            if (result.resultCode == RESULT_OK) {
+//                val get_data = result.data?.getStringExtra("getData")
+//                Log.d("getData", get_data.toString())
+//            }
+//
+//        }
+//        val my_intent = Intent(this, bluetooth::class.java)
+//
+//        getResultText.launch(my_intent)
+        //val my_intent = Intent(this@AlarmRecord, bluetooth::class.java)
+        //listenerThread(my_intent).start()
+
+
+//        while (true) {
+//            Log.d("intent", my_intent.hasExtra("getData").toString())
+//            if (my_intent.hasExtra("getData")) {
+//                getData = my_intent.getStringExtra("getData")!!.toDouble()
+//                Log.d("getData", "getData $getData")
+//                //binding.getData.text =intent.getStringExtra("goalValue") + "ml"
+//            }
+//        }
 
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
@@ -356,7 +402,30 @@ class AlarmRecord : AppCompatActivity() {
         }
     }
 
-
+//    class listenerThread(
+//        val my_intent: Intent
+//    ) : Thread() {
+//        override fun run() {
+//            // Keep listening to the InputStream until an exception occurs.
+//            while (true) {
+//                Thread.sleep(1000)
+//                Log.d("intent", my_intent.hasExtra("getData").toString())
+////                if (my_intent.hasExtra("getData")) {
+//                    getData = my_intent.getStringExtra("getData")
+//                    Log.d("getData", "getData $getData")
+////                    //binding.getData.text =intent.getStringExtra("goalValue") + "ml"
+////                }
+////                else {
+////                    //Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+////                    Log.d("getData", "goalData 안 들어왔음!!")
+////                }
+//
+//
+//                //readMsg.sendToTarget()
+//            }
+//        }
+//
+//   }
 
 
 
