@@ -40,9 +40,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-var getData: Double? = null
-//var getData: Double? = null
-//var my_intent = Intent(this, bluetooth::class.java)
+private var getData: Double? = null
 
 private const val SELECT_DEVICE_REQUEST_CODE = 0
 private var mmBuffer: ByteArray = ByteArray(1024)
@@ -155,15 +153,6 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("push", pushValue.toString())
         } else {
             Log.d("push", "푸시옵션 안 들어왔음!!")
-        }
-
-// 데이터 받아오는곳
-        if (intent.hasExtra("getData")) {
-            getData = intent.getStringExtra("getData")!!.toDouble()
-            Log.d("getData", "getData $getData")
-        } else {
-            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
-            Log.d("getData", "getData 안 들어왔음!!")
         }
 
 

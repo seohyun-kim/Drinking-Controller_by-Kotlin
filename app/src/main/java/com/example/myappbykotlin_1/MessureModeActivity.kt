@@ -1,6 +1,9 @@
 package com.example.myappbykotlin_1
 
 import android.app.Activity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
@@ -16,12 +19,11 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
+
 import com.example.myappbykotlin_1.databinding.ActivityMessureModeBinding
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myappbykotlin_1.R
 import kotlinx.android.synthetic.main.activity_alarm_record.*
@@ -46,7 +48,7 @@ private var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 �
 private var currentData = 0.0 // 현재 마신 양 (누적X)
 private var cnt = 0; //회차 확인용
 private var data: MutableList<LListData> = mutableListOf()
-//private var adapter = MessureModeActivity.CustomAdapter()
+private var adapter = MessureModeActivity.CCustomAdapter()
 private var listId: Int = 1
 
 data class LListData( var iid: Int,  var ttime: String, var ttitle: String) {}
@@ -110,15 +112,7 @@ class MessureModeActivity : AppCompatActivity() {
         val binding=ActivityMessureModeBinding.inflate(layoutInflater)
         setContentView(binding.root) //화면 안의 버튼 사용 가능
 
-//        var cumDataReceived :Double = 0.0; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
-//        var cupData :Double = cumDataReceived/50
-//        var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
-//        var currentData =0.0 // 현재 마신 양 (누적X)
-//        var cnt=0; //회차 확인용
-//
-//        var data:MutableList<MessureModeActivity.ListData> = mutableListOf()
-//        var adapter = MessureModeActivity.CustomAdapter()
-//        var listId: Int = 1
+
         MessureRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
@@ -159,7 +153,7 @@ class MessureModeActivity : AppCompatActivity() {
             var CumDataReceived_=cumDataReceived.toString()
             var CupData_=cupData.toString()
 
-            (bt_service as MessureModeActivity.MyBluetoothService.ConnectedThread).cancel()
+            (bt_service as MyBluetoothService.ConnectedThread).cancel()
             //값 초기화
             cumDataReceived= 0.0;
             cupData =0.0
@@ -181,49 +175,51 @@ class MessureModeActivity : AppCompatActivity() {
         return true
     }
 
-//    class CustomAdapter() :
-//        RecyclerView.Adapter<MessureModeActivity.CustomAdapter.ViewHolder>() {
-//        var dataSet = mutableListOf<MessureModeActivity.LListData>()
-//
-//        /**
-//         * Provide a reference to the type of views that you are using
-//         * (custom ViewHolder).
-//         */
-//        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//            val textView: TextView
-//
-//            init {
-//                // Define click listener for the ViewHolder's View.
-//                textView = view.findViewById(R.id.textView)
-//            }
-//
-//            fun setText(listData: MessureModeActivity.LListData) {
-//                textView.text = "[${listData.iid}회차] ${listData.ttime} : ${listData.ttitle}ml"
-//            }
-//
-//        }
-//
-//        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MessureModeActivity.CustomAdapter.ViewHolder {
-//            // Create a new view, which defines the UI of the list item
-//            val view = LayoutInflater.from(viewGroup.context)
-//                .inflate(R.layout.text_row_item, viewGroup, false)
-//
-//            return MessureModeActivity.CustomAdapter.ViewHolder(view)
-//            //return view
-//        }
-//
-//        // Replace the contents of a view (invoked by the layout manager)
-//        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-//
-//            // Get element from your dataset at this position and replace the
-//            // contents of the view with that element
-//            var data = dataSet.get(position)
-//            viewHolder.setText(data)
-//        }
-//
-//        // Return the size of your dataset (invoked by the layout manager)
-//        override fun getItemCount() = dataSet.size
-//    }
+    class CCustomAdapter() :
+        RecyclerView.Adapter<CCustomAdapter.ViewHolder>() {
+        var dataSet = mutableListOf<LListData>()
+
+        /**
+         * Provide a reference to the type of views that you are using
+         * (custom ViewHolder).
+         */
+        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val textView: TextView
+
+            init {
+                // Define click listener for the ViewHolder's View.
+                textView = view.findViewById(R.id.ttextView)
+            }
+
+            fun setText(listData: LListData) {
+                Log.d("blblblsetText", listData.toString())
+                textView.text = "[${listData.iid}회차] ${listData.ttime} : ${listData.ttitle}ml"
+            }
+
+        }
+
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view, which defines the UI of the list item
+            val view = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.item_recycler, viewGroup, false)
+
+            return ViewHolder(view)
+            //return view
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
+            // Get element from your dataset at this position and replace the
+            // contents of the view with that element
+            var data = dataSet[position]
+           // viewHolder.setText(data)
+            viewHolder.setText(data)
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        override fun getItemCount() = dataSet.size
+    }
 
 
 
@@ -387,11 +383,14 @@ class MessureModeActivity : AppCompatActivity() {
                     }
 
 
-                    //data.add(LListData(listId, nowTime, currentData.toString()))
+                    data.add(LListData(listId, nowTime, currentData.toString()))
+                    Log.d("blblbl--385:data",data.toString())
+                    adapter.dataSet = data
 
-                  //  adapter.dataSet = data
-                  //  RecyclerView.scrollToPosition(data.size - 1)
-                  //  RecyclerView.adapter = adapter
+                        MessureRecyclerView.scrollToPosition(data.size - 1)
+                        MessureRecyclerView.adapter = adapter
+
+
                     listId += 1
 
 
@@ -401,28 +400,6 @@ class MessureModeActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
 }
 
 
-
-
-///*3. 결과 확인 버튼(화면 전환) 구글링(위 방법3)
-//class MainActivity : AppCompatActivity() {
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//
-//        val secondIntent = Intent(this, SecondActivity::class.java) // 인텐트를 생성
-//
-//        btnMove.setOnClickListener { // 버튼 클릭시 할 행동
-//            startActivity(secondIntent)  // 화면 전환하기
-//        }
-//    }
-//} */
-//
