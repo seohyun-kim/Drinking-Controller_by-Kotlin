@@ -46,9 +46,13 @@ class bluetooth : AppCompatActivity() {
     private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
     private var id: Int = 1
     var adapter = CustomAdapter() { list -> // 리스너 클릭 함수
-        Log.d(list.name, list.address.toString())
-        Log.d("device", deviceList.toString())
-        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
+//        Log.d(list.name, list.address.toString())
+//        Log.d("device", deviceList.toString())
+//        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
+        Log.d("deviceList", deviceList[list.id - 1].toString())
+        intent.putExtra("btMacAddress", deviceList[list.id - 1])
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun onResume() {
@@ -252,25 +256,6 @@ class bluetooth : AppCompatActivity() {
                         MESSAGE_READ, numBytes, -1,
                         mmBuffer
                     )
-//                    for (i in 0..1023) {
-//                        mmBuffer.set(i, 0)
-//
-//                    }
-//                    Log.d("readMsg", readMsg.toString())
-//                    Log.d("readMsg", String(readMsg.obj as ByteArray, charset("UTF-8")))
-//                    val test = String(readMsg.obj as ByteArray, charset("UTF-8"))
-//                    var list_one = ArrayList<String>()
-//                    var a:String=""
-//                    val mutableIterator = test.iterator()
-//                    for (item in mutableIterator)
-//                    {
-//                        if(item>='0' && item <='9' || item == '.')
-//                        {
-//                            a += item
-//                        }
-//                    }
-//                    var num = a.toDouble()
-//                    Log.d("data", num.toString())
                     readMsg.sendToTarget()
                 }
             }
@@ -355,13 +340,6 @@ class bluetooth : AppCompatActivity() {
             Log.d("do", "do")
             Log.d("msg", msg.what.toString())
             when (msg.what) {
-//                MESSAGE_WRITE -> {
-//                    val readBuff = msg.obj as ByteArray
-//                    msg.obj = null
-//                    val tempMsg = String(readBuff, 0, msg.arg1, charset("UTF-8"))
-//                    Log.d("arduino message", tempMsg)
-//
-//                }
                 MESSAGE_READ -> {
                     Log.d("readMsg", msg.toString())
                     Log.d("readMsg", String(msg.obj as ByteArray, charset("UTF-8")))
@@ -381,16 +359,10 @@ class bluetooth : AppCompatActivity() {
                     {
                         mmBuffer.set(i,0)
                     }
-                    val intent = Intent(this@bluetooth, MessureModeActivity::class.java)
-                        .apply{putExtra("getData", a)}
 
                     intent.putExtra("getData", a);
-                    Log.d("sendData", "success")
-                    msg.data = null
-               //     startActivity(intent)
                 }
             }
-
         }
     }
 
