@@ -56,13 +56,13 @@ var currentData = 0.0 // 현재 마신 양 (누적X)
 var cnt = 0; //회차 확인용
 class AlarmRecord : AppCompatActivity() {
 
-
+    // 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.bt_option, menu)
         return true
     }
-
+    // 메뉴 리스너
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
@@ -74,7 +74,7 @@ class AlarmRecord : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
+    // 되돌아오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -95,14 +95,14 @@ class AlarmRecord : AppCompatActivity() {
     }
 
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    private var list: MutableList<bluetooth.ListData> = mutableListOf()
-    private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
-    private var id: Int = 1
-    var adapter = bluetooth.CustomAdapter() { list -> // 리스너 클릭 함수
-        Log.d(list.name, list.address.toString())
-        Log.d("device", deviceList.toString())
-        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
-    }
+//    private var list: MutableList<bluetooth.ListData> = mutableListOf()
+//    private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
+//    private var id: Int = 1
+//    var adapter = bluetooth.CustomAdapter() { list -> // 리스너 클릭 함수
+//        Log.d(list.name, list.address.toString())
+//        Log.d("device", deviceList.toString())
+//        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
+//    }
 
 //    override fun onResume() {
 //        super.onResume()
@@ -147,6 +147,11 @@ class AlarmRecord : AppCompatActivity() {
             goalData = intent.getStringExtra("goalValue")!!.toDouble()
             Log.d("goalData", "goalData $goalData")
             binding.goalText.text = intent.getStringExtra("goalValue") + "ml"
+
+            // 여기다가
+            // write()
+            (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
             Log.d("goalData", "goalData 안 들어왔음!!")
@@ -614,7 +619,10 @@ class AlarmRecord : AppCompatActivity() {
                     currentData = a.toDouble();
                     Log.d("blblbl", currentData.toString())
 
-                    //양으로
+                    runOnUiThread {
+
+                    }
+//                    양으로
 //                    if (cumDataReceived > goalData) {
 //                        binding.msgText.text = "목표량 초과! 멈춰!!!"
 //                        binding.msgText.setTextColor(Color.parseColor("#FF0000"))
