@@ -40,44 +40,42 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-import java.time.format.DateTimeFormatter
-
 var getData: Double? = null
 //var getData: Double? = null
 //var my_intent = Intent(this, bluetooth::class.java)
 
 private const val SELECT_DEVICE_REQUEST_CODE = 0
 private var mmBuffer: ByteArray = ByteArray(1024)
-var cumDataReceived: Double = 0.0; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
-var cupData: Double = 0.0
+private var cumDataReceived: Double = 0.0; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
+private var cupData: Double = 0.0
 
-var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
+private var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
 
 
-var currentData = 0.0 // 현재 마신 양 (누적X)
-var cnt = 0; //회차 확인용
-var goalData: Double = 100.00 //default
-var priorTime = System.currentTimeMillis()
-var first: Boolean = true //처음인지
+private var currentData = 0.0 // 현재 마신 양 (누적X)
+private var cnt = 0; //회차 확인용
+private var goalData: Double = 100.00 //default
+private var priorTime = System.currentTimeMillis()
+private var first: Boolean = true //처음인지
 
-var data: MutableList<ListData> = mutableListOf()
-var adapter = AlarmRecord.CustomAdapter()
-var listId: Int = 1
+private var data: MutableList<ListData> = mutableListOf()
+private var adapter = AlarmRecord.CustomAdapter()
+private var listId: Int = 1
 
-var pushValue: Boolean = false //default
+private var pushValue: Boolean = false //default
 // notification 설정
-var NOTIFICATION_ID = 500;
-var channelID = "Warning";
-var channelName = "Warning_";
-var channelDiscription = "Warning__"
+private var NOTIFICATION_ID = 500;
+private var channelID = "Warning";
+private var channelName = "Warning_";
+private var channelDiscription = "Warning__"
 
 // notification 설정 (속도경고)
-var NOTIFICATION_ID2 = 600;
-var channelID2 = "speed warning";
-var channelName2 = "speed warning_";
-var channelDiscription2 = "speed warning__"
+private var NOTIFICATION_ID2 = 600;
+private var channelID2 = "speed warning";
+private var channelName2 = "speed warning_";
+private var channelDiscription2 = "speed warning__"
 
-data class ListData(var id: Int, var time: String, var title: String) {}
+data class ListData(var id: Int, var time: String,  var title: String) {}
 
 
 
@@ -122,15 +120,7 @@ class AlarmRecord : AppCompatActivity() {
     }
 
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-//
-//    private var list: MutableList<bluetooth.ListData> = mutableListOf() /////////////////////////////==========원래 블루투스
-//    private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
-//    private var id: Int = 1
-//    var adapter = bluetooth.CustomAdapter() { list -> // 리스너 클릭 함수
-//        Log.d(list.name, list.address.toString())
-//        Log.d("device", deviceList.toString())
-//        ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
-//    }
+
 
 
 
@@ -178,96 +168,16 @@ class AlarmRecord : AppCompatActivity() {
 
 
 
-         var builder = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.mainpage_beer)
-            .setContentTitle("Stop!!! 그만 마시세요!")
-            .setContentText(cumDataReceived.toString())
-            .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-
-        var builder2 = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.mainpage_beer)
-            .setContentTitle("속도가 빨라요! 천천히 마시세요!")
-            .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-        createNotificationChannel(channelID, channelName, channelDiscription)
-        createNotificationChannel(channelID2, channelName2, channelDiscription2)
-
-
-// 변수 설정
-//        var data: MutableList<ListData> = mutableListOf()
-//        var adapter = CustomAdapter()
-//        var listId: Int = 1
         RecyclerView.layoutManager = LinearLayoutManager(this)
-
-
-
-
-//        var getResultText = registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            Log.d("result", result.toString())
-//            if (result.resultCode == RESULT_OK) {
-//                val get_data = result.data?.getStringExtra("getData")
-//                Log.d("getData", get_data.toString())
-//            }
-//
-//        }
-//        val my_intent = Intent(this, bluetooth::class.java)
-//
-//        getResultText.launch(my_intent)
-//        val my_intent = Intent(this@AlarmRecord, bluetooth::class.java)
-//        listenerThread(intent, handler).start()
-
-
-//        while (true) {
-//            Log.d("intent", my_intent.hasExtra("getData").toString())
-//            if (my_intent.hasExtra("getData")) {
-//                getData = my_intent.getStringExtra("getData")!!.toDouble()
-//                Log.d("getData", "getData $getData")
-//                //binding.getData.text =intent.getStringExtra("goalValue") + "ml"
-//            }
-//        }
 
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
-
         binding.updateBtn.setOnClickListener {
 
 
 
-            // notify
-            var builder = NotificationCompat.Builder(this, channelID)
-                .setSmallIcon(R.drawable.mainpage_beer)
-                .setContentTitle("Stop!!! 그만 마시세요!")
-                .setContentText(cumDataReceived.toString())
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-            var overNotify: Boolean = false
-
-            if (pushValue == true && cumDataReceived > goalData - 50) {
-                with(NotificationManagerCompat.from(this)) {
-                    notify(NOTIFICATION_ID, builder.build());
-                }
-                overNotify = true;
-            }
-
-            var builder2 = NotificationCompat.Builder(this, channelID)
-                .setSmallIcon(R.drawable.mainpage_beer)
-                .setContentTitle("속도가 빨라요! 천천히 마시세요!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-
-//            if (pushValue == true && first == false && diffTime < 180 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
-//                with(NotificationManagerCompat.from(this)) {
-//                    notify(NOTIFICATION_ID2, builder2.build());
-//                }
-//
-//            }
-
-
-
-            first = false
         }
 
 
@@ -308,6 +218,15 @@ class AlarmRecord : AppCompatActivity() {
             //토스트
             var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)
             t1.show()
+
+
+            (bt_service as MyBluetoothService.ConnectedThread).cancel()
+            //값 초기화
+            cumDataReceived= 0.0;
+            cupData =0.0
+            currentData = 0.0 // 현재 마신 양 (누적X)
+            recordList.clear()
+
 
             //홈화면으로 이동
             val homeIntent = Intent(this, MainActivity::class.java)
@@ -374,7 +293,7 @@ class AlarmRecord : AppCompatActivity() {
 
 
     //Notify
-    public fun createNotificationChannel(
+    private fun createNotificationChannel(
         channelID: String,
         channelName: String,
         channelDiscription: String
@@ -609,12 +528,19 @@ class AlarmRecord : AppCompatActivity() {
 
                     createNotificationChannel(channelID, channelName, channelDiscription)
                     createNotificationChannel(channelID2, channelName2, channelDiscription2)
+
                     var overNotify: Boolean = false
                     if (pushValue == true && cumDataReceived > goalData - 50) {
                         with(NotificationManagerCompat.from(this@AlarmRecord)) {
                             notify(NOTIFICATION_ID, builder.build());
                         }
                         overNotify = true;
+                    }
+
+                    if (pushValue == true && first == false && diffTime < 10 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
+                        with(NotificationManagerCompat.from(this@AlarmRecord)) {
+                            notify(NOTIFICATION_ID2, builder2.build());
+                        }
                     }
 
                     data.add(ListData(listId, nowTime, currentData.toString()))
