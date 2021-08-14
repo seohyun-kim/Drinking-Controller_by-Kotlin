@@ -120,22 +120,30 @@ class MessureModeActivity : AppCompatActivity() {
         //뷰 바인딩
 
         binding.resultBtn.setOnClickListener{
-            var CumDataReceived_=cumDataReceived.toString()
-            var CupData_=cupData.toString()
 
-            (bt_service as MyBluetoothService.ConnectedThread).cancel()
-            //값 초기화
-            cumDataReceived= 0.0;
-            cupData =0.0
-            currentData = 0.0 // 현재 마신 양 (누적X)
-            recordList.clear()
+            if(bt_service !=null) //연결안됐는데 결과보기 누르는경우
+            {
+                var CumDataReceived_=cumDataReceived.toString()
+                var CupData_=cupData.toString()
 
-            val intent = Intent(this, MessureRecord::class.java)
-            intent.putExtra("MessureValue",CumDataReceived_);
-            intent.putExtra("MessureCupValue",CupData_);
-            startActivity(intent);
-            Log.d("Btn", "result Btn is clicked! method = Log.d")
-        } //binding 변수로 뷰에서 만든 버튼에 접근 가능
+                (bt_service as MyBluetoothService.ConnectedThread).cancel()
+                //값 초기화
+                cumDataReceived= 0.0;
+                cupData =0.0
+                currentData = 0.0 // 현재 마신 양 (누적X)
+                recordList.clear()
+
+                val intent = Intent(this, MessureRecord::class.java)
+                intent.putExtra("MessureValue",CumDataReceived_);
+                intent.putExtra("MessureCupValue",CupData_);
+                startActivity(intent);
+                Log.d("Btn", "result Btn is clicked! method = Log.d")
+            }
+            else{
+                Toast.makeText(this, "기기와 연결해 주세요.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
 

@@ -172,10 +172,10 @@ class AlarmRecord : AppCompatActivity() {
             //아두이노로 goal전송
             if(bt_service != null){
                 (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
-                Toast.makeText(this, "아두이노로 목표값이 전송되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "기기로 목표값이 전송되었습니다.", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(this, "먼저 아두이노와 연결해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "먼저 기기와 연결해주세요.", Toast.LENGTH_SHORT).show()
             }
 
         }

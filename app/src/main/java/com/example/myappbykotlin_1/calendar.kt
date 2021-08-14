@@ -55,7 +55,7 @@ class calendar: AppCompatActivity() {
 
 
             checkedDay(year, month, dayOfMonth) // checkedDay 메소드 호출
-            
+
         }
 
 
