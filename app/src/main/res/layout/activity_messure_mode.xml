@@ -102,24 +102,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/ccumData" />
 
             <Button
-                android:id="@+id/resetBtn"
-                android:layout_width="115dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="184dp"
-                android:text="다시하기"
-                android:textColor="#020000"
-                android:textStyle="bold"
-                app:backgroundTint="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.136"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-            <Button
                 android:id="@+id/resultBtn"
                 android:layout_width="105dp"
                 android:layout_height="41dp"
-                android:layout_marginTop="184dp"
+                android:layout_marginTop="188dp"
                 android:background="#FFFFFF"
                 android:text="결과확인"
                 android:textColor="@color/black"
@@ -127,20 +113,9 @@
                 app:backgroundTint="#FDFDFD"
                 app:iconTint="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.891"
+                app:layout_constraintHorizontal_bias="0.509"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="57dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="76dp"
-                android:layout_marginLeft="76dp"
-                app:layout_constraintBottom_toTopOf="@+id/resetBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_baseline_refresh_24"
-                app:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -148,8 +123,7 @@
                 android:layout_height="36dp"
                 app:layout_constraintBottom_toTopOf="@+id/resultBtn"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.724"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_baseline_east_24"
                 app:tint="@color/black" />
 
@@ -162,19 +136,16 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="221dp"
                 android:layout_marginRight="221dp"
-                android:layout_marginBottom="103dp"
                 android:autoText="false"
                 android:gravity="left|fill_vertical"
                 android:text="측정기록"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/MessureRecyclerView"

@@ -156,18 +156,7 @@ class AlarmRecord : AppCompatActivity() {
         }
 
 
-
-
         RecyclerView.layoutManager = LinearLayoutManager(this)
-
-
-        //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
-        //버튼 클릭 시 데이터 새로 입력
-        binding.updateBtn.setOnClickListener {
-
-
-
-        }
 
 
 

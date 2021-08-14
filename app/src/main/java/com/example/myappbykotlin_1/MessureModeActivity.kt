@@ -116,37 +116,7 @@ class MessureModeActivity : AppCompatActivity() {
         MessureRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
-//
-//        binding.resetBtn.setOnClickListener { //알람모드 코드 참고
-//
-//            //DateTime
-//            val long_now = System.currentTimeMillis()
-//            // 현재 시간을 Date 타입으로 변환
-//            val t_date = Date(long_now)
-//            // 날짜, 시간을 가져오고 싶은 형태 선언
-//            val t_dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR"))
-//            // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
-//            val str_date = t_dateFormat.format(t_date)
-//
-//
-//            //test (버튼 클릭시마다 랜덤으로 추가되도록)
-//            val currentData = Random().nextInt(30) + 20 //랜덤으로 현재 마신 양 넣음
-//            cnt += 1
-//            recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
-//            Log.d("recordList", recordList.toString())
-//            cumDataReceived += currentData
-//            cupData = cumDataReceived / 50
-//
-//            binding.cumData.text = cumDataReceived.toString() + " ml "
-//            binding.cupText.text = " = " + cupData.toString() + " 잔"
-//
-//         //   data.add(MessureModeActivity.ListData(listId, str_date.toString(), currentData.toString()))
-//            adapter.dataSet = data
-//            MessureRecyclerView.scrollToPosition(data.size - 1)
-//            MessureRecyclerView.adapter = adapter
-//            listId += 1
-//
-//        }
+
         //뷰 바인딩
 
         binding.resultBtn.setOnClickListener{
