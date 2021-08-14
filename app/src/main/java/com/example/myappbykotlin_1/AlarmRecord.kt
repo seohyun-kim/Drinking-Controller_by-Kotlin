@@ -140,7 +140,7 @@ class AlarmRecord : AppCompatActivity() {
 
             // 여기다가
             // write()
-            //(bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+           // (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
 
         } else {
             Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
@@ -168,12 +168,17 @@ class AlarmRecord : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
 
+        binding.sendBtn.setOnClickListener {
+            //아두이노로 goal전송
 
+            (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+        }
         //////////
 
         //저장하기 버튼 클릭 시
         binding.saveBtn.setOnClickListener {
             //내부저장소 이용
+
 
             /////////// 날짜 test
             val now = LocalDate.now()
@@ -334,7 +339,7 @@ class AlarmRecord : AppCompatActivity() {
                 try {
                     mmOutStream.write(bytes)
                 } catch (e: IOException) {
-                    Log.e(ContentValues.TAG, "Error occurred when sending data", e)
+                    Log.e(TAG, "Error occurred when sending data", e)
 
                     // Send a failure message back to the activity.
                     val writeErrorMsg = handler.obtainMessage(MESSAGE_TOAST)
@@ -348,8 +353,7 @@ class AlarmRecord : AppCompatActivity() {
 
                 // Share the sent message with the UI activity.
                 val writtenMsg = handler.obtainMessage(
-                    MESSAGE_WRITE, -1, -1, mmBuffer
-                )
+                    MESSAGE_WRITE, -1, -1, mmBuffer)
                 writtenMsg.sendToTarget()
             }
 

@@ -45,11 +45,11 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainBtn", "Alarm Mode Btn is clicked! method = Log.d")
         } //binding 변수로 뷰에서 만든 버튼에 접근 가능
 
-        binding.btnBluetooth.setOnClickListener {
-            val nextIntent = Intent(this, bluetooth::class.java)
-            startActivity(nextIntent)
-            Log.d("MainBtn", "Bluetooth Mode Btn is clicked! method = Log.d")
-        }
+//        binding.btnBluetooth.setOnClickListener {
+//            val nextIntent = Intent(this, bluetooth::class.java)
+//            startActivity(nextIntent)
+//            Log.d("MainBtn", "Bluetooth Mode Btn is clicked! method = Log.d")
+//        }
 
         binding.calendarbtn.setOnClickListener{
             val nextIntent = Intent(this,calendar::class.java)
