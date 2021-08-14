@@ -46,14 +46,39 @@ var getData: Double? = null
 
 private const val SELECT_DEVICE_REQUEST_CODE = 0
 private var mmBuffer: ByteArray = ByteArray(1024)
-var cumDataReceived: Float = 0F; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
-var cupData: Float = cumDataReceived / 50
+var cumDataReceived: Double = 0.0; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
+var cupData: Double = 0.0
 
 var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
 
-val rand = Random()
+
 var currentData = 0.0 // 현재 마신 양 (누적X)
 var cnt = 0; //회차 확인용
+var goalData: Double = 100.00 //default
+var priorTime = System.currentTimeMillis()
+var first: Boolean = true //처음인지
+
+var data: MutableList<ListData> = mutableListOf()
+var adapter = AlarmRecord.CustomAdapter()
+var listId: Int = 1
+
+var pushValue: Boolean = false //default
+// notification 설정
+var NOTIFICATION_ID = 500;
+var channelID = "Warning";
+var channelName = "Warning_";
+var channelDiscription = "Warning__"
+
+// notification 설정 (속도경고)
+var NOTIFICATION_ID2 = 600;
+var channelID2 = "speed warning";
+var channelName2 = "speed warning_";
+var channelDiscription2 = "speed warning__"
+
+data class ListData(var id: Int, var time: String, var title: String) {}
+
+
+
 class AlarmRecord : AppCompatActivity() {
 
 
@@ -95,7 +120,7 @@ class AlarmRecord : AppCompatActivity() {
     }
 
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    private var list: MutableList<bluetooth.ListData> = mutableListOf()
+    private var list: MutableList<bluetooth.ListData> = mutableListOf() /////////////////////////////==========원래 블루투스
     private var deviceList: MutableList<BluetoothDevice?> = mutableListOf()
     private var id: Int = 1
     var adapter = bluetooth.CustomAdapter() { list -> // 리스너 클릭 함수
@@ -104,33 +129,6 @@ class AlarmRecord : AppCompatActivity() {
         ConnectThread(deviceList[list.id - 1], bluetoothAdapter).run()
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        // Get the default adapter
-//        //var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-//        if (bluetoothAdapter == null) {
-//            Log.d("bluetoothAdapter", "not Support")
-//        }
-//
-//        val REQUEST_ENABLE_BT = 100
-//
-//        if (bluetoothAdapter?.isEnabled == false) {
-//            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-//            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-//        }
-//
-//        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-//        pairedDevices?.forEach { device ->
-//            val deviceName = device.name
-//            val deviceHardwareAddress = device.address // MAC address
-//            list.add(bluetooth.ListData(id, deviceName, deviceHardwareAddress))
-//            deviceList.add(device)
-//            adapter.dataSet = list
-//            //RecyclerView.scrollToPosition(list.size - 1)
-//            recyclerView.adapter = adapter
-//            id += 1
-//        }
-//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,7 +139,7 @@ class AlarmRecord : AppCompatActivity() {
         val binding = ActivityAlarmRecordBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root)
 
-        var goalData: Double = 100.00 //default
+
         Log.d("intent", intent.toString())
         if (intent.hasExtra("goalValue")) {
             goalData = intent.getStringExtra("goalValue")!!.toDouble()
@@ -152,7 +150,7 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("goalData", "goalData 안 들어왔음!!")
         }
 
-        var pushValue: Boolean = false //default
+
         if (intent.hasExtra("push")) {
             pushValue = intent.getBooleanExtra("push", false)
             Log.d("push", pushValue.toString())
@@ -169,43 +167,31 @@ class AlarmRecord : AppCompatActivity() {
             Log.d("getData", "getData 안 들어왔음!!")
         }
 
-//        var cumDataReceived: Float = 0F; //블루투스 수신한 누적량 데이터 변수에 저장 (초기 0)
-//        var cupData: Float = cumDataReceived / 50
-//
-//        var recordList = ArrayList<String>();// 기록 값이 들어갈 동적 배열
-//
-//        val rand = Random()
-//        var currentData = 0 // 현재 마신 양 (누적X)
-//        var cnt = 0; //회차 확인용
 
-        //var btnClicked =false;//자세히 보기 버튼 클릭 여부
 
-        // notification 설정
-        var NOTIFICATION_ID = 500;
-        var channelID = "Warning";
-        var channelName = "Warning_";
-        var channelDiscription = "Warning__"
+         var builder = NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.drawable.mainpage_beer)
+            .setContentTitle("Stop!!! 그만 마시세요!")
+            .setContentText(cumDataReceived.toString())
+            .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-        // notification 설정 (속도경고)
-        var NOTIFICATION_ID2 = 600;
-        var channelID2 = "speed warning";
-        var channelName2 = "speed warning_";
-        var channelDiscription2 = "speed warning__"
 
+        var builder2 = NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.drawable.mainpage_beer)
+            .setContentTitle("속도가 빨라요! 천천히 마시세요!")
+            .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         createNotificationChannel(channelID, channelName, channelDiscription)
         createNotificationChannel(channelID2, channelName2, channelDiscription2)
 
 
 // 변수 설정
-        var data: MutableList<ListData> = mutableListOf()
-        var adapter = CustomAdapter()
-        var listId: Int = 1
+//        var data: MutableList<ListData> = mutableListOf()
+//        var adapter = CustomAdapter()
+//        var listId: Int = 1
         RecyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        var priorTime = System.currentTimeMillis()
-        var first: Boolean = true //처음인지
 
 
 //        var getResultText = registerForActivityResult(
@@ -237,87 +223,9 @@ class AlarmRecord : AppCompatActivity() {
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
+
         binding.updateBtn.setOnClickListener {
-            var curTime = System.currentTimeMillis() //시간 업데이트 (시간차 계산)
 
-            //DateTime
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val nowTime: String = LocalDateTime.now().format(formatter) //현재날짜시간
-
-/*
- /////날짜 가져오는 방법 변경
-            // 현재시간을 가져오기
-            val now: Long = System.currentTimeMillis()
-
-            // 현재 시간을 Date 타입으로 변환
-            val date = Date(now)
-
-            // 날짜, 시간을 가져오고 싶은 형태 선언
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR"))
-
-            // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
-            val stringTime = dateFormat.format(date)
-
-            // String 형태의 시간을 다시 Long 으로 변환
-            val longTime = dateFormat.parse(stringTime).time
-
-            Log.d("Time", stringTime)
-///////////
-*/
-
-
-            var diffTime = (curTime - priorTime) / 1000 //이전 시간과 초차이
-            Log.d("diffTime", diffTime.toString())
-
-
-            //양으로
-//            if (cumDataReceived > goalData) {
-//                binding.msgText.text = "목표량 초과! 멈춰!!!"
-//                binding.msgText.setTextColor(Color.parseColor("#FF0000"))
-//                binding.imageView5.setColorFilter(Color.parseColor("#FF0000"))
-//                binding.cumData.setTextColor(Color.parseColor("#FFFFFF"))
-//                binding.cupText.setTextColor(Color.parseColor("#FFFFFF"))
-//
-//            } else if (cumDataReceived > goalData - 50) {
-//                binding.msgText.text = "어? 어?! 그만 그만!!"
-//                binding.msgText.setTextColor(Color.parseColor("#FF1111"))
-//                binding.imageView5.setImageResource(R.drawable.circle_r)
-//            } else if (cumDataReceived > goalData - 130) {
-//                binding.msgText.text = "목표량에 다다르고 있어요!"
-//                binding.msgText.setTextColor(Color.parseColor("#FF7F00"))
-//                binding.imageView5.setImageResource(R.drawable.circle)
-//            } else if (cumDataReceived > goalData - 200) {
-//                binding.msgText.text = "아직까지는 괜찮아요."
-//                binding.msgText.setTextColor(Color.parseColor("#0067A3"))
-//                binding.imageView5.setImageResource(R.drawable.circle_b)
-//            } else {
-//                binding.msgText.text = "즐거운 술자리에요~"
-//                binding.msgText.setTextColor(Color.parseColor("#008000"))
-//
-//            }
-//
-//            //test (버튼 클릭시마다 랜덤으로 추가되도록)
-//            currentData = rand.nextInt(30) + 20 //랜덤으로 현재 마신 양 넣음 얘만 바꿔
-//            cnt += 1
-//            recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
-//            Log.d("recordList", recordList.toString())
-//            cumDataReceived += currentData
-//            cupData = cumDataReceived / 50
-//
-//            binding.cumData.text = cumDataReceived.toString() + " ml "
-//            binding.cupText.text = " = " + cupData.toString() + " 잔"
-
-// 값지정
-
-
-/////// 날짜 test
-            //data.add(ListData(listId, nowTime.toString(), currentData.toString()))
-            data.add(ListData(listId, nowTime, currentData.toString()))
-
-            adapter.dataSet = data
-            RecyclerView.scrollToPosition(data.size - 1)
-            RecyclerView.adapter = adapter
-            listId += 1
 
 
             // notify
@@ -341,17 +249,19 @@ class AlarmRecord : AppCompatActivity() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
 
-            if (pushValue == true && first == false && diffTime < 180 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
-                with(NotificationManagerCompat.from(this)) {
-                    notify(NOTIFICATION_ID2, builder2.build());
-                }
+//            if (pushValue == true && first == false && diffTime < 180 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
+//                with(NotificationManagerCompat.from(this)) {
+//                    notify(NOTIFICATION_ID2, builder2.build());
+//                }
+//
+//            }
 
-            }
 
 
-            priorTime = curTime;
             first = false
         }
+
+
 
         //actionbar
         val actionbar = supportActionBar
@@ -450,11 +360,12 @@ class AlarmRecord : AppCompatActivity() {
 
     }
 
-    data class ListData(var id: Int, var time: String, var title: String) {}
+//    data class ListData(var id: Int, var time: String, var title: String) {}
+
+
 
     //Notify
-
-    private fun createNotificationChannel(
+    public fun createNotificationChannel(
         channelID: String,
         channelName: String,
         channelDiscription: String
@@ -614,42 +525,68 @@ class AlarmRecord : AppCompatActivity() {
                     currentData = a.toDouble();
                     Log.d("blblbl", currentData.toString())
 
-                    //양으로
-//                    if (cumDataReceived > goalData) {
-//                        binding.msgText.text = "목표량 초과! 멈춰!!!"
-//                        binding.msgText.setTextColor(Color.parseColor("#FF0000"))
-//                        binding.imageView5.setColorFilter(Color.parseColor("#FF0000"))
-//                        binding.cumData.setTextColor(Color.parseColor("#FFFFFF"))
-//                        binding.cupText.setTextColor(Color.parseColor("#FFFFFF"))
-//
-//                    } else if (cumDataReceived > goalData - 50) {
-//                        binding.msgText.text = "어? 어?! 그만 그만!!"
-//                        binding.msgText.setTextColor(Color.parseColor("#FF1111"))
-//                        binding.imageView5.setImageResource(R.drawable.circle_r)
-//                    } else if (cumDataReceived > goalData - 130) {
-//                        binding.msgText.text = "목표량에 다다르고 있어요!"
-//                        binding.msgText.setTextColor(Color.parseColor("#FF7F00"))
-//                        binding.imageView5.setImageResource(R.drawable.circle)
-//                    } else if (cumDataReceived > goalData - 200) {
-//                        binding.msgText.text = "아직까지는 괜찮아요."
-//                        binding.msgText.setTextColor(Color.parseColor("#0067A3"))
-//                        binding.imageView5.setImageResource(R.drawable.circle_b)
-//                    } else {
-//                        binding.msgText.text = "즐거운 술자리에요~"
-//                        binding.msgText.setTextColor(Color.parseColor("#008000"))
-//
-//                    }
-//
-//                    //test (버튼 클릭시마다 랜덤으로 추가되도록)
-//                    currentData = rand.nextInt(30) + 20 //랜덤으로 현재 마신 양 넣음 얘만 바꿔
-//                    cnt += 1
-//                    recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
-//                    Log.d("recordList", recordList.toString())
-//                    cumDataReceived += currentData
-//                    cupData = cumDataReceived / 50
-//
-//                    binding.cumData.text = cumDataReceived.toString() + " ml "
-//                    binding.cupText.text = " = " + cupData.toString() + " 잔"
+                    val curTime = System.currentTimeMillis()// 현재시간을 가져오기 (시간차 계산)
+                    val date = Date(curTime) // 현재 시간을 Date 타입으로 변환
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR")) // 날짜, 시간을 가져오고 싶은 형태 선언
+                    val nowTime = dateFormat.format(date)   // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
+
+                    var diffTime = (curTime - priorTime) / 1000 //이전 시간과 초차이
+                    Log.d("diffTime", diffTime.toString())
+
+
+                        //양으로
+                        if (cumDataReceived > goalData) {
+                            runOnUiThread {
+                                msgText.text = "목표량 초과! 멈춰!!!"
+                                msgText.setTextColor(Color.parseColor("#FF0000"))
+                                imageView5.setColorFilter(Color.parseColor("#FF0000"))
+                                cumData.setTextColor(Color.parseColor("#FFFFFF"))
+                                cupText.setTextColor(Color.parseColor("#FFFFFF"))
+                            }
+
+
+                        } else if (cumDataReceived > goalData - 50) {
+                            runOnUiThread {
+                                msgText.text = "어? 어?! 그만 그만!!"
+                                msgText.setTextColor(Color.parseColor("#FF1111"))
+                                imageView5.setImageResource(R.drawable.circle_r)
+
+                            }
+
+                        } else if (cumDataReceived > goalData - 130) {
+                            runOnUiThread {
+                                msgText.text = "목표량에 다다르고 있어요!"
+                                msgText.setTextColor(Color.parseColor("#FF7F00"))
+                                imageView5.setImageResource(R.drawable.circle)
+                            }
+                        } else if (cumDataReceived > goalData - 200) {
+                            runOnUiThread {
+                                msgText.text = "아직까지는 괜찮아요."
+                                msgText.setTextColor(Color.parseColor("#0067A3"))
+                                imageView5.setImageResource(R.drawable.circle_b)
+                            }
+                        } else {
+                            runOnUiThread {
+                                msgText.text = "즐거운 술자리에요~"
+                                msgText.setTextColor(Color.parseColor("#008000"))
+                            }
+                        }
+
+
+                    cnt += 1
+                    recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
+                    Log.d("recordList", recordList.toString())
+                    cumDataReceived += currentData
+                    cupData = cumDataReceived / 50
+
+                    runOnUiThread {
+                       cumData.text = cumDataReceived.toString() + " ml "
+                        cupText.text = " = " + cupData.toString() + " 잔"
+                    }
+
+
+                    priorTime = curTime;
+                    first = false
                 }
             }
         }
