@@ -12,16 +12,13 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.*
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.View
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlinx.android.synthetic.main.activity_calendar.*
 import android.widget.Toast
 import com.example.myappbykotlin_1.databinding.ActivityMessureRecordBinding
-
-
-
-
 
 
 class calendar: AppCompatActivity() {
@@ -41,6 +38,7 @@ class calendar: AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         val binding = ActivityCalendarBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
+
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
 // 달력 날짜가 선택되면
           //  home_Btn.visibility=View.INVISIBLE
@@ -57,103 +55,17 @@ class calendar: AppCompatActivity() {
 
 
             checkedDay(year, month, dayOfMonth) // checkedDay 메소드 호출
-
-
+            
         }
+
+
         binding.homeBtn.setOnClickListener{
             val nextIntent = Intent(this,MainActivity::class.java)
             startActivity(nextIntent)
             Log.d("Btn", "Messure Record Btn is clicked! method = Log.d")
         } //binding 변수로 뷰에서 만든 버튼에 접근 가능
 
-//        save_Btn.setOnClickListener { // 저장 Button이 클릭되면
-//            saveDiary(fname) // saveDiary 메소드 호출
-//            //toast(fname + "데이터를 저장했습니다.") // 토스트 메세지
-//            str = contextEditText.getText().toString() // str 변수에 edittext내용을 toString
-////형으로 저장
-//            textView2.text = "${str}" // textView에 str 출력
-//            save_Btn.visibility = View.INVISIBLE
-//            cha_Btn.visibility = View.VISIBLE
-//            del_Btn.visibility = View.VISIBLE
-//            contextEditText.visibility = View.INVISIBLE
-//            textView2.visibility = View.VISIBLE
-//        }
 
-
-
-            // save_Btn.visibility = View.INVISIBLE
-            // cha_Btn.visibility = View.VISIBLE
-            // del_Btn.visibility = View.VISIBLE
-
-            // home_Btn.setOnClickListener { //홈 버튼 누를 시
-            //  contextEditText.visibility = View.VISIBLE
-            // textView2.visibility = View.INVISIBLE
-            //  contextEditText.setText(str) // editText에 textView에 저장된
-// 내용을 출력
-            //save_Btn.visibility = View.VISIBLE
-            // cha_Btn.visibility = View.INVISIBLE
-            // del_Btn.visibility = View.INVISIBLE
-            //  textView2.text = "${contextEditText.getText()}"
-       // }
-
-
-//            del_Btn.setOnClickListener {
-//                textView2.visibility = View.INVISIBLE
-//                contextEditText.setText("")
-//                contextEditText.visibility = View.VISIBLE
-//                save_Btn.visibility = View.VISIBLE
-//                cha_Btn.visibility = View.INVISIBLE
-//                del_Btn.visibility = View.INVISIBLE
-//                removeDiary(fname)
-//              //  toast(fname + "데이터를 삭제했습니다.")
-//            }
-//
-//            if(textView2.getText() == ""){
-//                textView2.visibility = View.INVISIBLE
-//                diaryTextView.visibility = View.VISIBLE
-//                save_Btn.visibility = View.VISIBLE
-//                cha_Btn.visibility = View.INVISIBLE
-//                del_Btn.visibility = View.INVISIBLE
-//                contextEditText.visibility = View.VISIBLE
-//            }
-//
-////        } catch (e: Exception) {
-////            e.printStackTrace()
-////        }
-//    }
-
-        //
-//    @SuppressLint("WrongConstant")
-//    fun saveDiary(readyDay: String) {
-//        var fos: FileOutputStream? = null
-//
-//        try {
-//            fos = openFileOutput(readyDay, MODE_NO_LOCALIZED_COLLATORS)
-//            var content: String = contextEditText.getText().toString()
-//            fos.write(content.toByteArray())
-//            fos.close()
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
-//
-//    @SuppressLint("WrongConstant")
-//    fun removeDiary(readyDay: String) {
-//        var fos: FileOutputStream? = null
-//
-//        try {
-//            fos = openFileOutput(readyDay, MODE_NO_LOCALIZED_COLLATORS)
-//            var content: String = ""
-//            fos.write(content.toByteArray())
-//            fos.close()
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -164,6 +76,20 @@ class calendar: AppCompatActivity() {
         val editor = sharedPreference.edit();
         val cMonth = String.format("%02d", cMonth + 1);
         val cDay = String.format("%02d", cDay);
+
+        //전체데이터 평균계산
+        val allEntries: Map<String, *> = sharedPreference.getAll()
+        var sum:Double =0.0;
+        var cnt:Int =0;
+        for ((key, value) in allEntries) {
+            //val value_:Double =value.toString().toDouble()
+            sum = sum +value.toString().toDouble()
+            Log.d("blblbl entire values", key + ": " + value.toString())
+            cnt++
+        }
+        val average = sum/cnt //전체데이터평균
+        Log.d(" blblblaverage", average.toString());
+
 
         fname = "" + cYear + "-" + (cMonth) + "-" + cDay
         Log.d(" data", "value:" + fname);
@@ -188,9 +114,18 @@ class calendar: AppCompatActivity() {
         if(value == "데이터 없음")
         {
             textView2.text = "${value}"
+            textView2.setTextColor(Color.parseColor("#000000"))
         }
         else {
             textView2.text = "${value + " ml"}" // textView에 str 출력
+
+            if(value.toString().toDouble() > average) //평균보다 크면 빨간색
+            {
+               textView2.setTextColor(Color.parseColor("#FF0000"))
+            }
+            else{
+                textView2.setTextColor(Color.parseColor("#000000"))
+            }
             Log.d("shPrtext",value.toString())
         }
     }
