@@ -78,7 +78,6 @@ var channelDiscription2 = "speed warning__"
 data class ListData(var id: Int, var time: String, var title: String) {}
 
 
-
 class AlarmRecord : AppCompatActivity() {
 
 
@@ -223,43 +222,6 @@ class AlarmRecord : AppCompatActivity() {
 
         //임시 버튼 (나중엔 블루투스 값 들어올때마다 자동으로 새로고침 되도록)
         //버튼 클릭 시 데이터 새로 입력
-
-        binding.updateBtn.setOnClickListener {
-
-
-
-            // notify
-            var builder = NotificationCompat.Builder(this, channelID)
-                .setSmallIcon(R.drawable.mainpage_beer)
-                .setContentTitle("Stop!!! 그만 마시세요!")
-                .setContentText(cumDataReceived.toString())
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-            var overNotify: Boolean = false
-
-            if (pushValue == true && cumDataReceived > goalData - 50) {
-                with(NotificationManagerCompat.from(this)) {
-                    notify(NOTIFICATION_ID, builder.build());
-                }
-                overNotify = true;
-            }
-
-            var builder2 = NotificationCompat.Builder(this, channelID)
-                .setSmallIcon(R.drawable.mainpage_beer)
-                .setContentTitle("속도가 빨라요! 천천히 마시세요!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-
-//            if (pushValue == true && first == false && diffTime < 180 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
-//                with(NotificationManagerCompat.from(this)) {
-//                    notify(NOTIFICATION_ID2, builder2.build());
-//                }
-//
-//            }
-
-
-
-            first = false
-        }
 
 
 
@@ -583,6 +545,35 @@ class AlarmRecord : AppCompatActivity() {
                        cumData.text = cumDataReceived.toString() + " ml "
                         cupText.text = " = " + cupData.toString() + " 잔"
                     }
+
+                    // notify
+                    var builder = NotificationCompat.Builder(this@AlarmRecord, channelID)
+                        .setSmallIcon(R.drawable.mainpage_beer)
+                        .setContentTitle("Stop!!! 그만 마시세요!")
+                        .setContentText(cumDataReceived.toString())
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
+                    var overNotify: Boolean = false
+
+                    if (pushValue == true && cumDataReceived > goalData - 50) {
+                        with(NotificationManagerCompat.from(this@AlarmRecord)) {
+                            notify(NOTIFICATION_ID, builder.build());
+                        }
+                        overNotify = true;
+                    }
+
+                    var builder2 = NotificationCompat.Builder(this@AlarmRecord, channelID)
+                        .setSmallIcon(R.drawable.mainpage_beer)
+                        .setContentTitle("속도가 빨라요! 천천히 마시세요!")
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+
+                    if (pushValue == true && first == false && diffTime < 180 && overNotify == false) { //3분 이내에 다시마시면 (test10초)
+                        with(NotificationManagerCompat.from(this@AlarmRecord)) {
+                            notify(NOTIFICATION_ID2, builder2.build());
+                        }
+
+                    }
+
 
 
                     priorTime = curTime;
