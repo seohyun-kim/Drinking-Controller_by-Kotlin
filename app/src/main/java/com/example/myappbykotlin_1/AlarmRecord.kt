@@ -100,7 +100,7 @@ class AlarmRecord : AppCompatActivity() {
     // 되돌아오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             when (requestCode) {
                 100 -> {
                     //val address = data!!.getStringExtra("btMacAddress").toString()
@@ -186,7 +186,8 @@ class AlarmRecord : AppCompatActivity() {
 
 
             /////////// 날짜 test
-            val now = LocalDate.now()
+            val curTime = System.currentTimeMillis()
+            val now = Date(curTime)
             val sharedPreference = getSharedPreferences("test", 0);
             val editor = sharedPreference.edit();
             //데이터 넣음(key=> 날짜, value==>오늘 마신량)
@@ -207,13 +208,16 @@ class AlarmRecord : AppCompatActivity() {
             var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)
             t1.show()
 
-
             (bt_service as MyBluetoothService.ConnectedThread).cancel()
             //값 초기화
             cumDataReceived= 0.0;
             cupData =0.0
             currentData = 0.0 // 현재 마신 양 (누적X)
             recordList.clear()
+            data.clear()
+            adapter.dataSet = data
+            RecyclerView.adapter = adapter
+            listId = 1
 
 
             //홈화면으로 이동
@@ -297,7 +301,7 @@ class AlarmRecord : AppCompatActivity() {
             }
             // Register the channel with the system
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -321,7 +325,7 @@ class AlarmRecord : AppCompatActivity() {
                 // Keep listening to the InputStream until an exception occurs.
                 while (true) {
                     Log.d("bluetoothThread", "do")
-                    Thread.sleep(1000)
+                    sleep(1000)
                     // Read from the InputStream.
                     numBytes = try {
                         mmInStream.read(mmBuffer)
@@ -409,6 +413,7 @@ class AlarmRecord : AppCompatActivity() {
 
             bt_service = MyBluetoothService(handler).ConnectedThread(socket)
             (bt_service as MyBluetoothService.ConnectedThread).start()
+            (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
         }
     }
 

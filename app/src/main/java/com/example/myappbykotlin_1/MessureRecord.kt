@@ -27,7 +27,8 @@ class MessureRecord: AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
-        val now = LocalDate.now()
+        val curTime = System.currentTimeMillis()
+        val now = Date(curTime)
 
         // 현재시간을 가져오기
         val long_now = System.currentTimeMillis()

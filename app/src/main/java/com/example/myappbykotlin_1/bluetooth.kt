@@ -112,13 +112,6 @@ class bluetooth : AppCompatActivity() {
         }
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         registerReceiver(receiver, filter)
-
-        binding.homeBtn.setOnClickListener {
-            val nextIntent = Intent(this, MainActivity::class.java)
-            startActivity(nextIntent)
-        }
-
-
     }
 
 

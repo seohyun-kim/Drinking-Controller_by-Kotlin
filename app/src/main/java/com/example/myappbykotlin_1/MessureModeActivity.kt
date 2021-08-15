@@ -132,6 +132,10 @@ class MessureModeActivity : AppCompatActivity() {
                 cupData =0.0
                 currentData = 0.0 // 현재 마신 양 (누적X)
                 recordList.clear()
+                data.clear()
+                adapter.dataSet = data
+                MessureRecyclerView.adapter = adapter
+                listId = 1
 
                 val intent = Intent(this, MessureRecord::class.java)
                 intent.putExtra("MessureValue",CumDataReceived_);
