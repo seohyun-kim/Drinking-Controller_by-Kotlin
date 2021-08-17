@@ -310,6 +310,7 @@ class MessureModeActivity : AppCompatActivity() {
 
             bt_service = MyBluetoothService(handler).ConnectedThread(socket)
             (bt_service as MyBluetoothService.ConnectedThread).start()
+            (bt_service as MyBluetoothService.ConnectedThread).write("m".toByteArray())
         }
     }
 

@@ -413,6 +413,7 @@ class AlarmRecord : AppCompatActivity() {
 
             bt_service = MyBluetoothService(handler).ConnectedThread(socket)
             (bt_service as MyBluetoothService.ConnectedThread).start()
+            (bt_service as MyBluetoothService.ConnectedThread).write("a".toByteArray())
             (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
         }
     }
@@ -451,11 +452,15 @@ class AlarmRecord : AppCompatActivity() {
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR")) // 날짜, 시간을 가져오고 싶은 형태 선언
                     val nowTime = dateFormat.format(date)   // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
 
+
                     var diffTime = (curTime - priorTime) / 1000 //이전 시간과 초차이
                     Log.d("diffTime", diffTime.toString())
 
+                    cumDataReceived += currentData
+                    cupData = cumDataReceived / 50
 
-                        //양으로
+
+                    //양으로
                         if (cumDataReceived > goalData) {
                             runOnUiThread {
                                 msgText.text = "목표량 초과! 멈춰!!!"
@@ -497,8 +502,6 @@ class AlarmRecord : AppCompatActivity() {
                     cnt += 1
                     recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
                     Log.d("recordList", recordList.toString())
-                    cumDataReceived += currentData
-                    cupData = cumDataReceived / 50
 
                     runOnUiThread {
                        cumData.text = cumDataReceived.toString() + " ml "
