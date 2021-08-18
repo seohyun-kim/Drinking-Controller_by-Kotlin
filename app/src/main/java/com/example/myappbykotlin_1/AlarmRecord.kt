@@ -72,7 +72,7 @@ private var NOTIFICATION_ID2 = 600;
 private var channelID2 = "speed warning";
 private var channelName2 = "speed warning_";
 private var channelDiscription2 = "speed warning__"
-
+private var alarm_flag='1'
 data class ListData(var id: Int, var time: String,  var title: String) {}
 
 
@@ -186,6 +186,11 @@ class AlarmRecord : AppCompatActivity() {
 
 
             /////////// 날짜 test
+
+//            val curTime = System.currentTimeMillis()// 현재시간을 가져오기 (시간차 계산)
+//            val date = Date(curTime) // 현재 시간을 Date 타입으로 변환
+//            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR")) // 날짜, 시간을 가져오고 싶은 형태 선언
+//            val nowTime = dateFormat.format(date)   // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
             val curTime = System.currentTimeMillis()
             val now = Date(curTime)
             val sharedPreference = getSharedPreferences("test", 0);
@@ -413,7 +418,9 @@ class AlarmRecord : AppCompatActivity() {
 
             bt_service = MyBluetoothService(handler).ConnectedThread(socket)
             (bt_service as MyBluetoothService.ConnectedThread).start()
+            (bt_service as MyBluetoothService.ConnectedThread).write("a".toByteArray())
             (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+            Log.d("data", "write")
         }
     }
 
