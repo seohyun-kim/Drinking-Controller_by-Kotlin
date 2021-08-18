@@ -126,6 +126,7 @@ class MessureModeActivity : AppCompatActivity() {
                 var CumDataReceived_=cumDataReceived.toString()
                 var CupData_=cupData.toString()
 
+                (bt_service as MessureModeActivity.MyBluetoothService.ConnectedThread).write("n".toByteArray())
                 (bt_service as MyBluetoothService.ConnectedThread).cancel()
                 //값 초기화
                 cumDataReceived= 0.0;
@@ -136,6 +137,7 @@ class MessureModeActivity : AppCompatActivity() {
                 adapter.dataSet = data
                 MessureRecyclerView.adapter = adapter
                 listId = 1
+
 
                 val intent = Intent(this, MessureRecord::class.java)
                 intent.putExtra("MessureValue",CumDataReceived_);
@@ -310,6 +312,7 @@ class MessureModeActivity : AppCompatActivity() {
 
             bt_service = MyBluetoothService(handler).ConnectedThread(socket)
             (bt_service as MyBluetoothService.ConnectedThread).start()
+            (bt_service as MyBluetoothService.ConnectedThread).write("m".toByteArray())
         }
     }
 
