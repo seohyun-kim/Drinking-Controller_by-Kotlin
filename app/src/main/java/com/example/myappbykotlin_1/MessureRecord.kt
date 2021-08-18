@@ -27,8 +27,7 @@ class MessureRecord: AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
-        val curTime = System.currentTimeMillis()
-        val now = Date(curTime)
+
 
         // 현재시간을 가져오기
         val long_now = System.currentTimeMillis()
@@ -40,7 +39,7 @@ class MessureRecord: AppCompatActivity() {
         val str_date = t_dateFormat.format(t_date)
         println("현재 날짜 및 시간 : "+str_date)
         //확인용임. 잘 되면 삭제할거
-        println("현재 날짜"+now)
+      //  println("현재 날짜"+now)
         //뷰 바인딩
         val binding=ActivityMessureRecordBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root) //화면 안의 버튼 사용 가능
@@ -76,7 +75,7 @@ class MessureRecord: AppCompatActivity() {
             editor.putString("2021-07-27", 183F.toString());
             editor.putString("2021-07-28", 240F.toString());
             editor.putString("2021-07-29", 73F.toString());
-            editor.putString("$now", drinkcapacity.toString());
+            editor.putString("$str_date", drinkcapacity.toString());
             editor.apply();
             //없는 데이터 출력하면 "데이터 없음"이라고 뜸
             val value1 = sharedPreference.getString("2021-07-24", "데이터 없음");
