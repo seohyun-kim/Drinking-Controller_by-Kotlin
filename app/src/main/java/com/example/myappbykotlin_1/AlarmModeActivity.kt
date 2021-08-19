@@ -53,10 +53,10 @@ class AlarmModeActivity : AppCompatActivity() {
                 var t1 = Toast.makeText(this, "목표값을 입력해 주세요.", Toast.LENGTH_SHORT)
                 t1.show()
             } else {
-                val goalValue: Double? = value.toDoubleOrNull();
-                if (goalValue == null) { // 입력값이 Double형이 맞는지 확인
+                val goalValue: Int? = value.toIntOrNull();
+                if (goalValue == null) { // 입력값이 Int형이 맞는지 확인
                     println("Please write Double!");
-                    var t2 = Toast.makeText(this, "Double 형으로 입력해 주세요.", Toast.LENGTH_SHORT)
+                    var t2 = Toast.makeText(this, "자연수로 입력해 주세요.", Toast.LENGTH_SHORT)
                     t2.show()
                 } else { // 맞으면 AlarmRecord로 입력값을 보냄
                     val intent = Intent(this, AlarmRecord::class.java)

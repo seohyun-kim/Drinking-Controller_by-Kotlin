@@ -168,17 +168,17 @@ class AlarmRecord : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        binding.sendBtn.setOnClickListener {
-            //아두이노로 goal전송
-            if(bt_service != null){
-                (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
-                Toast.makeText(this, "기기로 목표값이 전송되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(this, "먼저 기기와 연결해주세요.", Toast.LENGTH_SHORT).show()
-            }
-
-        }
+//        binding.sendBtn.setOnClickListener {
+//            //아두이노로 goal전송
+//            if(bt_service != null){
+//                (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+//                Toast.makeText(this, "기기로 목표값이 전송되었습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                Toast.makeText(this, "먼저 기기와 연결해주세요.", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
 
         //저장하기 버튼 클릭 시
         binding.saveBtn.setOnClickListener {
@@ -207,7 +207,7 @@ class AlarmRecord : AppCompatActivity() {
             //토스트
             var t1 = Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT)
             t1.show()
-
+            (bt_service as MyBluetoothService.ConnectedThread).write("n".toByteArray())
             (bt_service as MyBluetoothService.ConnectedThread).cancel()
             //값 초기화
             cumDataReceived= 0.0;
@@ -218,6 +218,7 @@ class AlarmRecord : AppCompatActivity() {
             adapter.dataSet = data
             RecyclerView.adapter = adapter
             listId = 1
+
 
 
             //홈화면으로 이동
@@ -453,11 +454,15 @@ class AlarmRecord : AppCompatActivity() {
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale("ko", "KR")) // 날짜, 시간을 가져오고 싶은 형태 선언
                     val nowTime = dateFormat.format(date)   // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
 
+
                     var diffTime = (curTime - priorTime) / 1000 //이전 시간과 초차이
                     Log.d("diffTime", diffTime.toString())
 
+                    cumDataReceived += currentData
+                    cupData = cumDataReceived / 50
 
-                        //양으로
+
+                    //양으로
                         if (cumDataReceived > goalData) {
                             runOnUiThread {
                                 msgText.text = "목표량 초과! 멈춰!!!"
@@ -468,25 +473,27 @@ class AlarmRecord : AppCompatActivity() {
                             }
 
 
-                        } else if (cumDataReceived > goalData - 50) {
-                            runOnUiThread {
-                                msgText.text = "어? 어?! 그만 그만!!"
-                                msgText.setTextColor(Color.parseColor("#FF1111"))
-                                imageView5.setImageResource(R.drawable.circle_r)
+                      }
+                        //                        else if ((goalData-cumDataReceived)/ goalData > 0.9) {
+//                            runOnUiThread {
+//                                msgText.text = "어? 어?! 그만 그만!!"
+//                                msgText.setTextColor(Color.parseColor("#FF1111"))
+//                                imageView5.setImageResource(R.drawable.circle_r)
+//
+//                            }
 
-                            }
-
-                        } else if (cumDataReceived > goalData - 130) {
+//                        }
+                else if ((goalData-cumDataReceived)/ goalData > 0.6) {
                             runOnUiThread {
                                 msgText.text = "목표량에 다다르고 있어요!"
                                 msgText.setTextColor(Color.parseColor("#FF7F00"))
                                 imageView5.setImageResource(R.drawable.circle)
                             }
-                        } else if (cumDataReceived > goalData - 200) {
+                        } else if ((goalData-cumDataReceived)/ goalData > 0.3) {
                             runOnUiThread {
                                 msgText.text = "아직까지는 괜찮아요."
                                 msgText.setTextColor(Color.parseColor("#0067A3"))
-                                imageView5.setImageResource(R.drawable.circle_b)
+                                imageView5.setImageResource(R.drawable.circle_g)
                             }
                         } else {
                             runOnUiThread {
@@ -499,8 +506,6 @@ class AlarmRecord : AppCompatActivity() {
                     cnt += 1
                     recordList.add(cnt.toString() + "회차 : " + currentData.toString() + " ml \n")
                     Log.d("recordList", recordList.toString())
-                    cumDataReceived += currentData
-                    cupData = cumDataReceived / 50
 
                     runOnUiThread {
                        cumData.text = cumDataReceived.toString() + " ml "
