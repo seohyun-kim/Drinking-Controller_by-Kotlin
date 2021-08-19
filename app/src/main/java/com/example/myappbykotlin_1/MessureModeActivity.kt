@@ -126,10 +126,7 @@ class MessureModeActivity : AppCompatActivity() {
                 var CumDataReceived_=cumDataReceived.toString()
                 var CupData_=cupData.toString()
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 60a3a5d0a52f9b168b68915759c9121a6e51fa76
                 (bt_service as MessureModeActivity.MyBluetoothService.ConnectedThread).write("n".toByteArray())
                 (bt_service as MyBluetoothService.ConnectedThread).cancel()
                 //값 초기화
