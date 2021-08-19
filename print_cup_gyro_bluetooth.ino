@@ -267,21 +267,25 @@ void alrammode(){
   if(sumAlcohol >= limit && exceed == 1){
   // 술잔의 무게가 올라간 상태에서 목표치 이상이 되었을 경우 부저가 울린다.
   // 목표치를 초과한 이후에도 술을 따르게 되면 무게가 증가하므로 부저를 계속 울릴 수 있다.
+    warningNeo.setPixelColor(0, 200, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+    warningNeo.setPixelColor(1, 200, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+    warningNeo.setPixelColor(2, 200, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+    warningNeo.show();
       for(int i = 0; i < 5; i++){
-        //tone(piezo, 349); // 파
-        warningNeo.setPixelColor((i%3), 30, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
-        warningNeo.setPixelColor(((i+1)%3), 30, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
-        warningNeo.setPixelColor(((i+2)%3), 0, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
-        warningNeo.show();
+        tone(piezo, 349); // 파
+//        warningNeo.setPixelColor((i%3), 30, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+//        warningNeo.setPixelColor(((i+1)%3), 30, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+//        warningNeo.setPixelColor(((i+2)%3), 0, 0, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(빨강)
+//        warningNeo.show();
         delay(500);
-        //tone(piezo, 261); // 4옥타브 도
+        tone(piezo, 261); // 4옥타브 도
         digitalWrite(LED, LOW);
-        delay(500); 
+        delay(500);
       }
       noTone(piezo);
-      exceed = 0;
+      exceed =0;
   }
-  else if(sumAlcohol >= (limit*0.6)){   // 목표치의 60% 이상 주황색 LED
+  else if(sumAlcohol >= (limit*0.6) && sumAlcohol < (limit)){   // 목표치의 60% 이상 주황색 LED
     warningNeo.setPixelColor(0, 150, 30, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(주황)
     warningNeo.setPixelColor(1, 150, 30, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(주황)
     warningNeo.setPixelColor(2, 150, 30, 0);  // (A,R,G,B) A번째 LED를 RGB (0~255) 만큼의 밝기로 켭니다(주황)
@@ -313,7 +317,7 @@ int putInt(){       // 시리얼창에 입력한 숫자를 반환
       }
     }
   }
-  return inNum;  
+  return inNum;
 }
 
 void testscrolltext(int text1, int text2) {  // OLED에 누적과 현재의 무게를 출력
@@ -360,7 +364,7 @@ void initCup(){
     GyX = Wire.read() << 8 | Wire.read();
     GyY = Wire.read() << 8 | Wire.read();
     GyZ = Wire.read() << 8 | Wire.read();
-  
+
     angleAcY = atan(-AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2)));
     angleAcY *= RADIAN_TO_DEGREE;
     angleAcX = atan(AcY / sqrt(pow(AcX, 2) + pow(AcZ, 2)));
@@ -369,7 +373,7 @@ void initCup(){
     init_angleX += angleAcX;
     init_angleY += angleAcY;
 
-    init_weight += scale.get_units()*20;                                        
+    init_weight += scale.get_units()*20;
     delay(300);
   }
   init_angleX /= 5;
@@ -391,7 +395,7 @@ void getData() {      // 자이로 센서로 가속도 및 각속도 측정
   GyY = Wire.read() << 8 | Wire.read();
   GyZ = Wire.read() << 8 | Wire.read();
 
-  
+
   angleAcY = atan(-AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2)));
   angleAcY *= RADIAN_TO_DEGREE;
   angleAcY -= init_angleY;
