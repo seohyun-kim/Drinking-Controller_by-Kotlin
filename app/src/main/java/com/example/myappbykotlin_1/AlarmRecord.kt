@@ -187,12 +187,17 @@ class AlarmRecord : AppCompatActivity() {
 
             /////////// 날짜 test
             val curTime = System.currentTimeMillis()
-            val now = Date(curTime)
+
+            val t_dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale("ko", "KR"))
+            // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
+            val now = t_dateFormat.format(Date(curTime));
+
             val sharedPreference = getSharedPreferences("test", 0);
             val editor = sharedPreference.edit();
             //데이터 넣음(key=> 날짜, value==>오늘 마신량)
 
             editor.putString("$now", cumDataReceived.toString());
+            Log.d("qaqaqaqa", cumDataReceived.toString())
             editor.apply();
 
             //내부저장소 전체 출력
@@ -462,7 +467,7 @@ class AlarmRecord : AppCompatActivity() {
 
 
                     //양으로
-                        if (cumDataReceived > goalData) {
+                        if (cumDataReceived >= goalData) {
                             runOnUiThread {
                                 msgText.text = "목표량 초과! 멈춰!!!"
                                 msgText.setTextColor(Color.parseColor("#FF0000"))
@@ -470,34 +475,25 @@ class AlarmRecord : AppCompatActivity() {
                                 cumData.setTextColor(Color.parseColor("#FFFFFF"))
                                 cupText.setTextColor(Color.parseColor("#FFFFFF"))
                             }
+                         }
 
-
-                      }
-                        //                        else if ((goalData-cumDataReceived)/ goalData > 0.9) {
-//                            runOnUiThread {
-//                                msgText.text = "어? 어?! 그만 그만!!"
-//                                msgText.setTextColor(Color.parseColor("#FF1111"))
-//                                imageView5.setImageResource(R.drawable.circle_r)
-//
-//                            }
-
-//                        }
-                else if ((goalData-cumDataReceived)/ goalData > 0.6) {
+                         else if (cumDataReceived/ goalData >= 0.6) {
                             runOnUiThread {
                                 msgText.text = "목표량에 다다르고 있어요!"
                                 msgText.setTextColor(Color.parseColor("#FF7F00"))
-                                imageView5.setImageResource(R.drawable.circle)
+                                imageView5.setImageResource(R.drawable.circle_o)
                             }
-                        } else if ((goalData-cumDataReceived)/ goalData > 0.3) {
+                        } else if (cumDataReceived/ goalData >= 0.3) {
                             runOnUiThread {
                                 msgText.text = "아직까지는 괜찮아요."
                                 msgText.setTextColor(Color.parseColor("#0067A3"))
-                                imageView5.setImageResource(R.drawable.circle_g)
+                                imageView5.setImageResource(R.drawable.circle_b)
                             }
                         } else {
                             runOnUiThread {
                                 msgText.text = "즐거운 술자리에요~"
                                 msgText.setTextColor(Color.parseColor("#008000"))
+                                imageView5.setImageResource(R.drawable.circle_g)
                             }
                         }
 
@@ -528,7 +524,7 @@ class AlarmRecord : AppCompatActivity() {
                     createNotificationChannel(channelID2, channelName2, channelDiscription2)
 
                     var overNotify: Boolean = false
-                    if (pushValue == true && cumDataReceived > goalData - 50) {
+                    if (pushValue == true && cumDataReceived >= goalData) {
                         with(NotificationManagerCompat.from(this@AlarmRecord)) {
                             notify(NOTIFICATION_ID, builder.build());
                         }
