@@ -1,12 +1,10 @@
 package com.example.myappbykotlin_1
 
-import android.app.Activity
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.BroadcastReceiver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -120,8 +118,9 @@ class AlarmRecord : AppCompatActivity() {
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
 
-
-
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var pendingIntent: PendingIntent
+    val calendar: Calendar = Calendar.getInstance()
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,6 +129,53 @@ class AlarmRecord : AppCompatActivity() {
         //뷰 바인딩
         val binding = ActivityAlarmRecordBinding.inflate(layoutInflater) //뷰 바인딩 사용 준비
         setContentView(binding.root)
+
+
+        if (intent.hasExtra("goHome")) {
+            if (intent.getBooleanExtra("goHome", false)) {
+                val hour = intent.getIntExtra("hour", 0)
+                val min = intent.getIntExtra("min", 0)
+                Log.d("hour", hour.toString())
+                Log.d("min", min.toString())
+
+                calendar.apply {
+                    timeInMillis = System.currentTimeMillis()
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, min)
+                    set(Calendar.SECOND, 0)
+//                            if (before(Calendar.getInstance())) {
+//                                add(Calendar.DATE, 1)
+//                            }
+                }
+                Log.d("timezone", calendar.timeZone.toString())
+                Log.d("time", calendar.time.toString())
+
+                val alarmIntent:Intent = Intent(this, AlarmModeActivity::class.java).apply {
+                    Log.d("alarm", "alarm")
+                    action = "com.check.up.setAlarm"
+                }
+                alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+//                        if (Build.VERSION.SDK_INT >= 23) {
+//                            alarmMgr!!.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                        } else {
+//                            if (Build.VERSION.SDK_INT >= 19) {
+//                                alarmMgr!!.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                            } else {
+//                                alarmMgr!!.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                            }
+//                        }
+
+                alarmMgr!!.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    1000 * 10,
+                    pendingIntent
+                )
+            }
+        }
+
 
 
         Log.d("intent", intent.toString())
@@ -551,4 +597,54 @@ class AlarmRecord : AppCompatActivity() {
         }
     }
 
+
+    class AlarmReceiver : BroadcastReceiver() {
+
+        companion object {
+            const val TAG = "AlarmReceiver"
+            const val NOTIFICATION_ID = 0
+            const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
+        }
+
+        lateinit var notificationManager: NotificationManager
+
+        override fun onReceive(context: Context, intent: Intent) {
+            Log.d(TAG, "Received intent : $intent")
+            notificationManager = context.getSystemService(
+                Context.NOTIFICATION_SERVICE
+            ) as NotificationManager
+
+            deliverNotification(context)
+        }
+
+        private fun deliverNotification(context: Context) {
+            val contentIntent = Intent(context, AlarmRecord::class.java)
+            val contentPendingIntent = PendingIntent.getActivity(
+                context,
+                NOTIFICATION_ID,
+                contentIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            val builder =
+                NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+                    .setContentTitle("Alert")
+                    .setContentText("This is repeating alarm")
+                    .setContentIntent(contentPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+            Log.d("alarm", "notify")
+//            notificationManager.notify(NOTIFICATION_ID, builder.build())
+        }
+    }
+    class AlarmIntentService : IntentService(AlarmIntentService::class.java.name) {
+        override fun onHandleIntent(intent: Intent?) {
+            val context: Context = applicationContext
+            Log.d(TAG, "Received intent: $intent")
+        }
+
+        companion object {
+            const val TAG = "AlarmIntentService"
+        }
+    }
 }

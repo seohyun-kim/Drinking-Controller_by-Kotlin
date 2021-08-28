@@ -21,15 +21,15 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="320dp"
+        android:layout_height="618dp"
         android:background="@drawable/rectangle"
-        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintDimensionRatio="0.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintWidth_percent="0.8" />
 
     <TextView
         android:id="@+id/textView2"
@@ -94,46 +94,56 @@
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
 
-    <Switch
-        android:id="@+id/switchSound"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/rectangle"
-        android:text="   소리알림"
-        app:layout_constraintWidth_percent="0.7"
-        app:layout_constraintDimensionRatio="7.5"
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Switch
-        android:id="@+id/switchPush"
+        android:id="@+id/switchGoHome"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rectangle"
-        android:text="   푸시알림"
-        app:layout_constraintWidth_percent="0.7"
+        android:text="   귀가알람"
         app:layout_constraintDimensionRatio="7.5"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/switchSound" />
+        app:layout_constraintTop_toBottomOf="@+id/timePicker"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Switch
+        android:id="@+id/switchPush"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle"
+        android:text="   푸시알림"
+        app:layout_constraintDimensionRatio="7.5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/switchGoHome"
+        app:layout_constraintWidth_percent="0.7" />
 
     <Button
         android:id="@+id/btnInput"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="#FFE08C"
         android:text="입력"
         android:textColor="@color/black"
-        android:backgroundTint="#FFE08C"
-        app:layout_constraintWidth_percent="0.2"
-        app:layout_constraintDimensionRatio="1.6"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintDimensionRatio="1.6"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/switchPush"
-        app:layout_constraintVertical_bias="0.759" />
+        app:layout_constraintVertical_bias="0.571"
+        app:layout_constraintWidth_percent="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

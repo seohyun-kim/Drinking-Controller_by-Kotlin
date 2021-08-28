@@ -6,7 +6,6 @@
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/drawable/circle.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/drawable/circle_b.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/drawable/circle_g.xml" value="0.22239583333333332" />
-        <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/drawable/circle_o.xml" value="0.42083333333333334" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/drawable/circle_r.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_alarm_mode.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_alarm_record.xml" value="0.2604166666666667" />
@@ -14,7 +13,6 @@
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_calendar.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_messure_mode.xml" value="0.41458333333333336" />
-        <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_messure_record.xml" value="0.37681159420289856" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_scrolling.xml" value="0.20314083080040526" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_test_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/selen/AndroidStudioProjects/Drinking-Controller_by-Kotlin/app/src/main/res/layout/activity_test_main2.xml" value="0.31875" />
@@ -29,7 +27,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
