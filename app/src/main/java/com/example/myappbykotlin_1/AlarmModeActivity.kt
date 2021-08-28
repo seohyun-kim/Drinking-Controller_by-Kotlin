@@ -136,43 +136,43 @@ class AlarmModeActivity : AppCompatActivity() {
         pendingIntent?.cancel()
     }
 
-    class AlarmReceiver : BroadcastReceiver() {
-
-        companion object {
-            const val TAG = "AlarmReceiver"
-            const val NOTIFICATION_ID = 1001
-            const val PRIMARY_CHANNEL_ID = "channel name"
-        }
-
-        lateinit var notificationManager: NotificationManager
-
-        override fun onReceive(context: Context, intent: Intent) {
-            Log.d(TAG, "Received intent : $intent")
-            notificationManager = context.getSystemService(
-                Context.NOTIFICATION_SERVICE
-            ) as NotificationManager
-
-            deliverNotification(context)
-        }
-
-        private fun deliverNotification(context: Context) {
-            val contentIntent = Intent(context, AlarmModeActivity::class.java)
-            val contentPendingIntent = PendingIntent.getActivity(
-                context,
-                NOTIFICATION_ID,
-                contentIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            val builder =
-                NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
-                    .setContentTitle("Alert")
-                    .setContentText("This is repeating alarm")
-                    .setContentIntent(contentPendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-            Log.d("alarm", "notify")
-//            notificationManager.notify(NOTIFICATION_ID, builder.build())
-        }
-    }
+//    class AlarmReceiver : BroadcastReceiver() {
+//
+//        companion object {
+//            const val TAG = "AlarmReceiver"
+//            const val NOTIFICATION_ID = 1001
+//            const val PRIMARY_CHANNEL_ID = "channel name"
+//        }
+//
+//        lateinit var notificationManager: NotificationManager
+//
+//        override fun onReceive(context: Context, intent: Intent) {
+//            Log.d(TAG, "Received intent : $intent")
+//            notificationManager = context.getSystemService(
+//                Context.NOTIFICATION_SERVICE
+//            ) as NotificationManager
+//
+//            deliverNotification(context)
+//        }
+//
+//        private fun deliverNotification(context: Context) {
+//            val contentIntent = Intent(context, AlarmModeActivity::class.java)
+//            val contentPendingIntent = PendingIntent.getActivity(
+//                context,
+//                NOTIFICATION_ID,
+//                contentIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT
+//            )
+//            val builder =
+//                NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+//                    .setContentTitle("Alert")
+//                    .setContentText("This is repeating alarm")
+//                    .setContentIntent(contentPendingIntent)
+//                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                    .setAutoCancel(true)
+//                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+//            Log.d("alarm", "notify")
+////            notificationManager.notify(NOTIFICATION_ID, builder.build())
+//        }
+//    }
 }
