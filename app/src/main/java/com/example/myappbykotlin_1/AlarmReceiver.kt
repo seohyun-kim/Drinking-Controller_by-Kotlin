@@ -7,12 +7,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.Ringtone
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 
+import com.example.myappbykotlin_1.databinding.ActivityAlarmRecordBinding
+
+public var ringtone:Ringtone? =null
+
 class AlarmReceiver : BroadcastReceiver() {
+
 
     companion object {
         const val TAG = "AlarmReceiver"
@@ -50,13 +56,16 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
         notificationManager.notify(NOTIFICATION_ID, builder.build())
         val uriRingtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        val ringtone = RingtoneManager.getRingtone(context, uriRingtone)
-        ringtone.play()
+        ringtone = RingtoneManager.getRingtone(context, uriRingtone)
+        //ringtone.play()
+        ringtone?.run{
+            if(!isPlaying) play()
+            //else stop()
+        }
+
     }
 
-    override fun destory(
-        ringtone.stop()
-    )
+
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -289,7 +289,12 @@ class AlarmRecord : AppCompatActivity() {
         }
 
         binding.sendBtn.setOnClickListener {
+
             alarmMgr!!.cancel(alarmIntent)
+            ringtone?.run{
+                if(isPlaying) stop()
+            }
+            Log.d("blblbl","cancel")
         }
 
     }
