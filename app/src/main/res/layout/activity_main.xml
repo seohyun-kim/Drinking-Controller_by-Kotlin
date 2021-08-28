@@ -45,7 +45,7 @@
         android:id="@+id/MessureModeBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="130dp"
         android:layout_marginEnd="32dp"
         android:text="측정모드"
         android:textColor="#000000"
@@ -63,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="130dp"
         android:text="알림모드"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -110,22 +110,23 @@
         app:layout_constraintTop_toBottomOf="@+id/AlarmModeBtn"
         app:layout_constraintWidth_percent="0.5" />
 
-    <Button
-        android:id="@+id/calendarbtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="32dp"
-        android:text="음주 캘린더"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:backgroundTint="#FDDFAA"
-        app:layout_constraintDimensionRatio="2.5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleText"
-        app:layout_constraintWidth_percent="0.3" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/calendarbtn"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="196dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        android:text="음주 캘린더"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16sp"-->
+<!--        android:scaleType="centerInside"-->
+<!--        app:srcCompat="@drawable/cal"-->
+<!--        app:layout_constraintDimensionRatio="2.5"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.527"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/TitleText"-->
+<!--        app:layout_constraintWidth_percent="0.3" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

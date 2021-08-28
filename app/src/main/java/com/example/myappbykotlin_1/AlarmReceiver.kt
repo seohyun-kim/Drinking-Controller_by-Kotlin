@@ -48,8 +48,8 @@ class AlarmReceiver : BroadcastReceiver() {
         val builder =
             NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.clock)
-                .setContentTitle("Alert")
-                .setContentText("This is repeating alarm")
+                .setContentTitle("귀가 알람")
+                .setContentText("집에 갈 시간입니다!")
                 .setContentIntent(contentPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
