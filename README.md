@@ -1,4 +1,11 @@
-# Drinking-Controller_by-Kotlin
+# Drinking-Controller
+
+### 음주 습관 개선 및 절제 서비스  
+
+
+<img src="https://user-images.githubusercontent.com/61939286/131230792-2c69b53f-d7b5-47ca-aa67-82a691831850.png" width="40%" > <img src="https://user-images.githubusercontent.com/61939286/131230853-9564b7ab-b6d4-4aef-988e-58b779026274.png" width="40%" >
+
+
 
 ✔ DONE  
 ```
@@ -60,6 +67,10 @@ MainActivity --- by. 서현 (2021-07-18)
   - [아두이노 -> 앱]  문자열 송수신 확인]  -------by.태훈
   - [앱 -> 아두이노] 목표값, 모드값 수신 확인
   - 아두이노 센서값 수신, 업데이트 확인
+ 
+귀가 알람
+ - 귀가 예정 시간 설정 UI 제작
+ - 알람 매니저
  
 ```
 
