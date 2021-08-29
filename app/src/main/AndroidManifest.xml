@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myappbykotlin_1">
 
+<!--    <receiver android:name=".AlarmReceiver" android:exported="false"-->
+<!--        tools:ignore="WrongManifestParent"></receiver>-->
+<!--    <service android:name=".AlarmIntentService" android:exported="false"></service>-->
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
@@ -23,13 +30,14 @@
         <activity android:name=".AlarmModeActivity" />
         <activity android:name=".MessureModeActivity" />
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </activity>
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

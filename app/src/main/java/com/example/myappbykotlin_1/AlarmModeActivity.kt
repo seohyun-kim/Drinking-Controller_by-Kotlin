@@ -1,21 +1,37 @@
 package com.example.myappbykotlin_1
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.get
 import com.example.myappbykotlin_1.databinding.ActivityAlarmModeBinding
 import kotlinx.android.synthetic.main.activity_alarm_mode.*
+import java.util.*
 
 
+private const val M_SHARED_PREFERENCE_NAME = "time"
+private const val M_ALARM_KEY = "alarm"
+private const val M_ONOFF_KEY = "onOFF"
+private val M_ALARM_REQUEST_CODE = 1000
 class AlarmModeActivity : AppCompatActivity() {
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var pendingIntent: PendingIntent
+    val calendar: Calendar = Calendar.getInstance()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_mode)
@@ -42,7 +58,13 @@ class AlarmModeActivity : AppCompatActivity() {
         switchPush.setOnCheckedChangeListener { CompoundButton, onSwitch ->
             pushOption = onSwitch;
         }
-        createNotificationChannel(channelID, channelName, channelDiscription)
+
+
+        var goHomeOption: Boolean = false;
+        switchGoHome.setOnCheckedChangeListener { CompoundButton, onSwitch ->
+            goHomeOption = onSwitch;
+        }
+
 
 
 
@@ -62,48 +84,95 @@ class AlarmModeActivity : AppCompatActivity() {
                     val intent = Intent(this, AlarmRecord::class.java)
                     intent.putExtra("goalValue", value);
                     intent.putExtra("push", pushOption);
+                    intent.putExtra("goHome", goHomeOption);
 
-                    // notify
-                    var builder = NotificationCompat.Builder( this, channelID)
-                        .setSmallIcon(R.drawable.mainpage_beer)
-                        .setContentTitle("Input Value")
-                        .setContentText(value)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-                    if (pushOption == true) {
-                        with(NotificationManagerCompat.from(this)) {
-                            notify(NOTIFICATION_ID, builder.build());
+                    if (goHomeOption == true) {
+                        val mTimePicker: TimePicker = findViewById((R.id.timePicker))
+                        val hour: Int
+                        val min:  Int
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            hour = mTimePicker.hour
+                            min  = mTimePicker.minute
+                            Log.d("hour", hour.toString())
+                            Log.d("minute", min.toString())
                         }
+                        else {
+                            hour = mTimePicker.currentHour
+                            min = mTimePicker.currentMinute
+                        }
+
+                        intent.putExtra("hour", hour);
+                        intent.putExtra("minute", min);
+
                     }
+                    else {
+                        Log.d("cancel Alarm", "cancel Alarm")
+                        cancelAlarm()
+                    }
+
                     startActivity(intent);
+//                    val alarmReceiverBroadcast: AlarmReceiver =
+//                        AlarmReceiver()
+//                    alarmReceiverBroadcast.onReceive(this, intent)
                 }
             }
         }
 
-    }
-    private fun createNotificationChannel(
-        channelID: String,
-        channelName: String,
-        channelDiscription: String
-    ) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = channelName
-            val descriptionText = channelDiscription
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(channelID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
+
+    private fun cancelAlarm() {
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            M_ALARM_REQUEST_CODE,
+            Intent(this, AlarmRecord::class.java),
+            PendingIntent.FLAG_NO_CREATE
+        )
+        pendingIntent?.cancel()
+    }
+
+//    class AlarmReceiver : BroadcastReceiver() {
+//
+//        companion object {
+//            const val TAG = "AlarmReceiver"
+//            const val NOTIFICATION_ID = 1001
+//            const val PRIMARY_CHANNEL_ID = "channel name"
+//        }
+//
+//        lateinit var notificationManager: NotificationManager
+//
+//        override fun onReceive(context: Context, intent: Intent) {
+//            Log.d(TAG, "Received intent : $intent")
+//            notificationManager = context.getSystemService(
+//                Context.NOTIFICATION_SERVICE
+//            ) as NotificationManager
+//
+//            deliverNotification(context)
+//        }
+//
+//        private fun deliverNotification(context: Context) {
+//            val contentIntent = Intent(context, AlarmModeActivity::class.java)
+//            val contentPendingIntent = PendingIntent.getActivity(
+//                context,
+//                NOTIFICATION_ID,
+//                contentIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT
+//            )
+//            val builder =
+//                NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+//                    .setContentTitle("Alert")
+//                    .setContentText("This is repeating alarm")
+//                    .setContentIntent(contentPendingIntent)
+//                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                    .setAutoCancel(true)
+//                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+//            Log.d("alarm", "notify")
+////            notificationManager.notify(NOTIFICATION_ID, builder.build())
+//        }
+//    }
 }

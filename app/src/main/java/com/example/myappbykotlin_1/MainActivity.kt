@@ -14,6 +14,9 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Handler
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
 
 import com.example.myappbykotlin_1.databinding.ActivityMainBinding //안드로이드가 자동으로 변환함
@@ -23,6 +26,29 @@ import java.io.OutputStream
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    // 메뉴 생성
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_cal_option, menu)
+        return true
+    }
+    // 메뉴 리스너
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.cal -> {
+                val intent = Intent(this, calendar::class.java)
+                startActivityForResult(intent, 100);
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // res/layout 디렉토리에 있는 activity_main.xml 파일을 사용한다
@@ -50,12 +76,12 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(nextIntent)
 //            Log.d("MainBtn", "Bluetooth Mode Btn is clicked! method = Log.d")
 //        }
-
-        binding.calendarbtn.setOnClickListener{
-            val nextIntent = Intent(this,calendar::class.java)
-            startActivity(nextIntent)
-            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
-        }
+//
+//        binding.calendarbtn.setOnClickListener{
+//            val nextIntent = Intent(this,calendar::class.java)
+//            startActivity(nextIntent)
+//            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
+//        }
     }
 
 }
