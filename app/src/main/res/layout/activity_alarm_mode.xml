@@ -134,7 +134,7 @@
         android:id="@+id/btnInput"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:backgroundTint="#FFE08C"
+        android:backgroundTint="#d7ac82"
         android:text="입력"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"

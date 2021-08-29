@@ -574,14 +574,14 @@ class AlarmRecord : AppCompatActivity() {
 
 
                     var builder = NotificationCompat.Builder(this@AlarmRecord, channelID)
-                        .setSmallIcon(R.drawable.mainpage_beer)
+                        .setSmallIcon(R.drawable.stop)
                         .setContentTitle("Stop!!! 그만 마시세요!")
                         .setContentText(cumDataReceived.toString())
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
 
 
                     var builder2 = NotificationCompat.Builder(this@AlarmRecord, channelID)
-                        .setSmallIcon(R.drawable.mainpage_beer)
+                        .setSmallIcon(R.drawable.stop)
                         .setContentTitle("속도가 빨라요! 천천히 마시세요!")
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
 

@@ -27,25 +27,25 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    // 메뉴 생성
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main_cal_option, menu)
-        return true
-    }
-    // 메뉴 리스너
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.cal -> {
-                val intent = Intent(this, calendar::class.java)
-                startActivityForResult(intent, 100);
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    // 메뉴 생성
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val inflater: MenuInflater = menuInflater
+//        inflater.inflate(R.menu.main_cal_option, menu)
+//        return true
+//    }
+//    // 메뉴 리스너
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//
+//        // Handle item selection
+//        return when (item.itemId) {
+//            R.id.cal -> {
+//                val intent = Intent(this, calendar::class.java)
+//                startActivityForResult(intent, 100);
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
 
 
@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("MainBtn", "Bluetooth Mode Btn is clicked! method = Log.d")
 //        }
 //
-//        binding.calendarbtn.setOnClickListener{
-//            val nextIntent = Intent(this,calendar::class.java)
-//            startActivity(nextIntent)
-//            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
-//        }
+        binding.calBtn.setOnClickListener{
+            val nextIntent = Intent(this,calendar::class.java)
+            startActivity(nextIntent)
+            Log.d("Btn", "calendarBtn is clicked! method = Log.d")
+        }
     }
 
 }

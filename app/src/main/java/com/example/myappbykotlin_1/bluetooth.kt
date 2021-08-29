@@ -87,6 +87,14 @@ class bluetooth : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth)
 
+        //actionbar
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "Bluetooth"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         val discoverableIntent: Intent =
             Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
                 putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
@@ -114,6 +122,10 @@ class bluetooth : AppCompatActivity() {
         registerReceiver(receiver, filter)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -216,6 +228,7 @@ class bluetooth : AppCompatActivity() {
 
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
+
 
     }
 
