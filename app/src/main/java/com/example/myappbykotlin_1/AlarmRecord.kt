@@ -486,6 +486,7 @@ class AlarmRecord : AppCompatActivity() {
             (bt_service as MyBluetoothService.ConnectedThread).start()
             (bt_service as MyBluetoothService.ConnectedThread).write("a".toByteArray())
             (bt_service as MyBluetoothService.ConnectedThread).write(goalData.toString().toByteArray())
+            Log.d("data", "write")
         }
     }
 
